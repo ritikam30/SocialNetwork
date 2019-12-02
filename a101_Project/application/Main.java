@@ -55,10 +55,14 @@ public class Main extends Application {
 
 		// creates new scene
 		Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+		
+		// TODO
+		
 
 		// Add the stuff and set the primary stage
 		primaryStage.setTitle(APP_TITLE);
 		primaryStage.setScene(mainScene);
+		primaryStage.setMaximized(true); // makes window fullscreen, remove if needed FIXME
 		primaryStage.show();
 
 	}
