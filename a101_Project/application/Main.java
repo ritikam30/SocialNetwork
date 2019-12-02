@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////
-// Title: p6 HelloFX                                          // 
-// Author: Sakuni Egodawatte                                  //
-// Email: egodawatte@wisc.edu                                 //
-// Lecture: 002                                               //
+// Title: ATeam Project                                       // 
+// Author: TODO                                  			  //
+// Email: TODO@wisc.edu                                       //
+// Lecture: TODO                                              //
 // Description: creates simple GUI program using JavaFX		  //                                                 
-// Files: hellofx.zip   				          			  //   
+// Files: //TODO   				          			          //   
 ////////////////////////////////////////////////////////////////
 package application;
 
@@ -35,9 +35,9 @@ public class Main extends Application {
 	// NOTE: this.getParameters().getRaw() will get these also
 	private List<String> args;
 
-	private static final int WINDOW_WIDTH = 600; // width of pop up
-	private static final int WINDOW_HEIGHT = 500; // height of pop up
-	private static final String APP_TITLE = "BLANK_FX"; // title to be displayed on window bar //FIXME
+	private static final int WINDOW_WIDTH = 600; // width of pop up FIXME
+	private static final int WINDOW_HEIGHT = 500; // height of pop up FIXME
+	private static final String APP_TITLE = "ATeam Project"; // title to be displayed on window bar //FIXME
 
 	/**
 	 * sets up elements to be displayed in GUI
