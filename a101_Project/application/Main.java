@@ -28,7 +28,7 @@ import javafx.stage.Stage;
 /**
  * creates GUI interface that can be interacted with, but produces no results
  * 
- * @author Sakuni Egodawatte
+ * @author TODO
  */
 public class Main extends Application {
 	// store any command-line arguments that were entered.
