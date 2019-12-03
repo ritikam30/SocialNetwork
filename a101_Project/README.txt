@@ -10,7 +10,7 @@ Team Members:
 4. Sakuni Egodawatte, 002, and egodawatte@wisc.edu
 
 Notes or comments to the grader:
++ Clicking on a node will focus graph on node and display friendships
 
-[place any comments or notes that will help the grader here]
 
 
