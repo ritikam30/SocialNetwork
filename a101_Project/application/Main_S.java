@@ -64,7 +64,15 @@ public class Main extends Application {
 		Label labelStatusUpdate = new Label("Sample error status.");
 		labelStatusUpdate.setStyle("-fx-text-fill: red"); // make label red
 		hboxStatus.getChildren().addAll(labelStatus, labelStatusUpdate);
-		hboxStatus.setStyle("-fx-padding: 0 0 10 0"); // sets bottom padding to 10px
+		hboxStatus.setStyle("-fx-padding: 0 0 7 0"); // sets bottom padding to 7px
+		
+		HBox hboxGroups = new HBox(5); // creates HBox w/ spacing of 5px
+		Label labelGroups = new Label("Groups:");
+		// TODO: in working implementation, this label should change
+		Label labelGroupNum = new Label("#");
+		labelGroupNum.setStyle("-fx-font-weight:bold"); // makes label bold
+		hboxGroups.getChildren().addAll(labelGroups, labelGroupNum);
+		hboxGroups.setStyle("-fx-padding: 0 0 10 0"); // sets bottom padding to 10px
 		
 		// (1) Label/TextField/Button for new user
 		HBox hboxNewUser = new HBox(5);
@@ -91,18 +99,50 @@ public class Main extends Application {
 		hboxExport.getChildren().addAll(labelExport, fieldExport, buttonExport);
 		
 		// places HBoxes 1, 2, 3, in VBox
-		VBox vbox = new VBox(5); // creates VBox w/ spacing of 5px
-		vbox.getChildren().addAll(hboxStatus, hboxNewUser, hboxLoadFile, hboxExport);
+		VBox vbox1 = new VBox(7); // creates VBox w/ spacing of 5px
+		vbox1.getChildren().addAll(hboxStatus, hboxGroups, hboxNewUser, hboxLoadFile, hboxExport);
+		
+		VBox vbox2 = new VBox();
+		
+		Label label0 = new Label("Compare:");
+		label0.setStyle("-fx-padding: 0 0 10 0"); // sets bottom padding of label to 10px
+		
+		Label label1 = new Label("User1: ");
+		TextField textField1 = new TextField ();
+		textField1.setPromptText("Name"); // hint text
+		Label label2 = new Label("User2: ");
+		TextField textField2 = new TextField ();
+		textField2.setPromptText("Name"); // hint text
+		
+		Button btn1 = new Button("Mutual Friends");
+		Button btn2 = new Button("Shortest Path");
+		Button btn3 = new Button("Remove Friendship");
+		
+		HBox hb = new HBox();
+		hb.getChildren().addAll(label1, textField1);
+		HBox hb2 = new HBox();
+		hb2.getChildren().addAll(label2, textField2);
+		hb.setSpacing(5);
+		hb2.setSpacing(5);
+		
+		vbox2.getChildren().addAll(label0,hb,hb2,btn1,btn2,btn3);
+		vbox2.setSpacing(7);
+		
+		VBox vbox = new VBox(20);
+		vbox.getChildren().addAll(vbox1, vbox2);
+		
+		// button to clear display
+		Button clear = new Button("clear");
+		clear.setStyle("-fx-background-color:red; -fx-text-fill:white");
 		
 		root.setRight(vbox); // sets vbox to horizontal right
-		// vbox.setAlignment(Pos.CENTER); // sets vbox to vertical center FIXME
+		root.setBottom(clear); // sets clear button to left
 		
 		root.requestFocus(); // takes focus away from text fields so hints display 
 
 		// Add the stuff and set the primary stage
 		primaryStage.setTitle(APP_TITLE);
 		primaryStage.setScene(mainScene);
-		// primaryStage.setMaximized(true); // makes window fullscreen FIXME
 		primaryStage.show();
 
 	}
