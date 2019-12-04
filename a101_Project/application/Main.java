@@ -25,6 +25,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -48,6 +49,13 @@ public class Main extends Application {
 	// store any command-line arguments that were entered.
 	// NOTE: this.getParameters().getRaw() will get these also
 	private List<String> args;
+	
+	public SocialNetwork socialNetwork;
+	public VBox signUpBox;
+	public VBox twoInputBox;
+	public VBox centerBox;
+	public VBox bottomBox;
+	public MenuBar menuBar;
 
 	private static final int WINDOW_WIDTH = 950; // width of pop up
 	private static final int WINDOW_HEIGHT = 400; // height of pop up
@@ -55,6 +63,8 @@ public class Main extends Application {
 
 	/**
 	 * sets up elements to be displayed in GUI
+	 * 
+	 * TODO: We need to refactor this according to the provided design, & set it up for generic use
 	 * 
 	 * @param primaryStage - stage that GUI elements are set on
 	 * @throws Exception
@@ -238,6 +248,47 @@ public class Main extends Application {
 		primaryStage.show();
 
 	}
+	
+	private void setUpSignUpBox() {
+	  
+	}
+	
+	private void setUpTwoInputBox() {
+	  
+	}
+	
+	private void setUpCenterBox() {
+	  
+	}
+	
+	private void setUpBottomBox() {
+	  
+	}
+	
+	private void setUpMenuBox() {
+	  
+	}
+	
+	private void drawGraph(GraphicsContext canvas) {
+	  
+	}
+	
+	private void drawNode(GraphicsContext canvas, String name, double x, double y) {
+	  
+	}
+	
+	private void drawEdge(GraphicsContext canvas, double x1, double y1, double x2, double y2) {
+	  
+	}
+	
+	private String getNameFromCoordinates(double x, double y) {
+	  return null;
+	}
+	
+	private void setSelectedUser(String name) {
+	  
+	}
+	
 
 	/**
 	 * main method to launch GUI
