@@ -33,7 +33,7 @@ public class Person {
   /**
    * constructor to initialize name and create empty Set to store friends
    * 
-   * @param name
+   * @param name - label of node
    */
   public Person(String name) {
     this.name = name;
