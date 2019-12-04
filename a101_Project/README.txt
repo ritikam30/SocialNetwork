@@ -12,6 +12,7 @@ Team Members:
 
 Notes or comments to the grader:
 + Clicking on a node will focus graph on node and display friendships
++ Graph will display all users from as soon as file loaded, users with no friends displayed as single node
 
 
 
