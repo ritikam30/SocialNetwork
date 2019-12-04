@@ -8,7 +8,7 @@ Team Members:
 2. member name2, lecture, and email2@wisc.edu
 3. member name3, lecture, and email3@wisc.edu
 4. Sakuni Egodawatte, 002, and egodawatte@wisc.edu
-5. member name5, lecture, and email5@wisc.edu
+5. Erik Tiedt, 002, and etiedt@wisc.edu
 
 Notes or comments to the grader:
 + Clicking on a node will focus graph on node and display friendships
