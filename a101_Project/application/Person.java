@@ -7,6 +7,12 @@ public class Person {
   private String name;
   private Set<Person> friends;
   
+  public Person(String name) {
+    this.name = name;
+    this.friends = new HashSet<Person>();
+    
+  }
+  
   public String getName() {
     return name;
   }
