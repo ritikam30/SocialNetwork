@@ -11,8 +11,10 @@ Team Members:
 5. Erik Tiedt, 002, and etiedt@wisc.edu
 
 Notes or comments to the grader:
-+ Clicking on a node will focus graph on node and display friendships
-+ Graph will display all users from as soon as file loaded, users with no friends displayed as single node
++ Clicking on a node will focus the graph on that node(user) and display friendships
++ Graph will display all users from as soon as file loaded, users with no friends displayed as single nodes
++ The two CLEAR buttons clear the textfields of their respective sections
++ CLEAR SOCIAL NETWORK button will delete all the users and their friendships from the social network
 
 
 
