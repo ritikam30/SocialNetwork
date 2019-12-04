@@ -160,7 +160,7 @@ public class Main extends Application {
 		root.setRight(vbox2);
 		root.requestFocus(); // takes focus away from text fields so hints display
 
-		// KKKK
+		// Making a "Undo" Button in the top panel
 		Button button1 = new Button("UNDO");
 
 		// Making a "Redo" Button in the Top panel
