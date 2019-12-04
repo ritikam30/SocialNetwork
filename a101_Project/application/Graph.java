@@ -6,25 +6,25 @@ public class Graph implements GraphADT {
 
   @Override
   public boolean addNode(Person name) {
-    // TODO Auto-generated method stub
+    // TODO Jared will complete
     return false;
   }
 
   @Override
   public boolean removeNode(Person name) {
-    // TODO Auto-generated method stub
+    // TODO Jared will complete
     return false;
   }
 
   @Override
   public boolean addEdge(Person name1, Person name2) {
-    // TODO Auto-generated method stub
+    // TODO Jared will complete
     return false;
   }
 
   @Override
   public boolean removeEdge(Person name1, Person name2) {
-    // TODO Auto-generated method stub
+    // TODO Jared will complete
     return false;
   }
 
