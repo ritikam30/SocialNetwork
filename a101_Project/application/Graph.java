@@ -106,10 +106,16 @@ public class Graph implements GraphADT {
 		return null;
 	}
 
+	/**
+	 * retrieves Person object's friends (adjacent vertices)
+	 * 
+	 * @param name - Person object to retrieve friends of
+	 * @return Set<Person> - contains adjacent vertices of parameter Object
+	 */
 	@Override
 	public Set<Person> getNeighbors(Person name) {
-		// TODO Sakuni will complete
-		return null;
+		return name.getFriends();
+		
 	}
 
 }
