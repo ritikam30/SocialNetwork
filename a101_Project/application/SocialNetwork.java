@@ -63,10 +63,25 @@ public class SocialNetwork implements SocialNetworkADT {
 		return false;
 	}
 
+	/**
+	 * returns Set of adjacent nodes to Person obj associated w/ passed in String parameter
+	 * 
+	 * @return Set<Person> - adjacent nodes to Person obj w/ name in var user
+	 * @throws UserNotFoundException
+	 */
 	@Override
-	public Set<Person> getFriends(String user) {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<Person> getFriends(String user) throws UserNotFoundException {
+		// uses getNode() to retrieve Person obj associate w/ String parameter
+		Person person = graph.getNode(user);
+		
+		// throws exception if Person obj w/ name user DNE
+		if (person == null) {
+			throw new UserNotFoundException("Person does not exist in social network.");
+			
+		}
+		
+		// returns friends of Person obj
+		return graph.getNeighbors(person);
 	}
 
 	@Override
