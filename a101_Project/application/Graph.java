@@ -14,6 +14,7 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -66,10 +67,22 @@ public class Graph implements GraphADT {
 		return false;
 	}
 
+	/**
+	 * returns all nodes in graph as Set
+	 * 
+	 * @return Set<Person> - Set containing all People objects in graph
+	 */
 	@Override
 	public Set<Person> getAllNodes() {
-		// TODO Sakuni will complete
-		return null;
+		Set<Person> peopleSet = new HashSet<Person>(); // creates Set to store people in graph
+		
+		// iterates through List of Person objects and adds to Set
+		for (int i = 0; i < people.size(); i++) {
+			peopleSet.add(people.get(i));
+			
+		}
+		
+		return peopleSet;
 	}
 
 	@Override
