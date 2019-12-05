@@ -59,7 +59,7 @@ public class SocialNetwork implements SocialNetworkADT {
 
 	@Override
 	public boolean removeUser(String user) {
-		// TODO Keerthy will complete
+		// TODO
 		return false;
 	}
 
