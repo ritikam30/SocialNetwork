@@ -85,9 +85,24 @@ public class Graph implements GraphADT {
 		return peopleSet;
 	}
 
+	/**
+	 * retrieves Person object corresponding to name parameter
+	 * 
+	 * @param name - String name of Person object
+	 * @return Person - node in graph corresponding with name if exists, else null
+	 */
 	@Override
 	public Person getNode(String name) {
-		// TODO Sakuni will complete
+		// iterates through list of People objects
+		for (int i = 0; i < people.size(); i++) {
+			// checks if Person name matches name parameter
+			if (people.get(i).getName().equals(name)) {
+				return people.get(i);
+				
+			}
+			
+		}
+		
 		return null;
 	}
 
