@@ -85,13 +85,13 @@ public class SocialNetwork implements SocialNetworkADT {
 	}
 
 	@Override
-	public Set<Person> getMutualFriends(String user1, String user2) {
+	public Set<Person> getMutualFriends(String user1, String user2) throws UserNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Person> getShortestPath(String user1, String user2) {
+	public List<Person> getShortestPath(String user1, String user2) throws UserNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}
