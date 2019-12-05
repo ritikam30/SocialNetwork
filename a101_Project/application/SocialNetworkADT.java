@@ -19,9 +19,9 @@ public interface SocialNetworkADT {
   
   public Set<Person> getFriends(String user) throws UserNotFoundException;
   
-  public Set<Person> getMutualFriends(String user1, String user2);
+  public Set<Person> getMutualFriends(String user1, String user2) throws UserNotFoundException;
   
-  public List<Person> getShortestPath(String user1, String user2);
+  public List<Person> getShortestPath(String user1, String user2) throws UserNotFoundException;
   
   public Set<Graph> getConnectedComponents();
   
