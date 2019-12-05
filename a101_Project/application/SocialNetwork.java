@@ -8,25 +8,25 @@ public class SocialNetwork implements SocialNetworkADT {
 
   @Override
   public boolean addFriends(String friend1, String friend2) {
-    // TODO Auto-generated method stub
+    // TODO Keerthy will complete
     return false;
   }
 
   @Override
   public boolean removeFriends(String friend1, String friend2) {
-    // TODO Auto-generated method stub
+    // TODO Keerthy will complete
     return false;
   }
 
   @Override
   public boolean addUser(String user) {
-    // TODO Auto-generated method stub
+    // TODO Keerthy will complete
     return false;
   }
 
   @Override
   public boolean removeUser(String user) {
-    // TODO Auto-generated method stub
+    // TODO Keerthy will complete
     return false;
   }
 
