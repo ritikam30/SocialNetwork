@@ -43,10 +43,40 @@ public class SocialNetwork implements SocialNetworkADT {
   }
 
 
+  /**
+   * Given two stings, attempts to add a friendship between the given users. If one or both users
+   * are not in the network, it adds them to the network in the process.
+   * 
+   * @param friend1 - name of the first friend
+   * @param friend2 - name of the second friend
+   * @return true if friendship was added, false otherwise.
+   */
   @Override
   public boolean addFriends(String friend1, String friend2) {
-    // TODO Keerthy will complete
-    return false;
+
+    // Check for bad inputs
+    if (friend1 == null || friend2 == null) {
+      return false;
+    }
+
+    Person person1;
+    Person person2;
+
+    // Check if user exist in network, create if not
+    if (graph.getNode(friend1) == null) {
+      person1 = new Person(friend1);
+    } else {
+      person1 = graph.getNode(friend1);
+    }
+    if (graph.getNode(friend2) == null) {
+      person2 = new Person(friend2);
+    } else {
+      person2 = graph.getNode(friend2);
+    }
+
+    graph.addEdge(person1, person2);
+
+    return true;
   }
 
   @Override
@@ -215,17 +245,17 @@ public class SocialNetwork implements SocialNetworkADT {
       while (!queue.isEmpty()) { // Connections Loop
         for (Person friend : currentPerson.getFriends()) {
           connectedComponent.addEdge(currentPerson, friend);
-          if(!added.contains(friend)) {
+          if (!added.contains(friend)) {
             queue.add(friend);
           }
         }
-        
+
         added.add(currentPerson);
         queue.remove(0); // remove the current person
         currentPerson = queue.get(0); // set current person to next in queue;
 
       }
-      
+
       allComponents.add(connectedComponent);
 
     }
