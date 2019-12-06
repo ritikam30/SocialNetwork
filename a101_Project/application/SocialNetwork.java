@@ -28,7 +28,7 @@ import java.util.Set;
  */
 public class SocialNetwork implements SocialNetworkADT {
 	// fields
-	private Graph graph;
+	private Graph graph; 
 	
 	/**
 	 * constructor, initializes graph field to new Graph object
@@ -86,31 +86,31 @@ public class SocialNetwork implements SocialNetworkADT {
 
 	@Override
 	public Set<Person> getMutualFriends(String user1, String user2) throws UserNotFoundException {
-		// TODO Auto-generated method stub
+		// TODO: Erik will complete
 		return null;
 	}
 
 	@Override
 	public List<Person> getShortestPath(String user1, String user2) throws UserNotFoundException {
-		// TODO Auto-generated method stub
+		// TODO Erik will complete
 		return null;
 	}
 
 	@Override
 	public Set<Graph> getConnectedComponents() {
-		// TODO Auto-generated method stub
+		// TODO Erik will complete
 		return null;
 	}
 
 	@Override
 	public void loadFromFile(File fileName) {
-		// TODO Auto-generated method stub
+		// TODO Erik will complete
 
 	}
 
 	@Override
 	public void saveToFile(File fileName) {
-		// TODO Auto-generated method stub
+		// TODO Erik will complete
 
 	}
 
