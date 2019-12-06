@@ -79,10 +79,29 @@ public class SocialNetwork implements SocialNetworkADT {
     return true;
   }
 
+  /**
+   * Given two names, attempts to remove the friendship between the two users. Returns true if
+   * successful otherwise false.
+   */
   @Override
   public boolean removeFriends(String friend1, String friend2) {
-    // TODO Keerthy will complete
-    return false;
+
+    // Check for bad inputs
+    if (friend1 == null || friend2 == null) {
+      return false;
+    }
+
+    Person person1 = graph.getNode(friend1);
+    Person person2 = graph.getNode(friend2);
+
+    // Check if users exist in network
+    if (person1 == null || person2 == null) {
+      return false;
+    }
+
+    graph.removeEdge(person1, person2);
+
+    return true;
   }
 
   @Override
