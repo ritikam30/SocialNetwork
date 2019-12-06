@@ -197,7 +197,41 @@ public class SocialNetwork implements SocialNetworkADT {
 
   @Override
   public Set<Graph> getConnectedComponents() {
-    // TODO Erik will complete
+    ArrayList<Person> network = new ArrayList<>();
+    network.addAll(graph.getAllNodes());
+    HashSet<Person> added = new HashSet<>();
+    ArrayList<Person> queue;
+    Person currentPerson;
+    Graph connectedComponent;
+    Set<Graph> allComponents = new HashSet<>();
+
+    while (!added.containsAll(network)) { // Component Loop
+      currentPerson = network.get(0);
+      connectedComponent = new Graph();
+      connectedComponent.addNode(currentPerson);
+      queue = new ArrayList<>();
+      queue.add(currentPerson);
+
+      while (!queue.isEmpty()) { // Connections Loop
+        for (Person friend : currentPerson.getFriends()) {
+          connectedComponent.addEdge(currentPerson, friend);
+          if(!added.contains(friend)) {
+            queue.add(friend);
+          }
+        }
+        
+        added.add(currentPerson);
+        queue.remove(0); // remove the current person
+        currentPerson = queue.get(0); // set current person to next in queue;
+
+      }
+      
+      allComponents.add(connectedComponent);
+
+    }
+
+
+
     return null;
   }
 

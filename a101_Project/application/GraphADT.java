@@ -38,7 +38,7 @@ public interface GraphADT {
 
 
   /**
-   * Add the edge from vertex1 to vertex2 to this graph. (edge is directed and unweighted)
+   * Add the edge from vertex1 to vertex2 to this graph. (edge is undirected and unweighted)
    * 
    * If either Person does not exist, Person IS ADDED and then edge is created. No exception is
    * thrown.
