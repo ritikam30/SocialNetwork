@@ -15,6 +15,8 @@ package application;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,7 +36,8 @@ import java.util.Set;
 public class SocialNetwork implements SocialNetworkADT {
   // fields
   private Graph graph;
-  private ArrayList<String> log;
+  private ArrayList<String> log; // List of executed commands
+  private ArrayList<String> theUndone; // List of commands that were undone
 
   /**
    * constructor, initializes graph field to new Graph object
@@ -42,6 +45,7 @@ public class SocialNetwork implements SocialNetworkADT {
   public SocialNetwork() {
     graph = new Graph();
     log = new ArrayList<>();
+    theUndone = new ArrayList<>();
   }
 
 
@@ -368,6 +372,8 @@ public class SocialNetwork implements SocialNetworkADT {
         }
 
       } // End file loop
+      
+      fileIn.close();
 
     } catch (FileNotFoundException e) {
       // TODO: Figure out how we're getting this to be displayed to the user
@@ -376,9 +382,31 @@ public class SocialNetwork implements SocialNetworkADT {
 
   }
 
+  /**
+   * Writes to a text file the CLI commands needed to create this network.
+   * 
+   * @param fileName - text file to write to
+   */
   @Override
   public void saveToFile(File fileName) {
-    // TODO Erik will complete
+    
+    if(!fileName.exists()) {
+      try {
+        fileName.createNewFile();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+    
+    try {
+      PrintWriter writer = new PrintWriter(fileName);
+      for(String command : log) {
+        writer.println(command);
+      }
+      writer.close();
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
 
   }
 
