@@ -1,15 +1,15 @@
 ////////////////////////////////////////////////////////////////
-// Title: a3 Social Network //
-// Authors: Ritika Mittal, Jared Horwitz, Keerthy Sudharsan, //
+// Title: a3 Social Network
+// Authors: Ritika Mittal, Jared Horwitz, Keerthy Sudharsan,
 // Sakuni Egodawatte, Erik Tiedt //
-// Emails: rmittal6@wisc.edu, sudharsan@wisc.edu, //
-// jhorwitz3@wisc.edu, egodawatte@wisc.edu //
-// etiedt@wisc.edu //
-// Lectures: 001, 002 //
-// Description: creates social network visualizer with GUI //
-// interface //
-// Files: Main.java, Graph.java, GraphADT.java, Person.java //
-// SocialNetwork.java, SocialNetworkADT.java //
+// Emails: rmittal6@wisc.edu, sudharsan@wisc.edu, 
+// jhorwitz3@wisc.edu, egodawatte@wisc.edu 
+// etiedt@wisc.edu 
+// Lectures: 001, 002 
+// Description: creates social network visualizer with GUI 
+// interface 
+// Files: Main.java, Graph.java, GraphADT.java, Person.java 
+// SocialNetwork.java, SocialNetworkADT.java 
 ////////////////////////////////////////////////////////////////
 package application;
 
