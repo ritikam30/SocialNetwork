@@ -13,6 +13,7 @@
 ////////////////////////////////////////////////////////////////
 package application;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,7 +39,6 @@ public class Person {
   public Person(String name) {
     this.name = name;
     this.friends = new HashSet<Person>();
-    
   }
   
   /**

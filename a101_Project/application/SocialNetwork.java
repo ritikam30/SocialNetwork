@@ -172,8 +172,7 @@ public class SocialNetwork implements SocialNetworkADT {
 
     // throws exception if Person obj w/ name user DNE
     if (person == null) {
-      throw new UserNotFoundException("Person does not exist in social network.");
-
+      throw new UserNotFoundException(user + " does not exist in social network.");
     }
 
     // returns friends of Person obj
@@ -195,7 +194,11 @@ public class SocialNetwork implements SocialNetworkADT {
 
     // Check for bad inputs
     if (user1 == null || user2 == null) {
-      throw new IllegalArgumentException("Null string detected for one of the specified users");
+      throw new IllegalArgumentException("Null string detected for one or both specified users");
+    }
+    if (graph.getNode(user1) == null && graph.getNode(user2) == null) {
+      throw new UserNotFoundException(
+          "Neither " + user1 + " nor " + user2 + " are in the network.");
     }
     if (graph.getNode(user1) == null) {
       throw new UserNotFoundException(user1 + " is not in the network.");
@@ -240,6 +243,10 @@ public class SocialNetwork implements SocialNetworkADT {
     // Check for bad inputs
     if (source == null || target == null) {
       throw new IllegalArgumentException("Null string detected for one of the specified users");
+    }
+    if (graph.getNode(source) == null && graph.getNode(target) == null) {
+      throw new UserNotFoundException(
+          "Neither " + source + " nor " + target + " are in the network");
     }
     if (graph.getNode(source) == null) {
       throw new UserNotFoundException(source + " is not in the network.");
