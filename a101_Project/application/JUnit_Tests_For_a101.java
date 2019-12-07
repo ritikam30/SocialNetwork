@@ -102,6 +102,34 @@ public class JUnit_Tests_For_a101 extends TestCase {
   }
 
   @Test
+  public void test014_add_edge_between_existing_users() {
+	  boolean pass = false;
+	Person node1 = new Person("usr1");
+	   Person node2 = new Person("usr2");
+	   graph.add(node1);
+	   graph.add(node2);
+	  if (!graph.addEdge(node1,node2))
+			fail("Error: Graph did not return true on addition of edge between valid nodes");
+	
+	  Set<Person> set = graph.getNeighbors(node1);
+		Iterator<Person> itr = set.iterator();
+		while (itr.hasNext()) {
+			if (itr.next().getName().equals("usr2")) {
+				pass = true;
+				break;
+			}
+			else continue;
+			
+		}
+	  if(!pass){
+	  fail("Error: edge added unsuccessfully");
+	  }
+	  
+	  
+	  
+  }	
+	
+  @Test
   public void test009_add_edge_neither_user_in_graph() {
            Person node1 = new Person("usr1");
 	   Person node2 = new Person("usr2");
@@ -307,6 +335,10 @@ Person node1 = new Person("usr1");
   public void test036_remove_friend_user2_not_in_network() {
 
   }
+  @Test
+  public void test006_remove_node_check_edges() {
+
+  }	
 
   @Test
   public void test037_remove_friend_neither_in_network() {
