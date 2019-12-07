@@ -1,15 +1,15 @@
 ////////////////////////////////////////////////////////////////
 // Title: a3 Social Network
 // Authors: Ritika Mittal, Jared Horwitz, Keerthy Sudharsan,
-// Sakuni Egodawatte, Erik Tiedt //
-// Emails: rmittal6@wisc.edu, sudharsan@wisc.edu, 
-// jhorwitz3@wisc.edu, egodawatte@wisc.edu 
-// etiedt@wisc.edu 
-// Lectures: 001, 002 
-// Description: creates social network visualizer with GUI 
-// interface 
-// Files: Main.java, Graph.java, GraphADT.java, Person.java 
-// SocialNetwork.java, SocialNetworkADT.java 
+// Sakuni Egodawatte, Erik Tiedt
+// Emails: rmittal6@wisc.edu, sudharsan@wisc.edu,
+// jhorwitz3@wisc.edu, egodawatte@wisc.edu
+// etiedt@wisc.edu
+// Lectures: 001, 002
+// Description: creates social network visualizer with GUI
+// interface
+// Files: Main.java, Graph.java, GraphADT.java, Person.java
+// SocialNetwork.java, SocialNetworkADT.java
 ////////////////////////////////////////////////////////////////
 package application;
 
@@ -38,6 +38,7 @@ public class SocialNetwork implements SocialNetworkADT {
   private Graph graph;
   private ArrayList<String> log; // List of executed commands
   private ArrayList<String> theUndone; // List of commands that were undone
+  // TODO: Implement code in all methods for the functionality of log.
 
   /**
    * constructor, initializes graph field to new Graph object
@@ -315,11 +316,11 @@ public class SocialNetwork implements SocialNetworkADT {
         queue.remove(0); // remove the current person
         currentPerson = queue.get(0); // set current person to next in queue;
 
-      }
+      } // End Connections Loop
 
       allComponents.add(connectedComponent);
 
-    }
+    } // End Component Loop
 
 
 
@@ -372,7 +373,7 @@ public class SocialNetwork implements SocialNetworkADT {
         }
 
       } // End file loop
-      
+
       fileIn.close();
 
     } catch (FileNotFoundException e) {
@@ -389,18 +390,18 @@ public class SocialNetwork implements SocialNetworkADT {
    */
   @Override
   public void saveToFile(File fileName) {
-    
-    if(!fileName.exists()) {
+
+    if (!fileName.exists()) {
       try {
         fileName.createNewFile();
       } catch (IOException e) {
         e.printStackTrace();
       }
     }
-    
+
     try {
       PrintWriter writer = new PrintWriter(fileName);
-      for(String command : log) {
+      for (String command : log) {
         writer.println(command);
       }
       writer.close();

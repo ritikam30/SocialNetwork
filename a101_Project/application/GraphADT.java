@@ -30,7 +30,7 @@ public interface GraphADT {
    * 
    * Valid argument conditions: 
    * 1. Person is not null 
-   * 2. Person is not already in the graph
+   * 2. Person is in the graph
    * 
    * @param name - the person to be removed
    */
