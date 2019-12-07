@@ -7,5 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX11"/>
+	<classpathentry kind="lib" path="junit-platform-console-standalone-1.5.2.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
