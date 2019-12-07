@@ -14,11 +14,12 @@
 package application;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -33,13 +34,14 @@ import java.util.Set;
 public class SocialNetwork implements SocialNetworkADT {
   // fields
   private Graph graph;
+  private ArrayList<String> log;
 
   /**
    * constructor, initializes graph field to new Graph object
    */
   public SocialNetwork() {
     graph = new Graph();
-
+    log = new ArrayList<>();
   }
 
 
@@ -139,7 +141,7 @@ public class SocialNetwork implements SocialNetworkADT {
    */
   @Override
   public boolean removeUser(String user) {
-    
+
     // Check for bad inputs
     if (user == null) {
       return false;
@@ -147,7 +149,7 @@ public class SocialNetwork implements SocialNetworkADT {
     if (graph.getNode(user) == null) {
       return false;
     }
-    
+
     graph.removeNode(graph.getNode(user));
     return true;
   }
@@ -320,9 +322,57 @@ public class SocialNetwork implements SocialNetworkADT {
     return null;
   }
 
+  /**
+   * Given a text file, reads each line as a command to perform an action within the network.
+   * 
+   * @param fileName - file to read the commands from.
+   */
   @Override
   public void loadFromFile(File fileName) {
-    // TODO Erik will complete
+    // TODO: This method is still unfinished, and needs to be wrapped up later.
+
+    try {
+      Scanner fileIn = new Scanner(fileName);
+      String currentCommand;
+      String[] commandArray;
+
+      while (fileIn.hasNextLine()) { // Begin file loop
+        currentCommand = fileIn.nextLine();
+        commandArray = currentCommand.split(" ");
+
+        if (commandArray.length > 3) { // Invalid command
+          continue;
+        }
+
+        switch (commandArray[0]) {
+          case "a":
+            if (commandArray.length == 2) { // Add user
+              this.addUser(commandArray[1]);
+            } else { // Add edge
+              this.addFriends(commandArray[1], commandArray[2]);
+            }
+            break;
+          case "r":
+            if (commandArray.length == 2) { // Remove user
+              this.removeUser(commandArray[1]);
+            } else { // Remove edge
+              this.removeFriends(commandArray[1], commandArray[2]);
+            }
+            break;
+          case "s":
+            // TODO: Need code to set focus user here. Not sure on implementation yet
+            break;
+          default:
+            // Invalid Command. Maybe we need something here? IDK
+            break;
+        }
+
+      } // End file loop
+
+    } catch (FileNotFoundException e) {
+      // TODO: Figure out how we're getting this to be displayed to the user
+    }
+
 
   }
 
