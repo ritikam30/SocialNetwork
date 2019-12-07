@@ -82,6 +82,10 @@ public class SocialNetwork implements SocialNetworkADT {
   /**
    * Given two names, attempts to remove the friendship between the two users. Returns true if
    * successful otherwise false.
+   * 
+   * @param friend1 - name of the first friend
+   * @param friend2 - name of the second friend
+   * @return true if friendship was removed, false otherwise.
    */
   @Override
   public boolean removeFriends(String friend1, String friend2) {
@@ -99,21 +103,53 @@ public class SocialNetwork implements SocialNetworkADT {
       return false;
     }
 
+
     graph.removeEdge(person1, person2);
 
     return true;
   }
 
+  /**
+   * Given the name of a user, attempts to add the user to the network.
+   * 
+   * @param user - name of user to add to the network
+   * @return true if specified user was added, false otherwise
+   */
   @Override
   public boolean addUser(String user) {
-    // TODO Keerthy will complete
-    return false;
+
+    // Check for bad inputs
+    if (user == null) {
+      return false;
+    }
+    if (graph.getNode(user) != null) {
+      return false;
+    }
+
+    graph.addNode(new Person(user));
+
+    return true;
   }
 
+  /**
+   * Given a user's name, removes that user from the network.
+   * 
+   * @param user - user to remove
+   * @return true if removed successfully, otherwise false;
+   */
   @Override
   public boolean removeUser(String user) {
-    // TODO Keerthy will complete
-    return false;
+    
+    // Check for bad inputs
+    if (user == null) {
+      return false;
+    }
+    if (graph.getNode(user) == null) {
+      return false;
+    }
+    
+    graph.removeNode(graph.getNode(user));
+    return true;
   }
 
   /**
