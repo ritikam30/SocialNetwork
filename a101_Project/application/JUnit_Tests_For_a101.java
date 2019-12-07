@@ -233,7 +233,10 @@ Person node1 = new Person("usr1");
 
   @Test
   public void test023_get_single_node() {
-
+	   Person node1 = new Person("usr1");
+           graph.addNode(node1);
+	  if(!graph.getNode("usr1").getName().equals(node1.getName()))
+		  fail("Error: getNode returned incorrect output");
   }
 
   @Test
