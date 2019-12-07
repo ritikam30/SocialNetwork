@@ -27,22 +27,39 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
   @Test
   public void test000_add_null_node() {
-
+    Person node = new Person();
+    if ( graph.addNode(node))
+			fail("Error: Graph did not return false on the addition of a null node");
+	
   }
 
   @Test
   public void test001_add_node_already_in_graph() {
-
+  Person node = new Person("usr1");
+    graph.addNode(node);
+    if ( graph.addNode(node))
+			fail("Error: Graph did not return false on the addition of a duplicate node");
   }
 
   @Test
   public void test002_just_add_a_node() {
+    Person node = new Person("usr1");
+    graph.addNode(node);
+    if (graph.getNode("usr1") == null)
+			fail("Error: Graph did not add node correctly");
 
   }
 
   @Test
   public void test003_add_many_nodes() {
-
+    Person node1 = new Person("usr1");
+    Person node2 = new Person("usr2");
+    Person node3 = new Person("usr3");
+    graph.addNode(node1);
+    graph.addNode(node2);
+    graph.addNode(node3);
+    if (graph.getNode("usr1") == null || graph.getNode("usr2") == null || graph.getNode("usr3") == null)
+			fail("Error: Graph did not add multiple nodes correctly");
   }
 
   @Test
