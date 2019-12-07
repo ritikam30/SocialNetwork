@@ -64,26 +64,40 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
   @Test
   public void test004_remove_null_node() {
+	  Person node = new Person();
+	  if (graph.remove(node))
+			fail("Error: Graph did not return false when a null node was removed");
+	  
 
   }
 
   @Test
   public void test005_remove_node_not_in_graph() {
-
+  Person node = new Person("usr1");
+	  if (graph.remove(node))
+			fail("Error: Graph did not return false when a nonexistent node was removed");
+	  
   }
 
-  @Test
-  public void test006_remove_node_check_edges() {
-
-  }
+ 
 
   @Test
   public void test007_add_edge_user1_not_in_graph() {
+	   Person node1 = new Person("usr1");
+	   Person node2 = new Person("usr2");
+	  graph.add(node2);
+	  if (!graph.addEdge(node1,node2))
+			fail("Error: Graph did not add a node implicitly when user tried to add an edge");
 
   }
 
   @Test
   public void test008_add_edge_user2_not_in_graph() {
+ Person node1 = new Person("usr1");
+	   Person node2 = new Person("usr2");
+	  graph.add(node1);
+	  if (!graph.addEdge(node1,node2))
+			fail("Error: Graph did not add a node implicitly when user tried to add an edge");
 
   }
 
@@ -121,6 +135,12 @@ public class JUnit_Tests_For_a101 extends TestCase {
   public void test015_remove_edge_null_user1() {
 
   }
+	
+ @Test
+  public void test006_remove_node_check_edges() {
+
+  }	
+	
 
   @Test
   public void test016_remove_edge_null_user2() {
