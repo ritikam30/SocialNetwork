@@ -544,6 +544,23 @@ try{
 
   @Test
   public void test054_get_mutual() {
+    Person node2 = new Person("usr3");
+    Person node3 = new Person("usr4");
+    Person node4 = new Person("usr5");
+    network.addUser("usr1");
+    network.addUser("usr2");
+    network.addUser("usr3");
+    network.addUser("usr4");
+    network.addUser("usr5");
+    network.addFriends("usr1","usr2");
+    network.addFriends("usr3","usr1");
+    network.addFriends("usr3","usr2");
+    network.addFriends("usr2","usr4");
+    network.addFriends("usr1","usr4");
+    network.addFriends("usr5","usr1");
+    Set<Person> set = network.getMutualFriends("usr1","usr2");
+    if(!set.contains(node2) || !set.contains(node3) || set.contains(node4) )
+      fail("Error: Network's getMutualFriends() returns incorrect output");
 
   }
 
