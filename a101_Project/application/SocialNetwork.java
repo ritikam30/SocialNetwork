@@ -166,8 +166,11 @@ public class SocialNetwork implements SocialNetworkADT {
    * @throws UserNotFoundException
    */
   @Override
-  public Set<Person> getFriends(String user) throws UserNotFoundException {
+  public Set<Person> getFriends(String user) throws UserNotFoundException, IllegalArgumentException {
     // uses getNode() to retrieve Person obj associate w/ String parameter
+    if(user == null){
+      throw new IllegalArgumentException("invalid user name");
+    }
     Person person = graph.getNode(user);
 
     // throws exception if Person obj w/ name user DNE

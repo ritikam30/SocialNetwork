@@ -279,8 +279,19 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
   @Test
   public void test024_get_neighbors() {
-
-  }
+    Person node1 = new Person("usr1");
+    Person node2 = new Person("usr2");
+    Person node3 = new Person("usr3");
+    Person node4 = new Person("usr4");
+    graph.addEdge(node1,node2);
+    graph.addEdge(node3,node1);
+    graph.addEdge(node1,node4);
+    Set<Person> set = graph.getNeighbors(node1);
+    Iterator<Person> itr = set.iterator();
+    if (!set.contains(node2) || !set.contains(node3) || !set.contains(node4)) {
+        fail("Error: getNeighbors returns incorrect output");
+      }
+   }
 
   // End tests for Graph.java
 
@@ -288,152 +299,271 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
   @Test
   public void test025_add_friend_null_user1() {
+    if(network.addFriends(null,"usr2")){
+      fail("Error: Network incorrectly returned true for addition of a null user");
+    }
 
   }
 
   @Test
   public void test026_add_friend_null_user2() {
-
+if(network.addFriends("usr1",null)){
+      fail("Error: Network incorrectly returned true for addition of a null user");
+    }
   }
 
   @Test
   public void test027_add_friend_both_null() {
-
+if(network.addFriends(null,null)){
+      fail("Error: Network incorrectly returned true for addition of a null user");
+    }
   }
 
   @Test
   public void test028_add_friend_user1_not_in_network() {
-
+    network.addUser("usr2");
+    if(!network.addFriends("usr1","usr2")){
+      fail("Error: Network did not implicity add the nonexistent user and add an edge between the two nodes");
+    }
   }
 
   @Test
   public void test029_add_friend_user2_not_in_network() {
-
+    network.addUser("usr1");
+    if(!network.addFriends("usr1","usr2")){
+      fail("Error: Network did not implicity add the nonexistent user and add an edge between the two nodes");
+    }
   }
 
   @Test
   public void test030_add_friend_both_users_not_in_network() {
-
+  if(!network.addFriends("usr1","usr2"))
+      fail("Error: Network did not implicity add the nonexistent user and add an edge between the two nodes");
   }
 
   @Test
   public void test031_add_friends() {
+    Person node2 = new Person("usr2");
+    Person node3 = new Person("usr3");
+    network.addFriends("usr1","usr2");
+    network.addFriends("usr3","usr1");
+    Set<Person> set = graph.getFriends("usr1");
+    if(!set.contains(node2) || !set.contains(node3))
+      fail("Error: Network did not add friends correctly");
 
   }
 
   @Test
   public void test032_remove_friend_null_user1() {
-
+    
+  if(network.removeFriends(null,"usr2"))
+      fail("Error: Network did not return false when a friendship between null nodes was removed");
   }
 
   @Test
   public void test033_remove_friend_null_user2() {
-
+if(network.removeFriends("usr1",null))
+      fail("Error: Network did not return false when a friendship between null nodes was removed");
   }
 
   @Test
   public void test034_remove_friend_both_null() {
-
+if(network.removeFriends(null,null))
+      fail("Error: Network did not return false when a friendship between null nodes was removed");
   }
 
   @Test
   public void test035_remove_friend_user1_not_in_network() {
-
+    network.addUser("usr2");
+    if(network.removeFriends("usr1","usr2"))
+      fail("Error: Network did not return false when a friendship between nonexistent nodes was removed");
+  
   }
 
   @Test
   public void test036_remove_friend_user2_not_in_network() {
-
+    network.addUser("usr1");
+    if(network.removeFriends("usr1","usr2"))
+      fail("Error: Network did not return false when a friendship between nonexistent nodes was removed");
   }
 
 
   @Test
   public void test037_remove_friend_neither_in_network() {
-
+    if(network.removeFriends("usr1","usr2"))
+      fail("Error: Network did not return false when a friendship between nonexistent nodes was removed");
   }
 
   @Test
   public void test038_remove_friends() {
-
+    network.addUser("usr1");
+    Person node2 = new Person("usr2");
+    network.addFriends("usr1","usr2");
+    network.removeFriends("usr2","usr1");
+    Set<Person> set = graph.getFriends("usr1");
+    if(set.contains(node2))
+      fail("Error: Network did not remove friendship correctly");
+    
   }
 
   @Test
   public void test039_add_null_user() {
-
+  if(network.addUser(null))
+      fail("Error: Network incorrectly returned true for the addition of a null user");
   }
 
   @Test
   public void test040_add_user_already_in_network() {
-
+    network.addUser("usr1");
+    if(network.addUser("usr1"))
+      fail("Error: Network incorrectly returned true for the addition of a duplicate user");
   }
 
   @Test
   public void test041_add_user() {
-
+    Person node = new Person("usr1");
+    Person node2 = new Person("usr2");
+    network.addUser("usr1");
+    network.addUser("usr2");
+    Set<Person> set = network.graph.getAllNodes();
+    if(!set.contains(node) || !set.contains(node2))
+      fail("Error: Network did not add user correctly");
   }
 
   @Test
   public void test042_remove_null_user() {
+    if(network.removeUser(null))
+      fail("Error: Network incorrectly returned true for removal of a null user");
 
   }
 
   @Test
   public void test043_remove_user_not_in_network() {
-
+  if(network.removeUser("usr1"))
+      fail("Error: Network incorrectly returned true for removal of a nonexistent user");
   }
 
   @Test
   public void test044_remove_user() {
-
+    Person node = new Person("usr1");
+    network.addUser("usr1");
+    network.addUser("usr2");
+    network.removeUser("usr1")
+    Set<Person> set = network.graph.getAllNodes();
+    if(set.contains(node))
+      fail("Error: Network did not remove user correctly");
   }
 
   @Test
   public void test045_get_friends_of_null_user() {
-
+    try{
+      network.getFriends(null);
+      fail("Error: Network did not throw an exception when getting friends of a null user");
+    }catch(IllegalArgumentException u){
+    }
   }
 
   @Test
   public void test046_get_friends_user_not_in_network() {
-
+    try{
+      network.getFriends("usr1");
+      fail("Error: Network did not throw an exception when getting friends of a nonexistent user");
+    }catch(UserNotFoundException u){
+    }
   }
 
   @Test
   public void test047_get_friends() {
-
+    Person node1 = new Person("usr2");
+    Person node2 = new Person("usr3");
+    Person node3 = new Person("usr4");
+    network.addUser("usr1");
+    network.addUser("usr2");
+    network.addUser("usr3");
+    network.addUser("usr4");
+    network.addFriends("usr1","usr2");
+    network.addFriends("usr3","usr1");
+    network.addFriends("usr1","usr4");
+    Set<Person> set = network.getFriends("usr1");
+    if(!set.contains(node1) || !set.contains(node2) || !set.contains(node3) )
+      fail("Error: Network's getFriends() returned incorrect output");
   }
 
   @Test
   public void test048_get_mutual_null_user1() {
-
+ try{
+      network.getMutualFriends(null,"usr2");
+      fail("Error: Network did not throw an exception when getting friends of a null user");
+    }catch(IllegalArgumentException u){
+    }
   }
 
   @Test
   public void test049_get_mutual_null_user2() {
-
+try{
+      network.getMutualFriends("usr1",null);
+      fail("Error: Network did not throw an exception when getting friends of a null user");
+    }catch(IllegalArgumentException u){
+    }
   }
 
   @Test
   public void test050_get_mutual_both_null() {
-
+try{
+      network.getMutualFriends(null,null);
+      fail("Error: Network did not throw an exception when getting friends of a null user");
+    }catch(IllegalArgumentException u){
+    }
   }
 
   @Test
   public void test051_get_mutual_user1_not_in_network() {
-
+    network.add("usr2");
+    try{
+      network.getMutualFriends("usr1","usr2");
+      fail("Error: Network did not throw an exception when getting friends of a nonexistent user");
+    }catch(UserNotFoundException u){
+    }
   }
 
   @Test
   public void test052_get_mutual_user2_not_in_network() {
-
+  network.add("usr1");
+    try{
+      network.getMutualFriends("usr1","usr2");
+      fail("Error: Network did not throw an exception when getting friends of a nonexistent user");
+    }catch(UserNotFoundException u){
+    }
   }
 
   @Test
   public void test053_get_mutual_neither_in_network() {
-
+  try{
+      network.getMutualFriends("usr1","usr2");
+      fail("Error: Network did not throw an exception when getting friends of nonexistent users");
+    }catch(UserNotFoundException u){
+    }
   }
 
   @Test
   public void test054_get_mutual() {
+    Person node2 = new Person("usr3");
+    Person node3 = new Person("usr4");
+    Person node4 = new Person("usr5");
+    network.addUser("usr1");
+    network.addUser("usr2");
+    network.addUser("usr3");
+    network.addUser("usr4");
+    network.addUser("usr5");
+    network.addFriends("usr1","usr2");
+    network.addFriends("usr3","usr1");
+    network.addFriends("usr3","usr2");
+    network.addFriends("usr2","usr4");
+    network.addFriends("usr1","usr4");
+    network.addFriends("usr5","usr1");
+    Set<Person> set = network.getMutualFriends("usr1","usr2");
+    if(!set.contains(node2) || !set.contains(node3) || set.contains(node4) )
+      fail("Error: Network's getMutualFriends() returns incorrect output");
 
   }
 
