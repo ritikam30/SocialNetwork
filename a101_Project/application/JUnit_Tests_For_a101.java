@@ -346,14 +346,21 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
   @Test
   public void test031_add_friends() {
-    Person node2 = new Person("usr2");
-    Person node3 = new Person("usr3");
     network.addFriends("usr1", "usr2");
     network.addFriends("usr3", "usr1");
-    Set<Person> set = graph.getNeighbors(graph.getNode("usr1"));
-    if (!set.contains(node2) || !set.contains(node3))
-      fail("Error: Network did not add friends correctly");
-
+    Set<Person> set;
+    try {
+      set = network.getFriends("usr1");
+      for (Person friend : set) {
+        if (!friend.getName().equals("usr2") && !friend.getName().equals("usr3")) {
+          fail("Error: Network did not add friends correctly");
+        }
+      }
+    } catch (IllegalArgumentException e) {
+      fail("Fail: Unexpected exception thrown.");
+    } catch (UserNotFoundException e) {
+      fail("Fail: Unexpected exception thrown.");
+    }
   }
 
   @Test
@@ -402,13 +409,18 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
   @Test
   public void test038_remove_friends() {
-    network.addUser("usr1");
-    Person node2 = new Person("usr2");
     network.addFriends("usr1", "usr2");
     network.removeFriends("usr2", "usr1");
-    Set<Person> set = graph.getNeighbors(graph.getNode("usr1"));
-    if (set.contains(node2))
-      fail("Error: Network did not remove friendship correctly");
+    Set<Person> set;
+    try {
+      set = network.getFriends("usr1");
+      if (set.contains(network.getUserByName("usr2")))
+        fail("Error: Network did not add friends correctly");
+    } catch (IllegalArgumentException e) {
+      fail("Fail: Unexpected exception thrown.");
+    } catch (UserNotFoundException e) {
+      fail("Fail: Unexpected exception thrown.");
+    }
 
   }
 
@@ -427,12 +439,11 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
   @Test
   public void test041_add_user() {
-    Person node = new Person("usr1");
-    Person node2 = new Person("usr2");
     network.addUser("usr1");
     network.addUser("usr2");
-    Set<Person> set = graph.getAllNodes();
-    if (!set.contains(node) || !set.contains(node2))
+    Set<Person> set = network.getAllUsersInNetwork();
+    if (!set.contains(network.getUserByName("usr1"))
+        || !set.contains(network.getUserByName("usr2")))
       fail("Error: Network did not add user correctly");
   }
 
@@ -482,20 +493,15 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
   @Test
   public void test047_get_friends() {
-    Person node1 = new Person("usr2");
-    Person node2 = new Person("usr3");
-    Person node3 = new Person("usr4");
-    network.addUser("usr1");
-    network.addUser("usr2");
-    network.addUser("usr3");
-    network.addUser("usr4");
     network.addFriends("usr1", "usr2");
     network.addFriends("usr3", "usr1");
     network.addFriends("usr1", "usr4");
     Set<Person> set;
     try {
       set = network.getFriends("usr1");
-      if (!set.contains(node1) || !set.contains(node2) || !set.contains(node3))
+      if (!set.contains(network.getUserByName("usr2"))
+          || !set.contains(network.getUserByName("usr3"))
+          || !set.contains(network.getUserByName("usr4")))
         fail("Error: Network's getFriends() returned incorrect output");
     } catch (IllegalArgumentException | UserNotFoundException e) {
       fail("Fail: Unexpected exception thrown");
@@ -572,31 +578,25 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
   @Test
   public void test054_get_mutual() {
-    Person node2 = new Person("usr3");
-    Person node3 = new Person("usr4");
-    Person node4 = new Person("usr5");
-    network.addUser("usr1");
-    network.addUser("usr2");
-    network.addUser("usr3");
-    network.addUser("usr4");
-    network.addUser("usr5");
-    network.addFriends("usr1", "usr2");
-    network.addFriends("usr3", "usr1");
-    network.addFriends("usr3", "usr2");
-    network.addFriends("usr2", "usr4");
+    network.addFriends("usr1", "usr3");
     network.addFriends("usr1", "usr4");
-    network.addFriends("usr5", "usr1");
+    network.addFriends("usr1", "usr5");
+    network.addFriends("usr2", "usr3");
+    network.addFriends("usr2", "usr4");
+    network.addFriends("usr2", "usr5");
     Set<Person> set;
     try {
       set = network.getMutualFriends("usr1", "usr2");
-      if (!set.contains(node2) || !set.contains(node3) || set.contains(node4))
+      if (!set.contains(network.getUserByName("usr3"))
+          || !set.contains(network.getUserByName("usr4"))
+          || !set.contains(network.getUserByName("usr5")))
         fail("Error: Network's getMutualFriends() returns incorrect output");
     } catch (IllegalArgumentException e) {
       fail("Fail: Unexpected exception thrown");
     } catch (UserNotFoundException e) {
       fail("Fail: Unexpected exception thrown");
     }
-    
+
 
   }
 
@@ -708,7 +708,6 @@ public class JUnit_Tests_For_a101 extends TestCase {
     try {
       List<Person> path = network.getShortestPath("1", "5");
       for (Person hop : path) {
-        System.out.println(hop.getName());
         actual += hop.getName();
       }
       if (!expected.equals(actual)) {

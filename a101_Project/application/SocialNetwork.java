@@ -451,5 +451,13 @@ public class SocialNetwork implements SocialNetworkADT {
     }
 
   }
+  
+  public Person getUserByName(String name) {
+    return graph.getNode(name);
+  }
+  
+  public Set<Person> getAllUsersInNetwork(){
+    return graph.getAllNodes();
+  }
 
 }
