@@ -1,14 +1,14 @@
 ////////////////////////////////////////////////////////////////
-// Title: a3 Social Network 
-// Authors: Ritika Mittal, Jared Horwitz, Keerthy Sudharsan, 
+// Title: a3 Social Network
+// Authors: Ritika Mittal, Jared Horwitz, Keerthy Sudharsan,
 // Sakuni Egodawatte, Erik Tiedt //
-// Emails: rmittal6@wisc.edu, sudharsan@wisc.edu, 
-// jhorwitz3@wisc.edu, egodawatte@wisc.edu 
-// etiedt@wisc.edu 
-// Lectures: 001, 002 
+// Emails: rmittal6@wisc.edu, sudharsan@wisc.edu,
+// jhorwitz3@wisc.edu, egodawatte@wisc.edu
+// etiedt@wisc.edu
+// Lectures: 001, 002
 // Description: creates social network visualizer with GUI
 // interface
-// Files: Main.java, Graph.java, GraphADT.java, Person.java 
+// Files: Main.java, Graph.java, GraphADT.java, Person.java
 // SocialNetwork.java, SocialNetworkADT.java
 ////////////////////////////////////////////////////////////////
 package application;
@@ -49,7 +49,9 @@ public class Graph implements GraphADT {
    * If vertex is null or already exists, method ends without adding a vertex or throwing an
    * exception.
    * 
-   * Valid argument conditions: 1. Person is not null 2. Person is not already in the graph
+   * Valid argument conditions: 
+   * 1. Person is not null 
+   * 2. Person is not already in the graph
    * 
    * @param name - the Person to be added
    */
@@ -109,7 +111,7 @@ public class Graph implements GraphADT {
    * 
    * @param name1 - the first vertex
    * @param name2 - the second vertex
-   * @return true if edge was added, or already existed, false otherwise
+   * @return true if edge was added, false already existed or not added
    */
   @Override
   public boolean addEdge(Person name1, Person name2) {
@@ -129,7 +131,7 @@ public class Graph implements GraphADT {
 
     // Edge exists
     if (name1.getFriends().contains(name2) || name2.getFriends().contains(name1)) {
-      return true;
+      return false;
     }
 
     name1.addFriend(name2);
@@ -160,7 +162,7 @@ public class Graph implements GraphADT {
     if (!people.contains(name1) || !people.contains(name2)) { // At least one user not in graph
       return false;
     }
-    if (name1.getFriends().contains(name2) || name2.getFriends().contains(name1)) { // In graph
+    if (!name1.getFriends().contains(name2) && !name2.getFriends().contains(name1)) { // Not in
       return true;
     }
 

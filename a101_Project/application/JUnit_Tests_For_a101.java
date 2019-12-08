@@ -1,5 +1,7 @@
 package application;
 
+import java.util.Iterator;
+import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,18 +29,18 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
   @Test
   public void test000_add_null_node() {
-    Person node = new Person();
-    if ( graph.addNode(node))
-			fail("Error: Graph did not return false on the addition of a null node");
-	
+    Person node = null;
+    if (graph.addNode(node))
+      fail("Error: Graph did not return false on the addition of a null node");
+
   }
 
   @Test
   public void test001_add_node_already_in_graph() {
-  Person node = new Person("usr1");
+    Person node = new Person("usr1");
     graph.addNode(node);
-    if ( graph.addNode(node))
-			fail("Error: Graph did not return false on the addition of a duplicate node");
+    if (graph.addNode(node))
+      fail("Error: Graph did not return false on the addition of a duplicate node");
   }
 
   @Test
@@ -46,7 +48,7 @@ public class JUnit_Tests_For_a101 extends TestCase {
     Person node = new Person("usr1");
     graph.addNode(node);
     if (graph.getNode("usr1") == null)
-			fail("Error: Graph did not add node correctly");
+      fail("Error: Graph did not add node correctly");
 
   }
 
@@ -58,213 +60,218 @@ public class JUnit_Tests_For_a101 extends TestCase {
     graph.addNode(node1);
     graph.addNode(node2);
     graph.addNode(node3);
-    if (graph.getNode("usr1") == null || graph.getNode("usr2") == null || graph.getNode("usr3") == null)
-			fail("Error: Graph did not add multiple nodes correctly");
+    if (graph.getNode("usr1") == null || graph.getNode("usr2") == null
+        || graph.getNode("usr3") == null)
+      fail("Error: Graph did not add multiple nodes correctly");
   }
 
   @Test
   public void test004_remove_null_node() {
-	  Person node = new Person();
-	  if (graph.remove(node))
-			fail("Error: Graph did not return false when a null node was removed");
-	  
+    Person node = null;
+    if (graph.removeNode(node))
+      fail("Error: Graph did not return false when a null node was removed");
+
 
   }
 
   @Test
   public void test005_remove_node_not_in_graph() {
-  Person node = new Person("usr1");
-	  if (graph.remove(node))
-			fail("Error: Graph did not return false when a nonexistent node was removed");
-	  
+    Person node = new Person("usr1");
+    if (graph.removeNode(node))
+      fail("Error: Graph did not return false when a nonexistent node was removed");
+
   }
 
- 
+
+  @Test
+  public void test006_remove_node_check_edges() {
+    // TODO: complete
+  }
 
   @Test
   public void test007_add_edge_user1_not_in_graph() {
-	   Person node1 = new Person("usr1");
-	   Person node2 = new Person("usr2");
-	  graph.add(node2);
-	  if (!graph.addEdge(node1,node2))
-			fail("Error: Graph did not add a node implicitly when user tried to add an edge");
+    Person node1 = new Person("usr1");
+    Person node2 = new Person("usr2");
+    graph.addNode(node2);
+    if (!graph.addEdge(node1, node2))
+      fail("Error: Graph did not add a node implicitly when user tried to add an edge");
 
   }
 
   @Test
   public void test008_add_edge_user2_not_in_graph() {
- Person node1 = new Person("usr1");
-	   Person node2 = new Person("usr2");
-	  graph.add(node1);
-	  if (!graph.addEdge(node1,node2))
-			fail("Error: Graph did not add a node implicitly when user tried to add an edge");
+    Person node1 = new Person("usr1");
+    Person node2 = new Person("usr2");
+    graph.addNode(node1);
+    if (!graph.addEdge(node1, node2))
+      fail("Error: Graph did not add a node implicitly when user tried to add an edge");
 
   }
 
-  @Test
-  public void test014_add_edge_between_existing_users() {
-	  boolean pass = false;
-	Person node1 = new Person("usr1");
-	   Person node2 = new Person("usr2");
-	   graph.add(node1);
-	   graph.add(node2);
-	  if (!graph.addEdge(node1,node2))
-			fail("Error: Graph did not return true on addition of edge between valid nodes");
-	
-	  Set<Person> set = graph.getNeighbors(node1);
-		Iterator<Person> itr = set.iterator();
-		while (itr.hasNext()) {
-			if (itr.next().getName().equals("usr2")) {
-				pass = true;
-				break;
-			}
-			else continue;
-			
-		}
-	  if(!pass){
-	  fail("Error: edge added unsuccessfully");
-	  }
-	  
-	  
-	  
-  }	
-	
+
   @Test
   public void test009_add_edge_neither_user_in_graph() {
-           Person node1 = new Person("usr1");
-	   Person node2 = new Person("usr2");
-	   if (!graph.addEdge(node1,node2))
-			fail("Error: Graph did not add the nodes implicitly when user tried to add an edge");
+    Person node1 = new Person("usr1");
+    Person node2 = new Person("usr2");
+    if (!graph.addEdge(node1, node2))
+      fail("Error: Graph did not add the nodes implicitly when user tried to add an edge");
   }
 
   @Test
   public void test010_add_edge_null_user1() {
-           Person node1 = new Person();
-	   Person node2 = new Person("usr2");
-	   if (graph.addEdge(node1,node2))
-			fail("Error: Graph did not return false when user tried to add an edge between null nodes");
+    Person node1 = null;
+    Person node2 = new Person("usr2");
+    if (graph.addEdge(node1, node2))
+      fail("Error: Graph did not return false when user tried to add an edge between null nodes");
   }
 
   @Test
   public void test011_add_edge_null_user2() {
-           Person node1 = new Person("usr1");
-	   Person node2 = new Person();
-	   if (graph.addEdge(node1,node2))
-			fail("Error: Graph did not return false when user tried to add an edge between null nodes");
+    Person node1 = new Person("usr1");
+    Person node2 = null;
+    if (graph.addEdge(node1, node2))
+      fail("Error: Graph did not return false when user tried to add an edge between null nodes");
   }
 
   @Test
   public void test012_add_edge_both_null_users() {
-           Person node1 = new Person();
-	   Person node2 = new Person();
-	   if (graph.addEdge(node1,node2))
-			fail("Error: Graph did not return false when user tried to add an edge between null nodes");
+    Person node1 = null;
+    Person node2 = null;
+    if (graph.addEdge(node1, node2))
+      fail("Error: Graph did not return false when user tried to add an edge between null nodes");
   }
 
   @Test
   public void test013_add_existing_edge() {
-           Person node1 = new Person("usr1");
-	   Person node2 = new Person("usr2");
-	   graph.addEdge(node1,node2);
-	   if (graph.addEdge(node1,node2))
-			fail("Error: Graph did not return false when user tried to add a duplicate");
+    Person node1 = new Person("usr1");
+    Person node2 = new Person("usr2");
+    graph.addEdge(node1, node2);
+    if (graph.addEdge(node1, node2))
+      fail("Error: Graph did not return false when user tried to add a duplicate");
+  }
+
+  @Test
+  public void test014_add_edge_between_existing_users() {
+    boolean pass = false;
+    Person node1 = new Person("usr1");
+    Person node2 = new Person("usr2");
+    graph.addNode(node1);
+    graph.addNode(node2);
+    if (!graph.addEdge(node1, node2))
+      fail("Error: Graph did not return true on addition of edge between valid nodes");
+
+    Set<Person> set = graph.getNeighbors(node1);
+    Iterator<Person> itr = set.iterator();
+    while (itr.hasNext()) {
+      if (itr.next().getName().equals("usr2")) {
+        pass = true;
+        break;
+      } else
+        continue;
+
+    }
+    if (!pass) {
+      fail("Error: edge added unsuccessfully");
+    }
+
   }
 
   @Test
   public void test015_remove_edge_null_user1() {
-Person node1 = new Person();
-	   Person node2 = new Person("usr2");
-	   
-	   if (graph.removeEdge(node1,node2))
-			fail("Error: Graph did not return false when user tried to remove edge between null nodes");
+    Person node1 = null;
+    Person node2 = new Person("usr2");
+
+    if (graph.removeEdge(node1, node2))
+      fail("Error: Graph did not return false when user tried to remove edge between null nodes");
   }
-	
+
   @Test
   public void test016_remove_edge_null_user2() {
-Person node1 = new Person("usr1");
-	   Person node2 = new Person();
-	   
-	   if (graph.removeEdge(node1,node2))
-			fail("Error: Graph did not return false when user tried to remove edge between null nodes");
+    Person node1 = new Person("usr1");
+    Person node2 = null;
+
+    if (graph.removeEdge(node1, node2))
+      fail("Error: Graph did not return false when user tried to remove edge between null nodes");
   }
 
   @Test
   public void test017_remove_edge_both_users_null() {
-Person node1 = new Person();
-	   Person node2 = new Person();
-	   
-	   if (graph.removeEdge(node1,node2))
-			fail("Error: Graph did not return false when user tried to remove edge between null nodes");
+    Person node1 = null;
+    Person node2 = null;
+
+    if (graph.removeEdge(node1, node2))
+      fail("Error: Graph did not return false when user tried to remove edge between null nodes");
   }
 
   @Test
   public void test018_remove_edge_user1_not_in_graph() {
-Person node1 = new Person("usr1");
-	   Person node2 = new Person("usr2");
-	   graph.add(node2);
-	   if (graph.removeEdge(node1,node2))
-			fail("Error: Graph did not return false when user tried to remove edge between connecting a nonexistent node");
+    Person node1 = new Person("usr1");
+    Person node2 = new Person("usr2");
+    graph.addNode(node2);
+    if (graph.removeEdge(node1, node2))
+      fail(
+          "Error: Graph did not return false when user tried to remove edge between connecting a nonexistent node");
   }
 
   @Test
   public void test019_remove_edge_user2_not_in_graph() {
-Person node1 = new Person("usr1");
-	   Person node2 = new Person("usr2");
-	   graph.add(node1);
-	   if (graph.removeEdge(node1,node2))
-			fail("Error: Graph did not return false when user tried to remove edge between connecting a nonexistent node");
+    Person node1 = new Person("usr1");
+    Person node2 = new Person("usr2");
+    graph.addNode(node1);
+    if (graph.removeEdge(node1, node2))
+      fail(
+          "Error: Graph did not return false when user tried to remove edge between connecting a nonexistent node");
   }
 
   @Test
   public void test020_remove_edge_neither_user_in_graph() {
-Person node1 = new Person("usr1");
-	   Person node2 = new Person("usr2");
-	   
-	   if (graph.removeEdge(node1,node2))
-			fail("Error: Graph did not return false when user tried to remove edge between connecting a nonexistent node");
+    Person node1 = new Person("usr1");
+    Person node2 = new Person("usr2");
+
+    if (graph.removeEdge(node1, node2))
+      fail(
+          "Error: Graph did not return false when user tried to remove edge between connecting a nonexistent node");
   }
 
   @Test
   public void test021_remove_edge_and_check() {
-	  Person node1 = new Person("usr1");
-	   Person node2 = new Person("usr2");
-	  graph.addEdge(node1,node2);
-	  graph.removeEdge(node1,node2);
-	  
-                int i = 0;
-		Set<Person> set = graph.getNeighbors(node1);
-		Iterator<Person> itr = set.iterator();
-		while (itr.hasNext()) {
-			if (itr.next().getName().equals("usr2")) {
-				fail("Error: edge removed unsuccessfully");
-			}
-			i++;
-		}
+    Person node1 = new Person("usr1");
+    Person node2 = new Person("usr2");
+    graph.addEdge(node1, node2);
+    graph.removeEdge(node1, node2);
+
+    Set<Person> set = graph.getNeighbors(node1);
+    Iterator<Person> itr = set.iterator();
+    while (itr.hasNext()) {
+      if (itr.next().getName().equals("usr2")) {
+        fail("Error: edge removed unsuccessfully");
+      }
+    }
 
   }
 
   @Test
   public void test022_check_get_all_nodes() {
-          Person node1 = new Person("usr1");
-	  Person node2 = new Person("usr2");
-	  graph.addNode(node1);
-	  graph.addNode(node2);
-	  int i = 0;
-		Set<Person> set = graph.getAllNodes();
-		if (!set.contains(node1) || !set.contains(node2) ) {
-				fail("Error: getAllNodes returned incorrect output");
-			}
-		
-	  
+    Person node1 = new Person("usr1");
+    Person node2 = new Person("usr2");
+    graph.addNode(node1);
+    graph.addNode(node2);
+
+
+    Set<Person> set = graph.getAllNodes();
+    if (!set.contains(node1) || !set.contains(node2)) {
+      fail("Error: getAllNodes returned incorrect output");
+    }
+
+
   }
-	
 
   @Test
   public void test023_get_single_node() {
-	   Person node1 = new Person("usr1");
-           graph.addNode(node1);
-	  if(!graph.getNode("usr1").getName().equals(node1.getName()))
-		  fail("Error: getNode returned incorrect output");
+    Person node1 = new Person("usr1");
+    graph.addNode(node1);
+    if (!graph.getNode("usr1").getName().equals(node1.getName()))
+      fail("Error: getNode returned incorrect output");
   }
 
   @Test
@@ -335,10 +342,7 @@ Person node1 = new Person("usr1");
   public void test036_remove_friend_user2_not_in_network() {
 
   }
-  @Test
-  public void test006_remove_node_check_edges() {
 
-  }	
 
   @Test
   public void test037_remove_friend_neither_in_network() {
@@ -481,17 +485,17 @@ Person node1 = new Person("usr1");
   }
 
   @Test
-  public void test066_get_connected_single_component() {
+  public void test065_get_connected_single_component() {
 
   }
 
   @Test
-  public void test067_get_connected_many_users_no_firends() {
+  public void test066_get_connected_many_users_no_firends() {
 
   }
 
   @Test
-  public void test068_get_connected_multiple_components_with_connections() {
+  public void test067_get_connected_multiple_components_with_connections() {
 
   }
 
