@@ -296,6 +296,9 @@ public class SocialNetwork implements SocialNetworkADT {
 
   @Override
   public Set<Graph> getConnectedComponents() {
+
+//    System.out.println("connect components called");
+
     ArrayList<Person> network = new ArrayList<>();
     network.addAll(graph.getAllNodes());
     HashSet<Person> added = new HashSet<>();
@@ -303,35 +306,55 @@ public class SocialNetwork implements SocialNetworkADT {
     Person currentPerson;
     Graph connectedComponent;
     Set<Graph> allComponents = new HashSet<>();
+//    System.out.println(network.get(1).getName());
 
     while (!added.containsAll(network)) { // Component Loop
+//      System.out.println("In components loop.");
       currentPerson = network.get(0);
+//      System.out.println("Current person is: " + currentPerson.getName());
       connectedComponent = new Graph();
-      connectedComponent.addNode(currentPerson);
+      if (!added.contains(currentPerson)) {
+        connectedComponent.addNode(currentPerson);
+      }
       queue = new ArrayList<>();
       queue.add(currentPerson);
 
       while (!queue.isEmpty()) { // Connections Loop
-        for (Person friend : currentPerson.getFriends()) {
-          connectedComponent.addEdge(currentPerson, friend);
-          if (!added.contains(friend)) {
-            queue.add(friend);
+//        System.out.println("In connections loop.");
+        if (!added.contains(currentPerson)) {
+          for (Person friend : currentPerson.getFriends()) {
+            connectedComponent.addEdge(currentPerson, friend);
+            if (!added.contains(friend)) {
+//              System.out.println("Adding " + friend.getName() + " to queue");
+              queue.add(friend);
+            }
           }
         }
 
         added.add(currentPerson);
-        queue.remove(0); // remove the current person
-        currentPerson = queue.get(0); // set current person to next in queue;
+//        System.out.println("Adding: " + currentPerson.getName() + " to added list");
+        while (added.contains(queue.get(0))) {
+          queue.remove(0);
+          if (queue.isEmpty()) {
+            break;
+          }
+        }
+
+        if (!queue.isEmpty()) { // set current person to next in queue;
+          currentPerson = queue.get(0);
+        }
 
       } // End Connections Loop
 
-      allComponents.add(connectedComponent);
+      network.remove(0);
+      if (!connectedComponent.getAllNodes().isEmpty()) {
+        allComponents.add(connectedComponent);
+      }
 
     } // End Component Loop
 
 
-
-    return null;
+    return allComponents;
   }
 
   /**

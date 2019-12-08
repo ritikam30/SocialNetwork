@@ -1,5 +1,7 @@
 package application;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
@@ -486,16 +488,100 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
   @Test
   public void test065_get_connected_single_component() {
+    network.addUser("1");
+
+    Set<Graph> components = network.getConnectedComponents();
+    if (components.size() != 1) {
+
+      for (Graph connected : components) {
+        Set<Person> elements = connected.getAllNodes();
+        System.out.print("COMPONENT: ");
+        for (Person node : elements) {
+          System.out.print(node.getName() + " ");
+        }
+        System.out.println();
+      }
+      fail("Fail: expected 1 seperate connected components but actuals is " + components.size());
+    }
 
   }
 
   @Test
   public void test066_get_connected_many_users_no_firends() {
+    network.addUser("1");
+    network.addUser("2");
+    network.addUser("3");
+    network.addUser("4");
+    
+    Set<Graph> components = network.getConnectedComponents();
+    if (components.size() != 4) {
+
+      for (Graph connected : components) {
+        Set<Person> elements = connected.getAllNodes();
+        System.out.print("COMPONENT: ");
+        for (Person node : elements) {
+          System.out.print(node.getName() + " ");
+        }
+        System.out.println();
+      }
+      fail("Fail: expected 4 seperate connected components but actuals is " + components.size());
+    }
 
   }
 
   @Test
   public void test067_get_connected_multiple_components_with_connections() {
+    // Add a few clusters of connected components
+
+    // Cluster 1
+    network.addFriends("1", "2");
+    network.addFriends("1", "3");
+    network.addFriends("3", "4");
+    network.addFriends("3", "5");
+    network.addFriends("2", "6");
+    network.addFriends("2", "7");
+
+    // Cluster 2
+    network.addFriends("A", "B");
+    network.addFriends("A", "C");
+    network.addFriends("C", "D");
+    network.addFriends("C", "E");
+    network.addFriends("B", "F");
+    network.addFriends("B", "G");
+
+    Set<Person> numbers = new HashSet<>();
+    Set<Person> letters = new HashSet<>();
+    Character startLetter = 'A';
+    Character startNum = '1';
+
+    for (int i = 0; i < 7; ++i) {
+      numbers.add(new Person(Character.toString(startNum + i)));
+      letters.add(new Person(Character.toString(startLetter + i)));
+    }
+
+    Set<Graph> components = network.getConnectedComponents();
+    if (components.size() != 2) {
+
+      for (Graph connected : components) {
+        Set<Person> elements = connected.getAllNodes();
+        System.out.print("COMPONENT: ");
+        for (Person node : elements) {
+          System.out.print(node.getName() + " ");
+        }
+        System.out.println();
+      }
+      fail("Fail: expected 2 seperate connected components but actuals is " + components.size());
+    }
+
+    ArrayList<Graph> componentsList = new ArrayList<>();
+    componentsList.addAll(components);
+
+    for (Graph component : componentsList) {
+      if (letters.containsAll(component.getAllNodes())
+          && numbers.containsAll(component.getAllNodes())) {
+        fail("Fail: components did not contain expected elements");
+      }
+    }
 
   }
 
