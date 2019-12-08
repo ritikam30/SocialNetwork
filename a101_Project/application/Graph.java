@@ -198,6 +198,9 @@ public class Graph implements GraphADT {
    */
   @Override
   public Person getNode(String name) {
+    if(name == null){
+    return null;
+    }
     // iterates through list of People objects
     for (int i = 0; i < people.size(); i++) {
       // checks if Person name matches name parameter
