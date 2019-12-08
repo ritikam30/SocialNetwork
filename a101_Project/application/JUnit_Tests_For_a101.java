@@ -456,7 +456,7 @@ if(network.removeFriends(null,null))
     try{
       network.getFriends(null);
       fail("Error: Network did not throw an exception when getting friends of a null user");
-    }catch(UserNotFoundException u){
+    }catch(IllegalArgumentException u){
     }
   }
 
