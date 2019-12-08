@@ -488,32 +488,58 @@ if(network.removeFriends(null,null))
 
   @Test
   public void test048_get_mutual_null_user1() {
-
+ try{
+      network.getMutualFriends(null,"usr2");
+      fail("Error: Network did not throw an exception when getting friends of a null user");
+    }catch(IllegalArgumentException u){
+    }
   }
 
   @Test
   public void test049_get_mutual_null_user2() {
-
+try{
+      network.getMutualFriends("usr1",null);
+      fail("Error: Network did not throw an exception when getting friends of a null user");
+    }catch(IllegalArgumentException u){
+    }
   }
 
   @Test
   public void test050_get_mutual_both_null() {
-
+try{
+      network.getMutualFriends(null,null);
+      fail("Error: Network did not throw an exception when getting friends of a null user");
+    }catch(IllegalArgumentException u){
+    }
   }
 
   @Test
   public void test051_get_mutual_user1_not_in_network() {
-
+    network.add("usr2");
+    try{
+      network.getMutualFriends("usr1","usr2");
+      fail("Error: Network did not throw an exception when getting friends of a nonexistent user");
+    }catch(UserNotFoundException u){
+    }
   }
 
   @Test
   public void test052_get_mutual_user2_not_in_network() {
-
+  network.add("usr1");
+    try{
+      network.getMutualFriends("usr1","usr2");
+      fail("Error: Network did not throw an exception when getting friends of a nonexistent user");
+    }catch(UserNotFoundException u){
+    }
   }
 
   @Test
   public void test053_get_mutual_neither_in_network() {
-
+  try{
+      network.getMutualFriends("usr1","usr2");
+      fail("Error: Network did not throw an exception when getting friends of nonexistent users");
+    }catch(UserNotFoundException u){
+    }
   }
 
   @Test
