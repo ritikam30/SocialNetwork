@@ -264,15 +264,21 @@ public class SocialNetwork implements SocialNetworkADT {
     predecesors.put(startPerson, null);
 
     while (!queue.isEmpty()) { // BFS Loop
+//      System.out.println("in BFS loop");
       Person current = queue.get(0);
+//      System.out.println("current person is " + current.getName());
       ArrayList<Person> friendsList = new ArrayList<>();
       friendsList.addAll(current.getFriends());
 
       for (int i = 0; i < friendsList.size(); ++i) { // Iterate through current person's friends
+//        System.out.println("In curent persons friends iteration " + i + " of " + friendsList.size());
         Person friend = friendsList.get(i);
+//        System.out.println("Current friend is " + friend.getName());
 
         if (!predecesors.containsKey(friend)) { // If not visited, add to queue
+//          System.out.println("Adding " + friend.getName() + " to queue");
           queue.add(friend);
+//          System.out.println("Adding " + friend.getName() + ", " + current.getName() + " connection");
           predecesors.put(friend, current);
 
           if (friend.getName().equals(target)) {// Check if target reached
@@ -285,11 +291,13 @@ public class SocialNetwork implements SocialNetworkADT {
 
             return path;
           }
-        }
-        queue.remove(0);
+        } 
       }
+      queue.remove(0);
+//      System.out.println("Removing " + queue.remove(0).getName() + " from queue");
     }
 
+//    System.out.println("Shortest path is returning null");
     return null;
   }
 

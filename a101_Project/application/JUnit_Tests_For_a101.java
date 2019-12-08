@@ -3,6 +3,7 @@ package application;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -438,41 +439,124 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
   @Test
   public void test055_get_shortes_user1_null() {
+    try {
+      network.getShortestPath(null, "1");
+      fail("Error: did not throw expected exception.");
+    } catch (IllegalArgumentException e) {
+      // This is pass
+    } catch (UserNotFoundException e) {
+      fail("Error: Unexpected exception thrown.");
+    }
 
   }
 
   @Test
   public void test056_get_shortest_user2_null() {
-
+    try {
+      network.getShortestPath("1", null);
+      fail("Error: did not throw expected exception.");
+    } catch (IllegalArgumentException e) {
+      // This is pass
+    } catch (UserNotFoundException e) {
+      fail("Error: Unexpected exception thrown.");
+    }
   }
 
   @Test
   public void test057_get_shortest_both_users_null() {
-
+    try {
+      network.getShortestPath(null, null);
+      fail("Error: did not throw expected exception.");
+    } catch (IllegalArgumentException e) {
+      // This is pass
+    } catch (UserNotFoundException e) {
+      fail("Error: Unexpected exception thrown.");
+    }
   }
 
   @Test
   public void test058_get_shortest_user1_not_in_network() {
+    network.addUser("1");
+
+    try {
+      network.getShortestPath("2", "1");
+      fail("Error: did not throw expected exception.");
+    } catch (IllegalArgumentException e) {
+      fail("Error: Unexpected exception thrown.");
+    } catch (UserNotFoundException e) {
+      // This is pass
+    }
 
   }
 
   @Test
   public void test059_get_shortest_user2_not_in_network() {
+    network.addUser("1");
 
+    try {
+      network.getShortestPath("1", "2");
+      fail("Error: did not throw expected exception.");
+    } catch (IllegalArgumentException e) {
+      fail("Error: Unexpected exception thrown.");
+    } catch (UserNotFoundException e) {
+      // This is pass
+    }
   }
 
   @Test
   public void test060_get_shortest_neither_user_in_network() {
-
+    try {
+      network.getShortestPath("1", "2");
+      fail("Error: did not throw expected exception.");
+    } catch (IllegalArgumentException e) {
+      fail("Error: Unexpected exception thrown.");
+    } catch (UserNotFoundException e) {
+      // This is pass
+    }
   }
 
   @Test
   public void test061_get_shortest_one_hop() {
+    network.addFriends("1", "2");
+
+    try {
+      List<Person> path = network.getShortestPath("1", "2");
+      if (!path.get(0).getName().equals("1") || !path.get(1).getName().equals("2")) {
+        fail("Fail: Expected path 1->2  but got " + path.get(0).getName() + "->"
+            + path.get(1).getName());
+      }
+    } catch (IllegalArgumentException e) {
+      fail("Error: Unexpected exception thrown.");
+    } catch (UserNotFoundException e) {
+      fail("Error: Unexpected exception thrown.");
+    }
 
   }
 
   @Test
-  public void test062_get_shortes_multiple_hops() {
+  public void test062_get_shortest_multiple_hops() {
+    String expected = "12345";
+    String actual = "";
+    network.addFriends("1", "2");
+    network.addFriends("2", "3");
+    network.addFriends("3", "4");
+    network.addFriends("4", "5");
+    
+    try {
+      List<Person> path = network.getShortestPath("1", "5");
+      for(Person hop : path) {
+        System.out.println(hop.getName());
+        actual += hop.getName();
+      }
+      if(!expected.equals(actual)) {
+        fail("Fail: Expected path " + expected + " but got path " + actual);
+      }
+    } catch (IllegalArgumentException e) {
+      fail("Error: Unexpected exception thrown.");
+    } catch (UserNotFoundException e) {
+      fail("Error: Unexpected exception thrown.");
+    }
+    
 
   }
 
@@ -512,7 +596,7 @@ public class JUnit_Tests_For_a101 extends TestCase {
     network.addUser("2");
     network.addUser("3");
     network.addUser("4");
-    
+
     Set<Graph> components = network.getConnectedComponents();
     if (components.size() != 4) {
 
