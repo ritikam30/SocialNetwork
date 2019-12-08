@@ -725,10 +725,55 @@ public class JUnit_Tests_For_a101 extends TestCase {
   @Test
   public void test063_get_shortest_cycle_exists() {
 
+    network.addFriends("1", "2");
+    network.addFriends("2", "3");
+    network.addFriends("3", "4");
+    network.addFriends("3", "5");
+    network.addFriends("4", "6");
+    network.addFriends("6", "1");
+    network.addFriends("5", "7");
+    network.addFriends("7", "2");
+    network.addFriends("7", "8");
+    
+    String expected = "1278";
+    String actual = "";
+    
+    try {
+      List<Person> path = network.getShortestPath("1", "8");
+      for (Person hop : path) {
+        actual += hop.getName();
+      }
+      if (!expected.equals(actual)) {
+        fail("Fail: Expected path " + expected + " but got path " + actual);
+      }
+    } catch (IllegalArgumentException e) {
+      fail("Error: Unexpected exception thrown.");
+    } catch (UserNotFoundException e) {
+      fail("Error: Unexpected exception thrown.");
+    }
+
+    
+    
   }
 
   @Test
   public void test064_get_shortest_no_path_exists() {
+    network.addFriends("1", "2");
+    network.addFriends("2", "3");
+    network.addFriends("3", "4");
+    network.addUser("5");
+    
+    try {
+      List<Person> path = network.getShortestPath("1", "5");
+      if(path != null) {
+        fail("Fail: Shortest path returned a path when none should exist");
+      }
+    } catch (IllegalArgumentException e) {
+      fail("Fail: Unexpected exception was thrown");
+    } catch (UserNotFoundException e) {
+      fail("Fail: Unexpected exception was thrown");
+    }
+    
 
   }
 
