@@ -59,7 +59,7 @@ public class Graph implements GraphADT {
   public boolean addNode(Person name) {
 
     // Check for bad input
-    if (people.contains(name) || name == null) {
+    if (name == null || people.contains(name)) {
       return false;
     }
 
@@ -83,7 +83,7 @@ public class Graph implements GraphADT {
   public boolean removeNode(Person name) {
 
     // Check for bad inputs
-    if (!people.contains(name) || name == null) {
+    if (name == null || !people.contains(name)) {
       return false;
     }
 
