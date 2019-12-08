@@ -418,37 +418,72 @@ if(network.removeFriends(null,null))
 
   @Test
   public void test041_add_user() {
-   
+    Person node = new Person("usr1");
+    Person node2 = new Person("usr2");
+    network.addUser("usr1");
+    network.addUser("usr2");
+    Set<Person> set = network.graph.getAllNodes();
+    if(!set.contains(node) || !set.contains(node2))
+      fail("Error: Network did not add user correctly");
   }
 
   @Test
   public void test042_remove_null_user() {
+    if(network.removeUser(null))
+      fail("Error: Network incorrectly returned true for removal of a null user");
 
   }
 
   @Test
   public void test043_remove_user_not_in_network() {
-
+  if(network.removeUser("usr1"))
+      fail("Error: Network incorrectly returned true for removal of a nonexistent user");
   }
 
   @Test
   public void test044_remove_user() {
-
+    Person node = new Person("usr1");
+    network.addUser("usr1");
+    network.addUser("usr2");
+    network.removeUser("usr1")
+    Set<Person> set = network.graph.getAllNodes();
+    if(set.contains(node))
+      fail("Error: Network did not remove user correctly");
   }
 
   @Test
   public void test045_get_friends_of_null_user() {
-
+    try{
+      network.getFriends(null);
+      fail("Error: Network did not throw an exception when getting friends of a null user");
+    }catch(UserNotFoundException u){
+    }
   }
 
   @Test
   public void test046_get_friends_user_not_in_network() {
-
+    try{
+      network.getFriends("usr1");
+      fail("Error: Network did not throw an exception when getting friends of a nonexistent user");
+    }catch(UserNotFoundException u){
+    }
   }
 
   @Test
   public void test047_get_friends() {
-
+    Person node1 = new Person("usr2");
+    Person node2 = new Person("usr3");
+    Person node3 = new Person("usr4");
+    network.addUser("usr1");
+    network.addUser("usr2");
+    network.addUser("usr3");
+    network.addUser("usr4");
+    network.addFriends("usr1","usr2");
+    network.addFriends("usr3","usr1");
+    network.addFriends("usr1","usr4");
+    Set<Person> set = network.getFriends("usr1");
+    if(!set.contains(node1) || !set.contains(node2) || !set.contains(node3) )
+      fail("Error: Network's getFriends() returned incorrect output");
   }
 
   @Test
