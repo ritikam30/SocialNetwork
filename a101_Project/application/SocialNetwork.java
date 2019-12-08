@@ -267,21 +267,15 @@ public class SocialNetwork implements SocialNetworkADT {
     predecesors.put(startPerson, null);
 
     while (!queue.isEmpty()) { // BFS Loop
-//      System.out.println("in BFS loop");
       Person current = queue.get(0);
-//      System.out.println("current person is " + current.getName());
       ArrayList<Person> friendsList = new ArrayList<>();
       friendsList.addAll(current.getFriends());
 
       for (int i = 0; i < friendsList.size(); ++i) { // Iterate through current person's friends
-//        System.out.println("In curent persons friends iteration " + i + " of " + friendsList.size());
         Person friend = friendsList.get(i);
-//        System.out.println("Current friend is " + friend.getName());
 
         if (!predecesors.containsKey(friend)) { // If not visited, add to queue
-//          System.out.println("Adding " + friend.getName() + " to queue");
           queue.add(friend);
-//          System.out.println("Adding " + friend.getName() + ", " + current.getName() + " connection");
           predecesors.put(friend, current);
 
           if (friend.getName().equals(target)) {// Check if target reached
@@ -297,18 +291,14 @@ public class SocialNetwork implements SocialNetworkADT {
         } 
       }
       queue.remove(0);
-//      System.out.println("Removing " + queue.remove(0).getName() + " from queue");
     }
 
-//    System.out.println("Shortest path is returning null");
     return null;
   }
 
 
   @Override
   public Set<Graph> getConnectedComponents() {
-
-//    System.out.println("connect components called");
 
     ArrayList<Person> network = new ArrayList<>();
     network.addAll(graph.getAllNodes());
@@ -317,12 +307,9 @@ public class SocialNetwork implements SocialNetworkADT {
     Person currentPerson;
     Graph connectedComponent;
     Set<Graph> allComponents = new HashSet<>();
-//    System.out.println(network.get(1).getName());
 
     while (!added.containsAll(network)) { // Component Loop
-//      System.out.println("In components loop.");
       currentPerson = network.get(0);
-//      System.out.println("Current person is: " + currentPerson.getName());
       connectedComponent = new Graph();
       if (!added.contains(currentPerson)) {
         connectedComponent.addNode(currentPerson);
@@ -331,19 +318,16 @@ public class SocialNetwork implements SocialNetworkADT {
       queue.add(currentPerson);
 
       while (!queue.isEmpty()) { // Connections Loop
-//        System.out.println("In connections loop.");
         if (!added.contains(currentPerson)) {
           for (Person friend : currentPerson.getFriends()) {
             connectedComponent.addEdge(currentPerson, friend);
             if (!added.contains(friend)) {
-//              System.out.println("Adding " + friend.getName() + " to queue");
               queue.add(friend);
             }
           }
         }
 
         added.add(currentPerson);
-//        System.out.println("Adding: " + currentPerson.getName() + " to added list");
         while (added.contains(queue.get(0))) {
           queue.remove(0);
           if (queue.isEmpty()) {
