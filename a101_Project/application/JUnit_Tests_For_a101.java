@@ -352,53 +352,73 @@ if(network.addFriends(null,null)){
 
   @Test
   public void test032_remove_friend_null_user1() {
-
+    
+  if(network.removeFriends(null,"usr2"))
+      fail("Error: Network did not return false when a friendship between null nodes was removed");
   }
 
   @Test
   public void test033_remove_friend_null_user2() {
-
+if(network.removeFriends("usr1",null))
+      fail("Error: Network did not return false when a friendship between null nodes was removed");
   }
 
   @Test
   public void test034_remove_friend_both_null() {
-
+if(network.removeFriends(null,null))
+      fail("Error: Network did not return false when a friendship between null nodes was removed");
   }
 
   @Test
   public void test035_remove_friend_user1_not_in_network() {
-
+    network.addUser("usr2");
+    if(network.removeFriends("usr1","usr2"))
+      fail("Error: Network did not return false when a friendship between nonexistent nodes was removed");
+  
   }
 
   @Test
   public void test036_remove_friend_user2_not_in_network() {
-
+    network.addUser("usr1");
+    if(network.removeFriends("usr1","usr2"))
+      fail("Error: Network did not return false when a friendship between nonexistent nodes was removed");
   }
 
 
   @Test
   public void test037_remove_friend_neither_in_network() {
-
+    if(network.removeFriends("usr1","usr2"))
+      fail("Error: Network did not return false when a friendship between nonexistent nodes was removed");
   }
 
   @Test
   public void test038_remove_friends() {
-
+    network.addUser("usr1");
+    Person node2 = new Person("usr2");
+    network.addFriends("usr1","usr2");
+    network.removeFriends("usr2","usr1");
+    Set<Person> set = graph.getFriends("usr1");
+    if(set.contains(node2))
+      fail("Error: Network did not remove friendship correctly");
+    
   }
 
   @Test
   public void test039_add_null_user() {
-
+  if(network.addUser(null))
+      fail("Error: Network incorrectly returned true for the addition of a null user");
   }
 
   @Test
   public void test040_add_user_already_in_network() {
-
+    network.addUser("usr1");
+    if(network.addUser("usr1"))
+      fail("Error: Network incorrectly returned true for the addition of a duplicate user");
   }
 
   @Test
   public void test041_add_user() {
-
+   
   }
 
   @Test
