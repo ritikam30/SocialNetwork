@@ -276,8 +276,19 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
   @Test
   public void test024_get_neighbors() {
-
-  }
+    Person node1 = new Person("usr1");
+    Person node2 = new Person("usr2");
+    Person node3 = new Person("usr3");
+    Person node4 = new Person("usr4");
+    graph.addEdge(node1,node2);
+    graph.addEdge(node3,node1);
+    graph.addEdge(node1,node4);
+    Set<Person> set = graph.getNeighbors(node1);
+    Iterator<Person> itr = set.iterator();
+    if (!set.contains(node2) || !set.contains(node3) || !set.contains(node4)) {
+        fail("Error: getNeighbors returns incorrect output");
+      }
+   }
 
   // End tests for Graph.java
 
@@ -285,36 +296,57 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
   @Test
   public void test025_add_friend_null_user1() {
+    if(network.addFriends(null,"usr2")){
+      fail("Error: Network incorrectly returned true for addition of a null user");
+    }
 
   }
 
   @Test
   public void test026_add_friend_null_user2() {
-
+if(network.addFriends("usr1",null)){
+      fail("Error: Network incorrectly returned true for addition of a null user");
+    }
   }
 
   @Test
   public void test027_add_friend_both_null() {
-
+if(network.addFriends(null,null)){
+      fail("Error: Network incorrectly returned true for addition of a null user");
+    }
   }
 
   @Test
   public void test028_add_friend_user1_not_in_network() {
-
+    network.addUser("usr2");
+    if(!network.addFriends("usr1","usr2")){
+      fail("Error: Network did not implicity add the nonexistent user and add an edge between the two nodes");
+    }
   }
 
   @Test
   public void test029_add_friend_user2_not_in_network() {
-
+    network.addUser("usr1");
+    if(!network.addFriends("usr1","usr2")){
+      fail("Error: Network did not implicity add the nonexistent user and add an edge between the two nodes");
+    }
   }
 
   @Test
   public void test030_add_friend_both_users_not_in_network() {
-
+  if(!network.addFriends("usr1","usr2"))
+      fail("Error: Network did not implicity add the nonexistent user and add an edge between the two nodes");
   }
 
   @Test
   public void test031_add_friends() {
+    Person node2 = new Person("usr2");
+    Person node3 = new Person("usr3");
+    network.addFriends("usr1","usr2");
+    network.addFriends("usr3","usr1");
+    Set<Person> set = graph.getFriends("usr1");
+    if(!set.contains(node2) || !set.contains(node3))
+      fail("Error: Network did not add friends correctly");
 
   }
 
