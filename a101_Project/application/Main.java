@@ -13,11 +13,14 @@
 ////////////////////////////////////////////////////////////////
 package application;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -37,10 +40,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -79,6 +85,58 @@ public class Main extends Application {
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
+
+
+
+    // // Graph :
+    // // Creates a canvas that can draw shapes and text
+    // Canvas canvas = new Canvas(400, 300);
+    // GraphicsContext gc = canvas.getGraphicsContext2D();
+    // // define position constants
+    // double radius = 20;
+    // double node1x = 150;
+    // double node1y = 60;
+    // double node2x = 70;
+    // double node2y = 160;
+    // double node3x = 100;
+    // double node3y = 205;
+    // double node4x = 280;
+    // double node4y = 69;
+    //
+    // // Draw a line
+    // // Lines use the stroke color
+    // // draw lines from center to center
+    // gc.setStroke(Color.BLUE);
+    // gc.setLineWidth(2);
+    // gc.strokeLine(node1x, node1y, node2x, node2y);
+    // gc.strokeLine(node1x, node1y, node3x, node3y);
+    // gc.strokeLine(node1x, node1y, node4x, node4y);
+    // gc.strokeLine(node2x, node2y, node4x, node4y);
+    //
+    // // The circles draw from the top left, so to center them, subtract the radius
+    // // from each coordinate
+    // // Draw a few nodes
+    // gc.setFill(Color.BLACK);
+    // gc.fillOval(node1x - radius, node1y - radius, 2 * radius, 2 * radius);
+    // gc.setFill(Color.RED);
+    // gc.fillOval(node2x - radius, node2y - radius, 2 * radius, 2 * radius);
+    // gc.setFill(Color.YELLOW);
+    // gc.fillOval(node3x - radius, node3y - radius, 2 * radius, 2 * radius);
+    // gc.setFill(Color.HOTPINK);
+    // gc.fillOval(node4x - radius, node4y - radius, 2 * radius, 2 * radius);
+    //
+    // // Write some text
+    // // Text is filled with the fill color
+    // gc.setFill(Color.GREEN);
+    // gc.setFont(new Font(18));
+    // gc.fillText("Friend1", node1x - 30, node1y + 10);
+    // gc.fillText("Friend2", node2x - 30, node2y + 10);
+    // gc.fillText("Friend3", node3x - 30, node3y + 10);
+    // gc.fillText("Friend4", node4x - 30, node4y + 10);
+
+
+    // BEGIN IMPORTANT ELEMENTS FOR MAIN
+
     // save args example
     args = this.getParameters().getRaw();
 
@@ -87,115 +145,11 @@ public class Main extends Application {
 
     // creates new scene
     Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-    Button clear = new Button("CLEAR");
-    Button clear1 = new Button("CLEAR");
-    Button clear2 = new Button("CLEAR SOCIAL NETWORK");
-    clear2.setStyle("-fx-background-color:red; -fx-text-fill:white");
 
-    // (1) Label/TextField/Button for new user
-    HBox hboxNewUser = new HBox(5);
-    Label labelNewUser = new Label("NEW USER:");
-    TextField fieldNewUser = new TextField();
-    fieldNewUser.setPromptText("Name"); // hint text
-    Button buttonNewUser = new Button("ADD");
-    hboxNewUser.getChildren().addAll(labelNewUser, fieldNewUser, buttonNewUser);
-
-
-    // places HBoxes 1, 2, 3, in VBox
-    VBox vbox1 = new VBox(7); // creates VBox w/ spacing of 5px
-
-    VBox vbox2 = new VBox();
-
-    vbox2.setSpacing(8);
-
-    root.setCenter(vbox1);
-    root.setRight(vbox2);
     root.requestFocus(); // takes focus away from text fields so hints display
 
-    // Making a "Undo" Button in the top panel
-    Button button1 = new Button("UNDO");
-
-    // Making a "Redo" Button in the Top panel
-    Button button2 = new Button("REDO");
-
-    // Making a "Help" Button in the right panel
-    Button button3 = new Button("HELP");
-
-    // Making an "Exit" Button in the center panel
-    Button button4 = new Button("EXIT");
-
-    // Making an "Search" button
-    Button button5 = new Button("SEARCH USER");
-
-    // Creating a text field for the search bar
-    TextField t1 = new TextField();
-
-    // Creating a horizontal box for the search bar
-    VBox v = new VBox();
-    HBox h1 = new HBox();
-    h1.getChildren().addAll(t1, button5, button3, button4);
-    h1.setSpacing(5);
-    HBox h2 = new HBox();
-    h2.getChildren().addAll(button1, button2);
-    h2.setSpacing(5);
-    v.getChildren().addAll(h1, h2);
-    v.setSpacing(8);
-    VBox Vfinal = new VBox();
-
-    VBox V = new VBox();
-    // Graph :
-    // Creates a canvas that can draw shapes and text
-    Canvas canvas = new Canvas(400, 300);
-    GraphicsContext gc = canvas.getGraphicsContext2D();
-    // define position constants
-    double radius = 20;
-    double node1x = 150;
-    double node1y = 60;
-    double node2x = 70;
-    double node2y = 160;
-    double node3x = 100;
-    double node3y = 205;
-    double node4x = 280;
-    double node4y = 69;
-
-    // Draw a line
-    // Lines use the stroke color
-    // draw lines from center to center
-    gc.setStroke(Color.BLUE);
-    gc.setLineWidth(2);
-    gc.strokeLine(node1x, node1y, node2x, node2y);
-    gc.strokeLine(node1x, node1y, node3x, node3y);
-    gc.strokeLine(node1x, node1y, node4x, node4y);
-    gc.strokeLine(node2x, node2y, node4x, node4y);
-
-    // The circles draw from the top left, so to center them, subtract the radius
-    // from each coordinate
-    // Draw a few nodes
-    gc.setFill(Color.BLACK);
-    gc.fillOval(node1x - radius, node1y - radius, 2 * radius, 2 * radius);
-    gc.setFill(Color.RED);
-    gc.fillOval(node2x - radius, node2y - radius, 2 * radius, 2 * radius);
-    gc.setFill(Color.YELLOW);
-    gc.fillOval(node3x - radius, node3y - radius, 2 * radius, 2 * radius);
-    gc.setFill(Color.HOTPINK);
-    gc.fillOval(node4x - radius, node4y - radius, 2 * radius, 2 * radius);
-
-    // Write some text
-    // Text is filled with the fill color
-    gc.setFill(Color.GREEN);
-    gc.setFont(new Font(18));
-    gc.fillText("Friend1", node1x - 30, node1y + 10);
-    gc.fillText("Friend2", node2x - 30, node2y + 10);
-    gc.fillText("Friend3", node3x - 30, node3y + 10);
-    gc.fillText("Friend4", node4x - 30, node4y + 10);
-
-    V.getChildren().add(canvas);
-    Vfinal.getChildren().addAll(v, V, clear2);
-    Vfinal.setSpacing(10);
-    // root.setLeft(Vfinal);
-
     this.setUpStatsBox();
-    this.setUpTwoInputBox();
+    this.setUpTwoInputBox(primaryStage);
 
     leftPane.getChildren().add(this.setUpSignUpBox());
     leftPane.getChildren().add(this.setUpCurrentUsersList());
@@ -232,10 +186,10 @@ public class Main extends Application {
       if (added) { // Only adds to list if in network
         userList.getItems().add(text.getText());
       } else {
-        ((Labeled) ((HBox) statsBox.getChildren().get(0)).getChildren().get(1))
+        ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
             .setText("Unable to add " + text.getText() + " to the network");
       }
-      ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
+      ((Labeled) ((VBox) statsBox.getChildren().get(1)).getChildren().get(1))
           .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
       text.clear();
     });
@@ -247,18 +201,17 @@ public class Main extends Application {
 
   private VBox setUpCurrentUsersList() {
     VBox currentUsers = new VBox(5);
-
     Label currentUsersLabel = new Label("Current Users:");
     currentUsersLabel.setTextAlignment(TextAlignment.CENTER);
 
 
     TextField searchField = new TextField();
     searchField.setPromptText("Search User");
-    searchField.setPrefWidth(100);
+    searchField.setPrefWidth(125);
     Button search = new Button("Search");
     Button remove = new Button("Remove");
-    // remove.setStyle("-fx-background-color:red; -fx-text-fill:white");
     HBox searchComponent = new HBox(5);
+    searchComponent.setAlignment(Pos.CENTER);
     searchComponent.getChildren().add(searchField);
     searchComponent.getChildren().add(search);
     searchComponent.getChildren().add(remove);
@@ -274,21 +227,33 @@ public class Main extends Application {
     currentUsers.getChildren().add(userList);
 
     search.setOnAction((ActionEvent e) -> {
-      userList.getSelectionModel().select(searchField.getText());
-      userList.getFocusModel().focus(userList.getSelectionModel().getSelectedIndex());
-      userList.scrollTo(searchField.getText());
+      if (!searchField.getText().isEmpty()) {
+        userList.getSelectionModel().select(searchField.getText());
+        userList.getFocusModel().focus(userList.getSelectionModel().getSelectedIndex());
+        userList.scrollTo(searchField.getText());
+      } else {
+        ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+            .setText("Must define a user to serach for.");
+      }
       searchField.clear();
     });
 
     remove.setOnAction((ActionEvent e) -> {
-      boolean removed = socialNetwork.removeUser(searchField.getText());
-      if (removed) {
-        userList.getItems().remove(userList.getItems().indexOf(searchField.getText()));
-        ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
-            .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
+      if (!searchField.getText().isEmpty()) {
+        boolean removed = socialNetwork.removeUser(searchField.getText());
+        if (removed) {
+          userList.getItems().remove(userList.getItems().indexOf(searchField.getText()));
+          ((Labeled) ((VBox) statsBox.getChildren().get(1)).getChildren().get(1))
+              .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
+          ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+              .setText(searchField.getText() + " was removed from the network");
+        } else {
+          ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+              .setText("Unable to remove " + searchField.getText() + " from the network");
+        }
       } else {
-        ((Labeled) ((HBox) statsBox.getChildren().get(0)).getChildren().get(1))
-            .setText("Unable to remove " + searchField.getText() + " to the network");
+        ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+            .setText("Must define a user to reomve.");
       }
       searchField.clear();
     });
@@ -298,10 +263,11 @@ public class Main extends Application {
 
   private void setUpStatsBox() {
 
-    HBox hboxStatus = new HBox(5); // creates HBox w/ spacing of 5px
+    VBox hboxStatus = new VBox(5); // creates HBox w/ spacing of 5px
     Label labelStatus = new Label("Status:");
     // in working implementation, this label will change
     Label labelStatusUpdate = new Label("");
+    labelStatusUpdate.setWrapText(true);
     labelStatusUpdate.setStyle("-fx-text-fill: red"); // make label red
     hboxStatus.getChildren().addAll(labelStatus, labelStatusUpdate);
     hboxStatus.setStyle("-fx-padding: 0 0 7 0"); // sets bottom padding to 7px
@@ -318,7 +284,7 @@ public class Main extends Application {
 
   }
 
-  private void setUpTwoInputBox() {
+  private void setUpTwoInputBox(Stage primaryStage) {
 
     Label label0 = new Label("Multi User Options:");
     label0.setStyle("-fx-padding: 0 0 10 0"); // sets bottom padding of label to 10px
@@ -330,8 +296,8 @@ public class Main extends Application {
     Label userTwoLabel = new Label("User 2:");
     TextField userTwoField = new TextField();
     userTwoField.setPromptText("Name");
-    
-    
+
+
     Button addFriendsButton = new Button("Add Friends");
     Button mutualButton = new Button("Mutual Friends"); // display in pop up window
     Button shortButton = new Button("Shortest Path"); // Display in pop up window
@@ -344,13 +310,168 @@ public class Main extends Application {
     userTwoBox.getChildren().addAll(userTwoLabel, userTwoField);
     userOneBox.setSpacing(5);
     userTwoBox.setSpacing(5);
-    
+
     HBox addRemoveBox = new HBox(5);
     HBox specsBox = new HBox(5);
     addRemoveBox.getChildren().addAll(addFriendsButton, removeFriendButton);
     specsBox.getChildren().addAll(shortButton, mutualButton);
-    
+
     twoInputBox.getChildren().addAll(userOneBox, userTwoBox, addRemoveBox, specsBox);
+
+
+    addFriendsButton.setOnAction((ActionEvent e) -> { // Define Action for add friends
+      if (!userOneField.getText().isBlank() && !userTwoField.getText().isBlank()) {
+        boolean success = socialNetwork.addFriends(userOneField.getText(), userTwoField.getText());
+        if (success) {
+          // Add users to current user list if not present
+          if (!userList.getItems().contains(userOneField.getText())) {
+            userList.getItems().add(userOneField.getText());
+          }
+          if (!userList.getItems().contains(userTwoField.getText())) {
+            userList.getItems().add(userTwoField.getText());
+          }
+          // Set Status Message
+          ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+              .setText("Friendship between " + userOneField.getText() + " & "
+                  + userTwoField.getText() + " added!");
+          // Update Distinct Groups
+          ((Labeled) ((VBox) statsBox.getChildren().get(1)).getChildren().get(1))
+              .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
+        } else {
+          ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+              .setText("Unable to add friendship between " + userOneField.getText() + " & "
+                  + userTwoField.getText());
+        }
+      } else { // One or more user boxes were blank
+        ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+            .setText("Must define two users to add a friendship.");
+      }
+
+      userOneField.clear();
+      userTwoField.clear();
+    }); // End Add Friends Action
+
+    removeFriendButton.setOnAction((ActionEvent e) -> { // Define action for remove friends
+      if (!userOneField.getText().isBlank() && !userTwoField.getText().isBlank()) {
+        boolean success =
+            socialNetwork.removeFriends(userOneField.getText(), userTwoField.getText());
+        if (success) {
+          // Set Status Message
+          ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+              .setText("Friendship between " + userOneField.getText() + " & "
+                  + userTwoField.getText() + " removed!");
+          // Update Distinct Groups
+          ((Labeled) ((VBox) statsBox.getChildren().get(1)).getChildren().get(1))
+              .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
+        }
+      } else { // One or more user boxes were blank
+        ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+            .setText("Must define two users to remove a friendship.");
+      }
+
+      userOneField.clear();
+      userTwoField.clear();
+    }); // End remove friends action
+
+    shortButton.setOnAction((ActionEvent e) -> { // Define action for shortest path
+      if (!userOneField.getText().isBlank() && !userTwoField.getText().isBlank()) {
+        try {
+          List<Person> path =
+              socialNetwork.getShortestPath(userOneField.getText(), userTwoField.getText());
+
+          // Build a modal pop up window
+          StackPane shortPathPane = new StackPane();
+          Stage shortPathWindow = new Stage();
+          Scene shortPathScene = new Scene(shortPathPane, 250, 50);
+
+
+          shortPathWindow.setTitle("Shortest Path");
+          shortPathWindow.initModality(Modality.WINDOW_MODAL);
+          shortPathWindow.setScene(shortPathScene);
+          shortPathWindow.initOwner(primaryStage);
+          Label shortPathLabel = new Label();
+          shortPathLabel.setTextAlignment(TextAlignment.CENTER);
+
+          // Write the path
+          String pathAsString = "";
+
+          if (path != null) {
+            for (Person hop : path) {
+              pathAsString += hop.getName() + "->";
+            }
+            pathAsString = pathAsString.substring(0, pathAsString.length() - 2);
+            shortPathLabel.setText("Shortest Path: \n" + pathAsString);
+          } else {
+            shortPathLabel.setText("No path exists between the given users.");
+          }
+
+          shortPathPane.getChildren().add(shortPathLabel);
+
+          shortPathWindow.show();
+
+        } catch (IllegalArgumentException e1) {
+          ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+              .setText(e1.getMessage());
+        } catch (UserNotFoundException e1) {
+          ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+              .setText(e1.getMessage());
+        }
+
+      } else { // One or more user boxes were blank
+        ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+            .setText("Must define two users to get a shortest path.");
+      }
+
+      userOneField.clear();
+      userTwoField.clear();
+    }); // End action for shortest path
+
+    mutualButton.setOnAction((ActionEvent e) -> { // Define Mutual Friends Action
+      if (!userOneField.getText().isBlank() && !userTwoField.getText().isBlank()) {
+
+        try {
+          Set<Person> mutualFriends =
+              socialNetwork.getMutualFriends(userOneField.getText(), userTwoField.getText());
+
+          StackPane mutualFriendPane = new StackPane();
+          Stage mutualFriendWindow = new Stage();
+          Scene mutualFriendScene = new Scene(mutualFriendPane, 250, 250);
+
+
+          mutualFriendWindow.setTitle("Mutual Friends");
+          mutualFriendWindow.initModality(Modality.WINDOW_MODAL);
+          mutualFriendWindow.setScene(mutualFriendScene);
+          mutualFriendWindow.initOwner(primaryStage);
+          ListView<String> mutual = new ListView<>();
+
+          if (!mutualFriends.isEmpty()) {
+            for (Person friend : mutualFriends) {
+              mutual.getItems().add(friend.getName());
+              mutualFriendPane.getChildren().add(mutual);
+            }
+          } else {
+            Label noFriends = new Label("These users have no mutual friends.");
+            mutualFriendPane.getChildren().add(noFriends);
+          }
+
+          mutualFriendWindow.show();
+
+        } catch (IllegalArgumentException e1) {
+          ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+              .setText(e1.getMessage());
+        } catch (UserNotFoundException e1) {
+          ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+              .setText(e1.getMessage());
+        }
+
+      } else { // One or more user boxes were blank
+        ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+            .setText("Must define two users to see mutual friends.");
+      }
+
+      userOneField.clear();
+      userTwoField.clear();
+    }); // End Mutual Friends Action
 
   }
 
