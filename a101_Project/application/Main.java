@@ -91,21 +91,6 @@ public class Main extends Application {
     Button clear1 = new Button("CLEAR");
     Button clear2 = new Button("CLEAR SOCIAL NETWORK");
     clear2.setStyle("-fx-background-color:red; -fx-text-fill:white");
-    // HBox hboxStatus = new HBox(5); // creates HBox w/ spacing of 5px
-    // Label labelStatus = new Label("STATUS:");
-    // // in working implementation, this label will change
-    // Label labelStatusUpdate = new Label("Sample error status message.");
-    // labelStatusUpdate.setStyle("-fx-text-fill: red"); // make label red
-    // hboxStatus.getChildren().addAll(labelStatus, labelStatusUpdate);
-    // hboxStatus.setStyle("-fx-padding: 0 0 7 0"); // sets bottom padding to 7px
-    //
-    // HBox hboxGroups = new HBox(5); // creates HBox w/ spacing of 5px
-    // Label labelGroups = new Label("GROUPS:");
-    // // in working implementation, this label will change
-    // Label labelGroupNum = new Label("#");
-    // labelGroupNum.setStyle("-fx-font-weight:bold"); // makes label bold
-    // hboxGroups.getChildren().addAll(labelGroups, labelGroupNum);
-    // hboxGroups.setStyle("-fx-padding: 0 0 10 0"); // sets bottom padding to 10px
 
     // (1) Label/TextField/Button for new user
     HBox hboxNewUser = new HBox(5);
@@ -115,54 +100,37 @@ public class Main extends Application {
     Button buttonNewUser = new Button("ADD");
     hboxNewUser.getChildren().addAll(labelNewUser, fieldNewUser, buttonNewUser);
 
-    // (2) Label/TextField/Button for loading file
-    HBox hboxLoadFile = new HBox(5);
-    Label labelLoadFile = new Label("LOAD FILE:");
-    TextField fieldLoadFile = new TextField();
-    fieldLoadFile.setPromptText("filename.txt"); // hint text
-    Button buttonLoadFile = new Button("LOAD");
-    hboxLoadFile.getChildren().addAll(labelLoadFile, fieldLoadFile, buttonLoadFile);
-
-    // (3) Label/TextField/Button for exporting file
-    HBox hboxExport = new HBox(5);
-    Label labelExport = new Label("EXPORT FILE:");
-    TextField fieldExport = new TextField();
-    fieldExport.setPromptText("filename.txt"); // hint text
-    Button buttonExport = new Button("EXPORT");
-    hboxExport.getChildren().addAll(labelExport, fieldExport, buttonExport);
 
     // places HBoxes 1, 2, 3, in VBox
     VBox vbox1 = new VBox(7); // creates VBox w/ spacing of 5px
-    // vbox1.getChildren().addAll(hboxStatus, hboxGroups, hboxNewUser, hboxLoadFile, hboxExport,
-    // clear1);
 
     VBox vbox2 = new VBox();
 
-    Label label0 = new Label("EVALUATE FRIENDSHIP:");
-    label0.setStyle("-fx-padding: 0 0 10 0"); // sets bottom padding of label to 10px
+    // Label label0 = new Label("EVALUATE FRIENDSHIP:");
+    // label0.setStyle("-fx-padding: 0 0 10 0"); // sets bottom padding of label to 10px
+    //
+    // // Labels/TextFields to enter two users to evaluate
+    // Label label1 = new Label("USER 1:");
+    // TextField textField1 = new TextField();
+    // textField1.setPromptText("Name"); // hint text
+    // Label label2 = new Label("USER 2:");
+    // TextField textField2 = new TextField();
+    // textField2.setPromptText("Name"); // hint text
+    //
+    // Button btn1 = new Button("MUTUAL FRIENDS"); // display in pop up window
+    // // show shortest path in graph from user 1 -> user 2
+    // Button btn2 = new Button("SHORTEST PATH");
+    // Button btn3 = new Button("REMOVE FRIENDSHIP");
+    //
+    // // HBoxes for Label/TextField for each user
+    // HBox hb = new HBox();
+    // hb.getChildren().addAll(label1, textField1);
+    // HBox hb2 = new HBox();
+    // hb2.getChildren().addAll(label2, textField2);
+    // hb.setSpacing(5);
+    // hb2.setSpacing(5);
 
-    // Labels/TextFields to enter two users to evaluate
-    Label label1 = new Label("USER 1:");
-    TextField textField1 = new TextField();
-    textField1.setPromptText("Name"); // hint text
-    Label label2 = new Label("USER 2:");
-    TextField textField2 = new TextField();
-    textField2.setPromptText("Name"); // hint text
-
-    Button btn1 = new Button("MUTUAL FRIENDS"); // display in pop up window
-    // show shortest path in graph from user 1 -> user 2
-    Button btn2 = new Button("SHORTEST PATH");
-    Button btn3 = new Button("REMOVE FRIENDSHIP");
-
-    // HBoxes for Label/TextField for each user
-    HBox hb = new HBox();
-    hb.getChildren().addAll(label1, textField1);
-    HBox hb2 = new HBox();
-    hb2.getChildren().addAll(label2, textField2);
-    hb.setSpacing(5);
-    hb2.setSpacing(5);
-
-    vbox2.getChildren().addAll(label0, hb, hb2, btn1, btn2, btn3, clear);
+    // vbox2.getChildren().addAll(label0, hb, hb2, btn1, btn2, btn3, clear);
     vbox2.setSpacing(8);
 
     root.setCenter(vbox1);
@@ -274,7 +242,7 @@ public class Main extends Application {
 
     Label labelNewUser = new Label("New User:");
     TextField text = new TextField();
-    text.setPrefWidth(100);
+    text.setPrefWidth(115);
     text.setPromptText("Sample Name");
     Button buttonNewUser = new Button("ADD");
 
@@ -288,7 +256,7 @@ public class Main extends Application {
         userList.getItems().add(text.getText());
       } else {
         ((Labeled) ((HBox) statsBox.getChildren().get(0)).getChildren().get(1))
-            .setText("Unable to add user");
+            .setText("Unable to add " + text.getText() + " to the network");
       }
       ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
           .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
@@ -309,10 +277,14 @@ public class Main extends Application {
 
     TextField searchField = new TextField();
     searchField.setPromptText("Search User");
+    searchField.setPrefWidth(100);
     Button search = new Button("Search");
+    Button remove = new Button("Remove");
+    // remove.setStyle("-fx-background-color:red; -fx-text-fill:white");
     HBox searchComponent = new HBox(5);
     searchComponent.getChildren().add(searchField);
     searchComponent.getChildren().add(search);
+    searchComponent.getChildren().add(remove);
     userList.setPrefHeight(200);
     userList.setPrefWidth(100);
 
@@ -331,6 +303,19 @@ public class Main extends Application {
       searchField.clear();
     });
 
+    remove.setOnAction((ActionEvent e) -> {
+      boolean removed = socialNetwork.removeUser(searchField.getText());
+      if (removed) {
+        userList.getItems().remove(userList.getItems().indexOf(searchField.getText()));
+        ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
+            .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
+      } else {
+        ((Labeled) ((HBox) statsBox.getChildren().get(0)).getChildren().get(1))
+            .setText("Unable to remove " + searchField.getText() + " to the network");
+      }
+      searchField.clear();
+    });
+
     return currentUsers;
   }
 
@@ -339,7 +324,7 @@ public class Main extends Application {
     HBox hboxStatus = new HBox(5); // creates HBox w/ spacing of 5px
     Label labelStatus = new Label("Status:");
     // in working implementation, this label will change
-    Label labelStatusUpdate = new Label("Sample error status message.");
+    Label labelStatusUpdate = new Label("");
     labelStatusUpdate.setStyle("-fx-text-fill: red"); // make label red
     hboxStatus.getChildren().addAll(labelStatus, labelStatusUpdate);
     hboxStatus.setStyle("-fx-padding: 0 0 7 0"); // sets bottom padding to 7px
@@ -357,6 +342,30 @@ public class Main extends Application {
   }
 
   private void setUpTwoInputBox() {
+
+    Label label0 = new Label("Multi User Options:");
+    label0.setStyle("-fx-padding: 0 0 10 0"); // sets bottom padding of label to 10px
+
+    // Labels/TextFields to enter two users to evaluate
+    Label label1 = new Label("User 1:");
+    TextField textField1 = new TextField();
+    textField1.setPromptText("Name");
+    Label label2 = new Label("User 2:");
+    TextField textField2 = new TextField();
+    textField2.setPromptText("Name");
+
+    Button mutualButton = new Button("MUTUAL FRIENDS"); // display in pop up window
+    // show shortest path in graph from user 1 -> user 2
+    Button shortButton = new Button("SHORTEST PATH");
+    Button removeFriendButton = new Button("REMOVE FRIENDSHIP");
+
+    // HBoxes for Label/TextField for each user
+    HBox hb = new HBox();
+    hb.getChildren().addAll(label1, textField1);
+    HBox hb2 = new HBox();
+    hb2.getChildren().addAll(label2, textField2);
+    hb.setSpacing(5);
+    hb2.setSpacing(5);
 
   }
 
