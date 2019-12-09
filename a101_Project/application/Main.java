@@ -189,7 +189,7 @@ public class Main extends Application {
         ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
             .setText("Unable to add " + text.getText() + " to the network");
       }
-      ((Labeled) ((VBox) statsBox.getChildren().get(1)).getChildren().get(1))
+      ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
           .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
       text.clear();
     });
@@ -243,7 +243,7 @@ public class Main extends Application {
         boolean removed = socialNetwork.removeUser(searchField.getText());
         if (removed) {
           userList.getItems().remove(userList.getItems().indexOf(searchField.getText()));
-          ((Labeled) ((VBox) statsBox.getChildren().get(1)).getChildren().get(1))
+          ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
               .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
           ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
               .setText(searchField.getText() + " was removed from the network");
@@ -335,7 +335,7 @@ public class Main extends Application {
               .setText("Friendship between " + userOneField.getText() + " & "
                   + userTwoField.getText() + " added!");
           // Update Distinct Groups
-          ((Labeled) ((VBox) statsBox.getChildren().get(1)).getChildren().get(1))
+          ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
               .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
         } else {
           ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
@@ -361,7 +361,7 @@ public class Main extends Application {
               .setText("Friendship between " + userOneField.getText() + " & "
                   + userTwoField.getText() + " removed!");
           // Update Distinct Groups
-          ((Labeled) ((VBox) statsBox.getChildren().get(1)).getChildren().get(1))
+          ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
               .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
         }
       } else { // One or more user boxes were blank
