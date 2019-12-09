@@ -18,6 +18,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,6 +27,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -58,6 +60,7 @@ public class Main extends Application {
   public SocialNetwork socialNetwork = new SocialNetwork();
   public VBox leftPane = new VBox(5);
   public ListView<String> userList = new ListView<>();
+  private VBox statsBox = new VBox(5);
   public VBox twoInputBox;
   public VBox centerBox;
   public VBox bottomBox;
@@ -88,21 +91,21 @@ public class Main extends Application {
     Button clear1 = new Button("CLEAR");
     Button clear2 = new Button("CLEAR SOCIAL NETWORK");
     clear2.setStyle("-fx-background-color:red; -fx-text-fill:white");
-    HBox hboxStatus = new HBox(5); // creates HBox w/ spacing of 5px
-    Label labelStatus = new Label("STATUS:");
-    // in working implementation, this label will change
-    Label labelStatusUpdate = new Label("Sample error status message.");
-    labelStatusUpdate.setStyle("-fx-text-fill: red"); // make label red
-    hboxStatus.getChildren().addAll(labelStatus, labelStatusUpdate);
-    hboxStatus.setStyle("-fx-padding: 0 0 7 0"); // sets bottom padding to 7px
-
-    HBox hboxGroups = new HBox(5); // creates HBox w/ spacing of 5px
-    Label labelGroups = new Label("GROUPS:");
-    // in working implementation, this label will change
-    Label labelGroupNum = new Label("#");
-    labelGroupNum.setStyle("-fx-font-weight:bold"); // makes label bold
-    hboxGroups.getChildren().addAll(labelGroups, labelGroupNum);
-    hboxGroups.setStyle("-fx-padding: 0 0 10 0"); // sets bottom padding to 10px
+    // HBox hboxStatus = new HBox(5); // creates HBox w/ spacing of 5px
+    // Label labelStatus = new Label("STATUS:");
+    // // in working implementation, this label will change
+    // Label labelStatusUpdate = new Label("Sample error status message.");
+    // labelStatusUpdate.setStyle("-fx-text-fill: red"); // make label red
+    // hboxStatus.getChildren().addAll(labelStatus, labelStatusUpdate);
+    // hboxStatus.setStyle("-fx-padding: 0 0 7 0"); // sets bottom padding to 7px
+    //
+    // HBox hboxGroups = new HBox(5); // creates HBox w/ spacing of 5px
+    // Label labelGroups = new Label("GROUPS:");
+    // // in working implementation, this label will change
+    // Label labelGroupNum = new Label("#");
+    // labelGroupNum.setStyle("-fx-font-weight:bold"); // makes label bold
+    // hboxGroups.getChildren().addAll(labelGroups, labelGroupNum);
+    // hboxGroups.setStyle("-fx-padding: 0 0 10 0"); // sets bottom padding to 10px
 
     // (1) Label/TextField/Button for new user
     HBox hboxNewUser = new HBox(5);
@@ -130,8 +133,8 @@ public class Main extends Application {
 
     // places HBoxes 1, 2, 3, in VBox
     VBox vbox1 = new VBox(7); // creates VBox w/ spacing of 5px
-    vbox1.getChildren().addAll(hboxStatus, hboxGroups, hboxNewUser, hboxLoadFile, hboxExport,
-        clear1);
+    // vbox1.getChildren().addAll(hboxStatus, hboxGroups, hboxNewUser, hboxLoadFile, hboxExport,
+    // clear1);
 
     VBox vbox2 = new VBox();
 
@@ -248,8 +251,12 @@ public class Main extends Application {
     Vfinal.setSpacing(10);
     // root.setLeft(Vfinal);
 
+    this.setUpStatsBox();
+
     leftPane.getChildren().add(this.setUpSignUpBox());
     leftPane.getChildren().add(this.setUpCurrentUsersList());
+    leftPane.getChildren().add(this.statsBox);
+    leftPane.setPadding(new Insets(5, 5, 5, 5));
 
     root.setTop(this.setUpMenuBox());
     root.setLeft(leftPane);
@@ -274,14 +281,17 @@ public class Main extends Application {
     newUserComponent.getChildren().addAll(labelNewUser, text, buttonNewUser);
     signUpBox.getChildren().add(newUserComponent);
 
-
-    // signUpBox.getChildren().addAll(labelNewUser, text, buttonNewUser);
-
     buttonNewUser.setOnAction((ActionEvent e) -> {
-      socialNetwork.addUser(text.getText());
-      if (socialNetwork.getUserByName(text.getText()) != null) { // Only adds to list if in network
+      boolean added;
+      added = socialNetwork.addUser(text.getText());
+      if (added) { // Only adds to list if in network
         userList.getItems().add(text.getText());
+      } else {
+        ((Labeled) ((HBox) statsBox.getChildren().get(0)).getChildren().get(1))
+            .setText("Unable to add user");
       }
+      ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
+          .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
       text.clear();
     });
 
@@ -322,6 +332,28 @@ public class Main extends Application {
     });
 
     return currentUsers;
+  }
+
+  private void setUpStatsBox() {
+
+    HBox hboxStatus = new HBox(5); // creates HBox w/ spacing of 5px
+    Label labelStatus = new Label("Status:");
+    // in working implementation, this label will change
+    Label labelStatusUpdate = new Label("Sample error status message.");
+    labelStatusUpdate.setStyle("-fx-text-fill: red"); // make label red
+    hboxStatus.getChildren().addAll(labelStatus, labelStatusUpdate);
+    hboxStatus.setStyle("-fx-padding: 0 0 7 0"); // sets bottom padding to 7px
+
+    HBox hboxGroups = new HBox(5); // creates HBox w/ spacing of 5px
+    Label labelGroups = new Label("Distinct Friend Groups:");
+    // in working implementation, this label will change
+    Label labelGroupNum = new Label(String.valueOf(socialNetwork.getConnectedComponents().size()));
+    labelGroupNum.setStyle("-fx-font-weight:bold"); // makes label bold
+    hboxGroups.getChildren().addAll(labelGroups, labelGroupNum);
+    hboxGroups.setStyle("-fx-padding: 0 0 10 0"); // sets bottom padding to 10px
+
+    this.statsBox.getChildren().addAll(hboxStatus, hboxGroups);
+
   }
 
   private void setUpTwoInputBox() {
