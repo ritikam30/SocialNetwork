@@ -61,12 +61,12 @@ public class Main extends Application {
   public VBox leftPane = new VBox(5);
   public ListView<String> userList = new ListView<>();
   private VBox statsBox = new VBox(5);
-  public VBox twoInputBox;
+  public VBox twoInputBox = new VBox(5);
   public VBox centerBox;
   public VBox bottomBox;
 
   private static final int WINDOW_WIDTH = 950; // width of pop up
-  private static final int WINDOW_HEIGHT = 400; // height of pop up
+  private static final int WINDOW_HEIGHT = 500; // height of pop up
   private static final String APP_TITLE = "Social Network"; // title to be displayed on window bar
 
   /**
@@ -106,31 +106,6 @@ public class Main extends Application {
 
     VBox vbox2 = new VBox();
 
-    // Label label0 = new Label("EVALUATE FRIENDSHIP:");
-    // label0.setStyle("-fx-padding: 0 0 10 0"); // sets bottom padding of label to 10px
-    //
-    // // Labels/TextFields to enter two users to evaluate
-    // Label label1 = new Label("USER 1:");
-    // TextField textField1 = new TextField();
-    // textField1.setPromptText("Name"); // hint text
-    // Label label2 = new Label("USER 2:");
-    // TextField textField2 = new TextField();
-    // textField2.setPromptText("Name"); // hint text
-    //
-    // Button btn1 = new Button("MUTUAL FRIENDS"); // display in pop up window
-    // // show shortest path in graph from user 1 -> user 2
-    // Button btn2 = new Button("SHORTEST PATH");
-    // Button btn3 = new Button("REMOVE FRIENDSHIP");
-    //
-    // // HBoxes for Label/TextField for each user
-    // HBox hb = new HBox();
-    // hb.getChildren().addAll(label1, textField1);
-    // HBox hb2 = new HBox();
-    // hb2.getChildren().addAll(label2, textField2);
-    // hb.setSpacing(5);
-    // hb2.setSpacing(5);
-
-    // vbox2.getChildren().addAll(label0, hb, hb2, btn1, btn2, btn3, clear);
     vbox2.setSpacing(8);
 
     root.setCenter(vbox1);
@@ -220,10 +195,12 @@ public class Main extends Application {
     // root.setLeft(Vfinal);
 
     this.setUpStatsBox();
+    this.setUpTwoInputBox();
 
     leftPane.getChildren().add(this.setUpSignUpBox());
     leftPane.getChildren().add(this.setUpCurrentUsersList());
     leftPane.getChildren().add(this.statsBox);
+    leftPane.getChildren().add(this.twoInputBox);
     leftPane.setPadding(new Insets(5, 5, 5, 5));
 
     root.setTop(this.setUpMenuBox());
@@ -347,25 +324,33 @@ public class Main extends Application {
     label0.setStyle("-fx-padding: 0 0 10 0"); // sets bottom padding of label to 10px
 
     // Labels/TextFields to enter two users to evaluate
-    Label label1 = new Label("User 1:");
-    TextField textField1 = new TextField();
-    textField1.setPromptText("Name");
-    Label label2 = new Label("User 2:");
-    TextField textField2 = new TextField();
-    textField2.setPromptText("Name");
-
-    Button mutualButton = new Button("MUTUAL FRIENDS"); // display in pop up window
-    // show shortest path in graph from user 1 -> user 2
-    Button shortButton = new Button("SHORTEST PATH");
-    Button removeFriendButton = new Button("REMOVE FRIENDSHIP");
+    Label userOneLabel = new Label("User 1:");
+    TextField userOneField = new TextField();
+    userOneField.setPromptText("Name");
+    Label userTwoLabel = new Label("User 2:");
+    TextField userTwoField = new TextField();
+    userTwoField.setPromptText("Name");
+    
+    
+    Button addFriendsButton = new Button("Add Friends");
+    Button mutualButton = new Button("Mutual Friends"); // display in pop up window
+    Button shortButton = new Button("Shortest Path"); // Display in pop up window
+    Button removeFriendButton = new Button("Remove Friends");
 
     // HBoxes for Label/TextField for each user
-    HBox hb = new HBox();
-    hb.getChildren().addAll(label1, textField1);
-    HBox hb2 = new HBox();
-    hb2.getChildren().addAll(label2, textField2);
-    hb.setSpacing(5);
-    hb2.setSpacing(5);
+    HBox userOneBox = new HBox();
+    userOneBox.getChildren().addAll(userOneLabel, userOneField);
+    HBox userTwoBox = new HBox();
+    userTwoBox.getChildren().addAll(userTwoLabel, userTwoField);
+    userOneBox.setSpacing(5);
+    userTwoBox.setSpacing(5);
+    
+    HBox addRemoveBox = new HBox(5);
+    HBox specsBox = new HBox(5);
+    addRemoveBox.getChildren().addAll(addFriendsButton, removeFriendButton);
+    specsBox.getChildren().addAll(shortButton, mutualButton);
+    
+    twoInputBox.getChildren().addAll(userOneBox, userTwoBox, addRemoveBox, specsBox);
 
   }
 
