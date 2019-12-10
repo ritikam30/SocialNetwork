@@ -16,13 +16,18 @@ package application;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.ListView;
@@ -83,13 +88,20 @@ public class Main extends Application {
 
     // save args
     args = this.getParameters().getRaw();
-    if (args != null); // Just wanted to get rid of the warning in my IDE about args not being used
+    if (args != null)
+      ; // Just wanted to get rid of the warning in my IDE about args not being used
     BorderPane root = new BorderPane();
     Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     // links stylesheet to scene
     mainScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
     root.requestFocus(); // takes focus away from text fields so hints display
+
+    primaryStage.setOnCloseRequest(event -> { // Define Action for when program is exited
+      if(!this.exit(primaryStage)) {
+        event.consume();
+      }
+    }); // End Closing action definition
 
 
     // Initial setup of the scene's elements
@@ -112,6 +124,7 @@ public class Main extends Application {
     primaryStage.setTitle(APP_TITLE);
     primaryStage.setScene(mainScene);
     primaryStage.show();
+
   }
 
   /**
@@ -773,6 +786,41 @@ public class Main extends Application {
         .setText(String.valueOf(socialNetwork.getTotalFriends()));
   }
 
+  /**
+   * Action definition for when the exit button is pushed.
+   * 
+   * @param primaryStage the primary stage of the application
+   */
+  private boolean exit(Stage primaryStage) {
+    Alert closeConfirmation =
+        new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to exit?");
+    Button saveButton = (Button) closeConfirmation.getDialogPane().lookupButton(ButtonType.OK);
+    saveButton.setText("Save & Exit");
+    closeConfirmation.setHeaderText("Confirm Exit");
+    closeConfirmation.initModality(Modality.APPLICATION_MODAL);
+    closeConfirmation.initOwner(primaryStage);
+    closeConfirmation.getButtonTypes().setAll(ButtonType.YES, ButtonType.OK, ButtonType.CANCEL);
+
+    Optional<ButtonType> closeResponse = closeConfirmation.showAndWait();
+    if (ButtonType.OK.equals(closeResponse.get())) {
+      Stage saveStage = new Stage();
+      FileChooser chooser = new FileChooser();
+      chooser.getExtensionFilters().add(new ExtensionFilter("Text File", "*.txt"));
+      File saveFile = chooser.showSaveDialog(saveStage);
+      if (saveFile != null) {
+        socialNetwork.saveToFile(saveFile);
+        ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+            .setText("Save file written succesfully");
+      }
+      Platform.exit();
+    }
+    if (ButtonType.YES.equals(closeResponse.get())) {
+      Platform.exit();
+    } else {
+      return false;
+    }
+    return true;
+  }
 
   /**
    * Main method to launch GUI
