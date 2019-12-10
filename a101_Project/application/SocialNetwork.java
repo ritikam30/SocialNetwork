@@ -36,9 +36,10 @@ import java.util.Set;
 public class SocialNetwork implements SocialNetworkADT {
   // fields
   private Graph graph;
+  private Person activeUser;
   private ArrayList<String> log; // List of executed commands
-  private ArrayList<String> theUndone; // List of commands that were undone
-  // TODO: Implement code in all methods for the functionality of log.
+//  private ArrayList<String> theUndone; // List of commands that were undone
+
 
   /**
    * constructor, initializes graph field to new Graph object
@@ -46,7 +47,7 @@ public class SocialNetwork implements SocialNetworkADT {
   public SocialNetwork() {
     graph = new Graph();
     log = new ArrayList<>();
-    theUndone = new ArrayList<>();
+//    theUndone = new ArrayList<>(); TODO: I'm not going to get to redo
   }
 
 
@@ -82,7 +83,7 @@ public class SocialNetwork implements SocialNetworkADT {
     }
 
     graph.addEdge(person1, person2);
-    
+
     log.add("a " + friend1 + " " + friend2);
 
     return true;
@@ -114,7 +115,7 @@ public class SocialNetwork implements SocialNetworkADT {
 
 
     graph.removeEdge(person1, person2);
-    
+
     log.add("r " + friend1 + " " + friend2);
 
     return true;
@@ -138,7 +139,7 @@ public class SocialNetwork implements SocialNetworkADT {
     }
 
     graph.addNode(new Person(user));
-    
+
     log.add("a " + user);
 
     return true;
@@ -162,7 +163,7 @@ public class SocialNetwork implements SocialNetworkADT {
     }
 
     graph.removeNode(graph.getNode(user));
-    
+
     log.add("r " + user);
     return true;
   }
@@ -174,9 +175,10 @@ public class SocialNetwork implements SocialNetworkADT {
    * @throws UserNotFoundException
    */
   @Override
-  public Set<Person> getFriends(String user) throws UserNotFoundException, IllegalArgumentException {
+  public Set<Person> getFriends(String user)
+      throws UserNotFoundException, IllegalArgumentException {
     // uses getNode() to retrieve Person obj associate w/ String parameter
-    if(user == null){
+    if (user == null) {
       throw new IllegalArgumentException("invalid user name");
     }
     Person person = graph.getNode(user);
@@ -296,7 +298,7 @@ public class SocialNetwork implements SocialNetworkADT {
 
             return path;
           }
-        } 
+        }
       }
       queue.remove(0);
     }
@@ -398,7 +400,9 @@ public class SocialNetwork implements SocialNetworkADT {
             }
             break;
           case "s":
-            // TODO: Need code to set focus user here. Not sure on implementation yet
+            // TODO: I can't figure out how to get this to work without refactoring far too much
+            // code
+            this.setActiveUser(commandArray[1]);
             break;
           default:
             // Invalid Command. Maybe we need something here? IDK
@@ -443,13 +447,25 @@ public class SocialNetwork implements SocialNetworkADT {
     }
 
   }
-  
+
   public Person getUserByName(String name) {
     return graph.getNode(name);
   }
-  
-  public Set<Person> getAllUsersInNetwork(){
+
+  public Set<Person> getAllUsersInNetwork() {
     return graph.getAllNodes();
+  }
+
+  public void setActiveUser(String user) {
+    activeUser = graph.getNode("user");
+  }
+
+  public Person getActiveUser() {
+    return activeUser;
+  }
+
+  public void undo() {
+
   }
 
 }

@@ -1,15 +1,15 @@
 ////////////////////////////////////////////////////////////////
-// Title: a3 Social Network 
-// Authors: Ritika Mittal, Jared Horwitz, Keerthy Sudharsan, 
+// Title: a3 Social Network
+// Authors: Ritika Mittal, Jared Horwitz, Keerthy Sudharsan,
 // Sakuni Egodawatte, Erik Tiedt //
-// Emails: rmittal6@wisc.edu, sudharsan@wisc.edu, 
-// jhorwitz3@wisc.edu, egodawatte@wisc.edu 
-// etiedt@wisc.edu 
-// Lectures: 001, 002 
-// Description: creates social network visualizer with GUI 
-// interface 
-// Files: Main.java, Graph.java, GraphADT.java, Person.java 
-// SocialNetwork.java, SocialNetworkADT.java 
+// Emails: rmittal6@wisc.edu, sudharsan@wisc.edu,
+// jhorwitz3@wisc.edu, egodawatte@wisc.edu
+// etiedt@wisc.edu
+// Lectures: 001, 002
+// Description: creates social network visualizer with GUI
+// interface
+// Files: Main.java, Graph.java, GraphADT.java, Person.java
+// SocialNetwork.java, SocialNetworkADT.java
 ////////////////////////////////////////////////////////////////
 package application;
 
@@ -531,8 +531,10 @@ public class Main extends Application {
     Menu file = new Menu("File");
     MenuItem save = new MenuItem("Save");
     MenuItem load = new MenuItem("Load");
+    MenuItem clear = new MenuItem("Clear");
     file.getItems().add(save);
     file.getItems().add(load);
+    file.getItems().add(clear);
 
     save.setOnAction((ActionEvent e) -> {
       Stage saveStage = new Stage();
@@ -544,6 +546,10 @@ public class Main extends Application {
         ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
             .setText("Save file written succesfully");
       }
+    });
+
+    clear.setOnAction((ActionEvent e) -> {
+      this.clear();
     });
 
     load.setOnAction((ActionEvent e) -> {
@@ -562,9 +568,11 @@ public class Main extends Application {
             userList.getItems().add(user.getName());
           }
           ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
-          .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
-          Person[] a = new Person[1];
-          activeUser = socialNetwork.getAllUsersInNetwork().toArray(a)[0];
+              .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
+          if (activeUser == null) { // I can't figure out how to get getActiveUser to work
+            Person[] a = new Person[1];
+            activeUser = socialNetwork.getAllUsersInNetwork().toArray(a)[0];
+          }
           if (centerBox.getChildren().size() > 0) {
             graphPane = new Pane();
             graphPane.setPrefSize(500, 500);
@@ -575,19 +583,22 @@ public class Main extends Application {
             centerBox.getChildren().add(this.drawGraph());
           }
         }
+
       }
 
     });
 
-    Menu edit = new Menu("Edit");
-    MenuItem undo = new MenuItem("Undo");
-    MenuItem redo = new MenuItem("Redo");
-    edit.getItems().add(undo);
-    edit.getItems().add(redo);
-
-
-    menuBar.getMenus().add(file);
-    menuBar.getMenus().add(edit);
+    // TODO: I'm not going to implement redo, too much work right now
+    
+//    Menu edit = new Menu("Edit");
+//    MenuItem undo = new MenuItem("Undo");
+//    MenuItem redo = new MenuItem("Redo");
+//    edit.getItems().add(undo);
+//    edit.getItems().add(redo);
+//
+//
+//    menuBar.getMenus().add(file);
+//    menuBar.getMenus().add(edit);
 
     return menuBar;
 
@@ -595,19 +606,24 @@ public class Main extends Application {
 
   private Pane drawGraph() {
 
+    if (activeUser == null) {
+      return new Pane();
+    }
 
     ArrayList<Person> friends = new ArrayList<>();
     friends.addAll(activeUser.getFriends());
+
     double distance = 5;
     double centerX = 350;
     double centerY = 250;
     double radius = 25;
+
     Circle centerUser = new Circle(centerX, centerY, radius, Color.BLUE);
     centerUser.setId(activeUser.getName());
     Text centerName = new Text(centerX - (radius / 2), centerY, activeUser.getName());
     graphPane.getChildren().add(centerUser);
     graphPane.getChildren().add(centerName);
-    distance += (50 * ((int) (friends.size() / 7) + 1));
+    distance += (50 * ((int) (friends.size() / 7) + 1)); // increase draw distance as nodes increase
 
     for (int i = 0; i < friends.size(); ++i) {
       double angle = 2 * i * Math.PI / friends.size();
@@ -618,11 +634,25 @@ public class Main extends Application {
       Circle friend = new Circle(x, y, radius, Color.GREEN);
       friend.setId(friends.get(i).getName());
       Text friendName = new Text(x - (radius / 2), y, friends.get(i).getName());
+      friendName.setId(friends.get(i).getName());
       graphPane.getChildren().add(friend);
       graphPane.getChildren().add(friendName);
 
       friend.setOnMouseClicked((MouseEvent e) -> {
         this.activeUser = socialNetwork.getUserByName(friend.getId());
+        if (centerBox.getChildren().size() > 0) {
+          this.graphPane = new Pane();
+          this.graphPane.setPrefSize(500, 500);
+          centerBox.getChildren().set(0, this.drawGraph());
+        } else {
+          this.graphPane = new Pane();
+          this.graphPane.setPrefSize(500, 500);
+          centerBox.getChildren().add(this.drawGraph());
+        }
+      });
+
+      friendName.setOnMouseClicked((MouseEvent e) -> {
+        this.activeUser = socialNetwork.getUserByName(friendName.getId());
         if (centerBox.getChildren().size() > 0) {
           this.graphPane = new Pane();
           this.graphPane.setPrefSize(500, 500);
@@ -640,13 +670,22 @@ public class Main extends Application {
   }
 
   private void clear() {
+    activeUser = null;
     socialNetwork = new SocialNetwork();
     userList.getItems().clear();
+    if (centerBox.getChildren().size() > 0) {
+      this.graphPane = new Pane();
+      this.graphPane.setPrefSize(500, 500);
+      centerBox.getChildren().set(0, this.drawGraph());
+    } else {
+      this.graphPane = new Pane();
+      this.graphPane.setPrefSize(500, 500);
+      centerBox.getChildren().add(this.drawGraph());
+    }
+    ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1)).setText("");
+    ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
+        .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
   }
-  
-
-
- 
 
 
   /**

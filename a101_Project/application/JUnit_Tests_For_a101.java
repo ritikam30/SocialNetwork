@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import junit.framework.TestCase;
@@ -287,7 +286,6 @@ public class JUnit_Tests_For_a101 extends TestCase {
     graph.addEdge(node3, node1);
     graph.addEdge(node1, node4);
     Set<Person> set = graph.getNeighbors(node1);
-    Iterator<Person> itr = set.iterator();
     if (!set.contains(node2) || !set.contains(node3) || !set.contains(node4)) {
       fail("Error: getNeighbors returns incorrect output");
     }
