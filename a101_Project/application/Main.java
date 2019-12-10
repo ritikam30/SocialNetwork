@@ -128,7 +128,7 @@ public class Main extends Application {
   }
 
   /**
-   * Builds a GUI element for adding a new user to the netwrok.
+   * Builds a GUI element for adding a new user to the network.
    * 
    * @return a GUI element for signing up a new user
    */
@@ -157,15 +157,7 @@ public class Main extends Application {
             userList.getItems().add(text.getText());
             if (activeUser == null) {
               activeUser = socialNetwork.getUserByName(text.getText());
-              if (centerBox.getChildren().size() > 0) {
-                graphPane = new Pane();
-                graphPane.setPrefSize(500, 500);
-                centerBox.getChildren().set(0, this.drawGraph());
-              } else {
-                graphPane = new Pane();
-                graphPane.setPrefSize(500, 500);
-                centerBox.getChildren().add(this.drawGraph());
-              }
+              updateGraph();
             }
 
           } else {
@@ -202,16 +194,7 @@ public class Main extends Application {
 
         activeUser = socialNetwork.getUserByName(userList.getSelectionModel().getSelectedItem());
         updateCounts();
-
-        if (centerBox.getChildren().size() > 0) {
-          graphPane = new Pane();
-          graphPane.setPrefSize(500, 500);
-          centerBox.getChildren().set(0, this.drawGraph());
-        } else {
-          graphPane = new Pane();
-          graphPane.setPrefSize(500, 500);
-          centerBox.getChildren().add(this.drawGraph());
-        }
+        updateGraph();
       }
     }); // end user list action
 
@@ -250,15 +233,7 @@ public class Main extends Application {
           userList.scrollTo(searchField.getText());
           if (userList.getItems().contains(searchField.getText())) {
             activeUser = socialNetwork.getUserByName(searchField.getText());
-            if (centerBox.getChildren().size() > 0) {
-              graphPane = new Pane();
-              graphPane.setPrefSize(500, 500);
-              centerBox.getChildren().set(0, this.drawGraph());
-            } else {
-              graphPane = new Pane();
-              graphPane.setPrefSize(500, 500);
-              centerBox.getChildren().add(this.drawGraph());
-            }
+            updateGraph();
           }
         }
       } else { // Search field was empty
@@ -272,6 +247,7 @@ public class Main extends Application {
       if (!searchField.getText().isEmpty()) {
         boolean removed = socialNetwork.removeUser(searchField.getText());
         if (removed) {
+          // Remove graph if active user removed
           if (searchField.getText().equals(activeUser.getName())) {
             if (centerBox.getChildren().size() > 0) {
               centerBox.getChildren().remove(0);
@@ -413,15 +389,7 @@ public class Main extends Application {
             updateCounts();
             if (userOneField.getText().contentEquals(activeUser.getName())
                 || userTwoField.getText().contentEquals(activeUser.getName())) {
-              if (centerBox.getChildren().size() > 0) {
-                graphPane = new Pane();
-                graphPane.setPrefSize(500, 500);
-                centerBox.getChildren().set(0, this.drawGraph());
-              } else {
-                graphPane = new Pane();
-                graphPane.setPrefSize(500, 500);
-                centerBox.getChildren().add(this.drawGraph());
-              }
+              updateGraph();
             }
           } else { // Failed to add friendship
             ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
@@ -455,15 +423,7 @@ public class Main extends Application {
             // If one of the users were the active user, redraw graph
             if (userOneField.getText().contentEquals(activeUser.getName())
                 || userTwoField.getText().contentEquals(activeUser.getName())) {
-              if (centerBox.getChildren().size() > 0) {
-                graphPane = new Pane();
-                graphPane.setPrefSize(500, 500);
-                centerBox.getChildren().set(0, this.drawGraph());
-              } else {
-                graphPane = new Pane();
-                graphPane.setPrefSize(500, 500);
-                centerBox.getChildren().add(this.drawGraph());
-              }
+              updateGraph();
             }
           } else { // Unable to remove friendship
             ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
@@ -643,22 +603,13 @@ public class Main extends Application {
             userList.getItems().add(user.getName());
           }
 
-          updateCounts();
-
           // I couldn't get getActiveUser to work for the 's' commands, so I chose one at random
           if (activeUser == null) {
             Person[] a = new Person[1];
             activeUser = socialNetwork.getAllUsersInNetwork().toArray(a)[0];
           }
-          if (centerBox.getChildren().size() > 0) {
-            graphPane = new Pane();
-            graphPane.setPrefSize(500, 500);
-            centerBox.getChildren().set(0, this.drawGraph());
-          } else {
-            graphPane = new Pane();
-            graphPane.setPrefSize(500, 500);
-            centerBox.getChildren().add(this.drawGraph());
-          }
+          updateCounts();
+          updateGraph();
         }
 
       }
@@ -729,29 +680,13 @@ public class Main extends Application {
       friend.setOnMouseClicked((MouseEvent e) -> {
         this.activeUser = socialNetwork.getUserByName(friend.getId());
         updateCounts();
-        if (centerBox.getChildren().size() > 0) {
-          this.graphPane = new Pane();
-          this.graphPane.setPrefSize(500, 500);
-          centerBox.getChildren().set(0, this.drawGraph());
-        } else {
-          this.graphPane = new Pane();
-          this.graphPane.setPrefSize(500, 500);
-          centerBox.getChildren().add(this.drawGraph());
-        }
+        updateGraph();
       });
 
       friendName.setOnMouseClicked((MouseEvent e) -> {
         this.activeUser = socialNetwork.getUserByName(friendName.getId());
         updateCounts();
-        if (centerBox.getChildren().size() > 0) {
-          this.graphPane = new Pane();
-          this.graphPane.setPrefSize(500, 500);
-          centerBox.getChildren().set(0, this.drawGraph());
-        } else {
-          this.graphPane = new Pane();
-          this.graphPane.setPrefSize(500, 500);
-          centerBox.getChildren().add(this.drawGraph());
-        }
+        updateGraph();
       });
       // End Defining actions
     }
@@ -837,6 +772,21 @@ public class Main extends Application {
     return true;
   }
 
+  /**
+   * Decides under what manner to update the graph and carries that out
+   */
+  private void updateGraph() {
+    if (centerBox.getChildren().size() > 0) {
+      graphPane = new Pane();
+      graphPane.setPrefSize(500, 500);
+      centerBox.getChildren().set(0, this.drawGraph());
+    } else {
+      graphPane = new Pane();
+      graphPane.setPrefSize(500, 500);
+      centerBox.getChildren().add(this.drawGraph());
+    }
+  }
+  
   /**
    * Main method to launch GUI
    * 
