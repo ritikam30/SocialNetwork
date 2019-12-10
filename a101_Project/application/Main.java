@@ -38,6 +38,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -654,7 +655,7 @@ public class Main extends Application {
     double centerY = 250;
     double radius = 25;
 
-    Circle centerUser = new Circle(centerX, centerY, radius, Color.BLUE);
+    Circle centerUser = new Circle(centerX, centerY, radius, Paint.valueOf("#74a7f7")); // blue
     centerUser.setId(activeUser.getName());
     Text centerName = new Text(centerX - (radius / 2), centerY, activeUser.getName());
     graphPane.getChildren().add(centerUser);
@@ -667,7 +668,7 @@ public class Main extends Application {
       double yOffset = distance * Math.sin(angle);
       double x = centerX + xOffset;
       double y = centerY + yOffset;
-      Circle friend = new Circle(x, y, radius, Color.GREEN);
+      Circle friend = new Circle(x, y, radius, Paint.valueOf("#8fdb48")); // green
       friend.setId(friends.get(i).getName());
       Text friendName = new Text(x - (radius / 2), y, friends.get(i).getName());
       friendName.setId(friends.get(i).getName());
