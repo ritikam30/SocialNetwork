@@ -150,7 +150,7 @@ public class Main extends Application {
         if (text.getText().contains(" ")) {
           ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
               .setText("Users must be a single name with no spaces");
-        } else {
+        } else { // Carry out adding the user
           boolean added;
           added = socialNetwork.addUser(text.getText());
           if (added) { // Only adds to list if in network
@@ -411,7 +411,7 @@ public class Main extends Application {
         if (userOneField.getText().contains(" ") || userTwoField.getText().contains(" ")) {
           ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
               .setText("Users must be a single name with no spaces");
-        } else {
+        } else { // Carry out removing friendship
           boolean success =
               socialNetwork.removeFriends(userOneField.getText(), userTwoField.getText());
           if (success) { // Carry out the remove
@@ -444,7 +444,7 @@ public class Main extends Application {
         if (userOneField.getText().contains(" ") || userTwoField.getText().contains(" ")) {
           ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
               .setText("Users must be a single name with no spaces");
-        } else {
+        } else { // carry out getting shortest path
           try {
             List<Person> path =
                 socialNetwork.getShortestPath(userOneField.getText(), userTwoField.getText());
@@ -786,7 +786,7 @@ public class Main extends Application {
       centerBox.getChildren().add(this.drawGraph());
     }
   }
-  
+
   /**
    * Main method to launch GUI
    * 
