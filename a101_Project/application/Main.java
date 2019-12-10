@@ -13,6 +13,8 @@
 ////////////////////////////////////////////////////////////////
 package application;
 
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -77,10 +79,17 @@ public class Main extends Application {
   public VBox centerBox = new VBox(5);
   public VBox bottomBox;
   private Person activeUser = null;
+  private Pane graphPane = new Pane();
 
   private static final int WINDOW_WIDTH = 950; // width of pop up
   private static final int WINDOW_HEIGHT = 500; // height of pop up
   private static final String APP_TITLE = "Social Network"; // title to be displayed on window bar
+
+  private static GraphicsDevice gd =
+      GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+  // private int centerX = (gd.getDisplayMode().getWidth() / 2);
+  // private int centerY = (gd.getDisplayMode().getHeight() / 2);
+
 
   /**
    * sets up elements to be displayed in GUI
@@ -94,54 +103,6 @@ public class Main extends Application {
   public void start(Stage primaryStage) throws Exception {
 
 
-
-    // // Graph :
-    // // Creates a canvas that can draw shapes and text
-    // Canvas canvas = new Canvas(400, 300);
-    // GraphicsContext gc = canvas.getGraphicsContext2D();
-    // // define position constants
-    // double radius = 20;
-    // double node1x = 150;
-    // double node1y = 60;
-    // double node2x = 70;
-    // double node2y = 160;
-    // double node3x = 100;
-    // double node3y = 205;
-    // double node4x = 280;
-    // double node4y = 69;
-    //
-    // // Draw a line
-    // // Lines use the stroke color
-    // // draw lines from center to center
-    // gc.setStroke(Color.BLUE);
-    // gc.setLineWidth(2);
-    // gc.strokeLine(node1x, node1y, node2x, node2y);
-    // gc.strokeLine(node1x, node1y, node3x, node3y);
-    // gc.strokeLine(node1x, node1y, node4x, node4y);
-    // gc.strokeLine(node2x, node2y, node4x, node4y);
-    //
-    // // The circles draw from the top left, so to center them, subtract the radius
-    // // from each coordinate
-    // // Draw a few nodes
-    // gc.setFill(Color.BLACK);
-    // gc.fillOval(node1x - radius, node1y - radius, 2 * radius, 2 * radius);
-    // gc.setFill(Color.RED);
-    // gc.fillOval(node2x - radius, node2y - radius, 2 * radius, 2 * radius);
-    // gc.setFill(Color.YELLOW);
-    // gc.fillOval(node3x - radius, node3y - radius, 2 * radius, 2 * radius);
-    // gc.setFill(Color.HOTPINK);
-    // gc.fillOval(node4x - radius, node4y - radius, 2 * radius, 2 * radius);
-    //
-    // // Write some text
-    // // Text is filled with the fill color
-    // gc.setFill(Color.GREEN);
-    // gc.setFont(new Font(18));
-    // gc.fillText("Friend1", node1x - 30, node1y + 10);
-    // gc.fillText("Friend2", node2x - 30, node2y + 10);
-    // gc.fillText("Friend3", node3x - 30, node3y + 10);
-    // gc.fillText("Friend4", node4x - 30, node4y + 10);
-
-
     // BEGIN IMPORTANT ELEMENTS FOR MAIN
 
     // save args example
@@ -149,6 +110,8 @@ public class Main extends Application {
 
     // Main layout is Border Pane example (top,left,center,right,bottom)
     BorderPane root = new BorderPane();
+//    primaryStage.setMaximized(true);
+
 
     // creates new scene
     Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -156,6 +119,7 @@ public class Main extends Application {
     mainScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
     root.requestFocus(); // takes focus away from text fields so hints display
+
 
     this.setUpStatsBox();
     this.setUpTwoInputBox(primaryStage);
@@ -168,7 +132,15 @@ public class Main extends Application {
 
     root.setTop(this.setUpMenuBox());
     root.setLeft(leftPane);
+    //// centerX = (int) ((gd.getDisplayMode().getWidth() / 2)
+    // centerX = (int) ((int) (root.getWidth() / 2) - leftPane.getWidth());
+    // centerY = (int) (root.getHeight() / 2);
+    // centerX = (int) ((gd.getDisplayMode().getWidth() / 2) - centerBox.getWidth() -
+    //// leftPane.getMaxWidth());
+    // centerY = (int) ((gd.getDisplayMode().getHeight() / 2) - centerBox.getHeight());
+
     root.setCenter(centerBox);
+
 
     // Add the elements and set the primary stage
     primaryStage.setTitle(APP_TITLE);
@@ -191,13 +163,35 @@ public class Main extends Application {
     signUpBox.getChildren().add(newUserComponent);
 
     buttonNewUser.setOnAction((ActionEvent e) -> {
-      boolean added;
-      added = socialNetwork.addUser(text.getText());
-      if (added) { // Only adds to list if in network
-        userList.getItems().add(text.getText());
+      if (!text.getText().isEmpty()) {
+        if (text.getText().contains(" ")) {
+          ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+          .setText("Users must be a single name with no spaces");
+        } else {
+          boolean added;
+          added = socialNetwork.addUser(text.getText());
+          if (added) { // Only adds to list if in network
+            userList.getItems().add(text.getText());
+            if (activeUser == null) {
+              activeUser = socialNetwork.getUserByName(text.getText());
+              if (centerBox.getChildren().size() > 0) {
+                graphPane = new Pane();
+                graphPane.setPrefSize(500, 500);
+                centerBox.getChildren().set(0, this.makeGraph());
+              } else {
+                graphPane = new Pane();
+                graphPane.setPrefSize(500, 500);
+                centerBox.getChildren().add(this.makeGraph());
+              }
+            }
+          } else {
+            ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+                .setText("Unable to add " + text.getText() + " to the network");
+          }
+        }
       } else {
         ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
-            .setText("Unable to add " + text.getText() + " to the network");
+            .setText("Must specify a user");
       }
       ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
           .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
@@ -238,15 +232,24 @@ public class Main extends Application {
 
     search.setOnAction((ActionEvent e) -> { // Define Search action
       if (!searchField.getText().isEmpty()) {
-        userList.getSelectionModel().select(searchField.getText());
-        userList.getFocusModel().focus(userList.getSelectionModel().getSelectedIndex());
-        userList.scrollTo(searchField.getText());
-        if (userList.getItems().contains(searchField.getText())) {
-          activeUser = socialNetwork.getUserByName(searchField.getText());
-          if (centerBox.getChildren().size() > 0) {
-            centerBox.getChildren().set(0, this.makeGraph());
-          } else {
-            centerBox.getChildren().add(this.makeGraph());
+        if (searchField.getText().contains(" ")) {
+          ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+              .setText("Users must be a single name, and not contain spaces.");
+        } else {
+          userList.getSelectionModel().select(searchField.getText());
+          userList.getFocusModel().focus(userList.getSelectionModel().getSelectedIndex());
+          userList.scrollTo(searchField.getText());
+          if (userList.getItems().contains(searchField.getText())) {
+            activeUser = socialNetwork.getUserByName(searchField.getText());
+            if (centerBox.getChildren().size() > 0) {
+              graphPane = new Pane();
+              graphPane.setPrefSize(500, 500);
+              centerBox.getChildren().set(0, this.makeGraph());
+            } else {
+              graphPane = new Pane();
+              graphPane.setPrefSize(500, 500);
+              centerBox.getChildren().add(this.makeGraph());
+            }
           }
         }
       } else {
@@ -260,6 +263,11 @@ public class Main extends Application {
       if (!searchField.getText().isEmpty()) {
         boolean removed = socialNetwork.removeUser(searchField.getText());
         if (removed) {
+          if (searchField.getText().equals(activeUser.getName())) {
+            if (centerBox.getChildren().size() > 0) {
+              centerBox.getChildren().remove(0);
+            }
+          }
           userList.getItems().remove(userList.getItems().indexOf(searchField.getText()));
           ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
               .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
@@ -527,21 +535,22 @@ public class Main extends Application {
 
   private Pane makeGraph() {
 
-    Pane graphPane = new Pane();
+
     ArrayList<Person> friends = new ArrayList<>();
     friends.addAll(activeUser.getFriends());
     double distance = 100;
     double centerX = 350;
     double centerY = 250;
+    // double centerX = graphPane.getWidth() / 2;
+    // double centerY = graphPane.getHeight() /2;
     double radius = 25;
-    Circle centerUser =
-        new Circle(centerX, centerY, radius, Color.BLUE);
+    Circle centerUser = new Circle(centerX, centerY, radius, Color.BLUE);
     centerUser.setId(activeUser.getName());
-    Text centerName = new Text(centerX - (radius/2), centerY, activeUser.getName());
+    Text centerName = new Text(centerX - (radius / 2), centerY, activeUser.getName());
     graphPane.getChildren().add(centerUser);
     graphPane.getChildren().add(centerName);
-    
-    for(int i = 0; i < friends.size(); ++i) {
+
+    for (int i = 0; i < friends.size(); ++i) {
       double angle = 2 * i * Math.PI / friends.size();
       double xOffset = distance * Math.cos(angle);
       double yOffset = distance * Math.sin(angle);
@@ -549,53 +558,26 @@ public class Main extends Application {
       double y = centerY + yOffset;
       Circle friend = new Circle(x, y, radius, Color.GREEN);
       friend.setId(friends.get(i).getName());
-      Text friendName = new Text(x - (radius/2), y, friends.get(i).getName());
+      Text friendName = new Text(x - (radius / 2), y, friends.get(i).getName());
       graphPane.getChildren().add(friend);
       graphPane.getChildren().add(friendName);
-      
-      friend.setOnMouseClicked((MouseEvent e) ->{
+
+      friend.setOnMouseClicked((MouseEvent e) -> {
         this.activeUser = socialNetwork.getUserByName(friend.getId());
         if (centerBox.getChildren().size() > 0) {
+          this.graphPane = new Pane();
+          this.graphPane.setPrefSize(500, 500);
           centerBox.getChildren().set(0, this.makeGraph());
         } else {
+          this.graphPane = new Pane();
+          this.graphPane.setPrefSize(500, 500);
           centerBox.getChildren().add(this.makeGraph());
         }
       });
     }
-    
-    
-    
-    
-    
-    
+
+
     return graphPane;
-
-    // Group friendVerticies = new Group();
-    // Pane graphCanvas = new Pane();
-    // Set<Person> userFriends = activeUser.getFriends();
-    // Pane centerVertex = new StackPane();
-    // Circle centerCircle = new Circle(10, Color.BLUE);
-    // Text centerText = new Text(activeUser.getName());
-    // centerCircle.setId(activeUser.getName());
-    // centerVertex.getChildren().addAll(centerCircle, centerText);
-    // friendVerticies.getChildren().add(centerVertex);
-    // graphCanvas.getChildren().add(centerVertex);
-    // GridPane graphPane = new GridPane();
-    // graphPane.getChildren().add(centerVertex);
-
-
-    // for (Person friend : userFriends) {
-    // Pane friendVertex = new StackPane();
-    // Circle friendCircle = new Circle(10, Color.GREEN);
-    // Text friendText = new Text(friend.getName());
-    // friendVertex.getChildren().addAll(friendCircle, friendText);
-    // friendCircle.setId(friend.getName());
-    // friendVerticies.getChildren().add(friendVertex);
-    // graphCanvas.getChildren().add(friendVertex);
-    // graphPane.getChildren().add(friendVertex);
-    // }
-    //
-    // return graphCanvas;
   }
 
   private void drawGraph(GraphicsContext canvas) {
