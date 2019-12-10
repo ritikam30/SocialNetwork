@@ -152,6 +152,8 @@ public class Main extends Application {
 
     // creates new scene
     Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+    // links stylesheet to scene
+    mainScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
     root.requestFocus(); // takes focus away from text fields so hints display
 
