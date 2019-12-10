@@ -126,9 +126,11 @@ public class Graph implements GraphADT {
     // Not in network
     if (!people.contains(name1)) {
       people.add(name1);
+      ++numPeople;
     }
     if (!people.contains(name2)) {
       people.add(name2);
+      ++numPeople;
     }
 
     // Edge exists

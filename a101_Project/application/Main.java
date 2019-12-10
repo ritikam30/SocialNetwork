@@ -298,17 +298,19 @@ public class Main extends Application {
     Label labelGroupNum = new Label(String.valueOf(socialNetwork.getConnectedComponents().size()));
     labelGroupNum.setStyle("-fx-font-weight:bold"); // makes label bold
     hboxGroups.getChildren().addAll(labelGroups, labelGroupNum);
-    hboxGroups.setStyle("-fx-padding: 0 0 10 0"); // sets bottom padding to 10px
 
     HBox hboxUserNumbers = new HBox(5);
     Label labelUsers = new Label("Total Users: ");
     Label labelNumUsers = new Label(String.valueOf(socialNetwork.getTotalUsers()));
+    labelNumUsers.setStyle("-fx-font-weight:bold"); // makes label bold
     hboxUserNumbers.getChildren().addAll(labelUsers, labelNumUsers);
 
     HBox friendNumbers = new HBox(5);
-    Label labelFriends = new Label("Total Freinships: ");
-    Label labelNumFriends = new Label(String.valueOf(socialNetwork.getTotalUsers()));
+    Label labelFriends = new Label("Total Friendships: ");
+    Label labelNumFriends = new Label(String.valueOf(socialNetwork.getTotalFriends()));
+    labelNumFriends.setStyle("-fx-font-weight:bold"); // makes label bold
     friendNumbers.getChildren().addAll(labelFriends, labelNumFriends);
+    friendNumbers.setStyle("-fx-padding: 0 0 10 0"); // sets bottom padding to 10px
 
 
 
