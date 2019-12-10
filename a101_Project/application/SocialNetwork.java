@@ -464,9 +464,6 @@ public class SocialNetwork implements SocialNetworkADT {
     return activeUser;
   }
 
-  public void undo() {
-
-  }
   
   public int getTotalUsers() {
     return graph.getTotalUsers();
