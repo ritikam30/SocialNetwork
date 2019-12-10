@@ -23,11 +23,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Cell;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
@@ -38,11 +40,15 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -68,8 +74,9 @@ public class Main extends Application {
   public ListView<String> userList = new ListView<>();
   private VBox statsBox = new VBox(5);
   public VBox twoInputBox = new VBox(5);
-  public VBox centerBox;
+  public VBox centerBox = new VBox(5);
   public VBox bottomBox;
+  private Person activeUser = null;
 
   private static final int WINDOW_WIDTH = 950; // width of pop up
   private static final int WINDOW_HEIGHT = 500; // height of pop up
@@ -159,6 +166,7 @@ public class Main extends Application {
 
     root.setTop(this.setUpMenuBox());
     root.setLeft(leftPane);
+    root.setCenter(centerBox);
 
     // Add the elements and set the primary stage
     primaryStage.setTitle(APP_TITLE);
@@ -226,11 +234,19 @@ public class Main extends Application {
     currentUsers.getChildren().add(searchComponent);
     currentUsers.getChildren().add(userList);
 
-    search.setOnAction((ActionEvent e) -> {
+    search.setOnAction((ActionEvent e) -> { // Define Search action
       if (!searchField.getText().isEmpty()) {
         userList.getSelectionModel().select(searchField.getText());
         userList.getFocusModel().focus(userList.getSelectionModel().getSelectedIndex());
         userList.scrollTo(searchField.getText());
+        if (userList.getItems().contains(searchField.getText())) {
+          activeUser = socialNetwork.getUserByName(searchField.getText());
+          if (centerBox.getChildren().size() > 0) {
+            centerBox.getChildren().set(0, this.makeGraph());
+          } else {
+            centerBox.getChildren().add(this.makeGraph());
+          }
+        }
       } else {
         ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
             .setText("Must define a user to serach for.");
@@ -507,7 +523,81 @@ public class Main extends Application {
 
   }
 
+  private Pane makeGraph() {
+
+    Pane graphPane = new Pane();
+    ArrayList<Person> friends = new ArrayList<>();
+    friends.addAll(activeUser.getFriends());
+    double distance = 100;
+    double centerX = 350;
+    double centerY = 250;
+    double radius = 25;
+    Circle centerUser =
+        new Circle(centerX, centerY, radius, Color.BLUE);
+    centerUser.setId(activeUser.getName());
+    Text centerName = new Text(centerX - (radius/2), centerY, activeUser.getName());
+    graphPane.getChildren().add(centerUser);
+    graphPane.getChildren().add(centerName);
+    
+    for(int i = 0; i < friends.size(); ++i) {
+      double angle = 2 * i * Math.PI / friends.size();
+      double xOffset = distance * Math.cos(angle);
+      double yOffset = distance * Math.sin(angle);
+      double x = centerX + xOffset;
+      double y = centerY + yOffset;
+      Circle friend = new Circle(x, y, radius, Color.GREEN);
+      friend.setId(friends.get(i).getName());
+      Text friendName = new Text(x - (radius/2), y, friends.get(i).getName());
+      graphPane.getChildren().add(friend);
+      graphPane.getChildren().add(friendName);
+      
+      friend.setOnMouseClicked((MouseEvent e) ->{
+        this.activeUser = socialNetwork.getUserByName(friend.getId());
+        if (centerBox.getChildren().size() > 0) {
+          centerBox.getChildren().set(0, this.makeGraph());
+        } else {
+          centerBox.getChildren().add(this.makeGraph());
+        }
+      });
+    }
+    
+    
+    
+    
+    
+    
+    return graphPane;
+
+    // Group friendVerticies = new Group();
+    // Pane graphCanvas = new Pane();
+    // Set<Person> userFriends = activeUser.getFriends();
+    // Pane centerVertex = new StackPane();
+    // Circle centerCircle = new Circle(10, Color.BLUE);
+    // Text centerText = new Text(activeUser.getName());
+    // centerCircle.setId(activeUser.getName());
+    // centerVertex.getChildren().addAll(centerCircle, centerText);
+    // friendVerticies.getChildren().add(centerVertex);
+    // graphCanvas.getChildren().add(centerVertex);
+    // GridPane graphPane = new GridPane();
+    // graphPane.getChildren().add(centerVertex);
+
+
+    // for (Person friend : userFriends) {
+    // Pane friendVertex = new StackPane();
+    // Circle friendCircle = new Circle(10, Color.GREEN);
+    // Text friendText = new Text(friend.getName());
+    // friendVertex.getChildren().addAll(friendCircle, friendText);
+    // friendCircle.setId(friend.getName());
+    // friendVerticies.getChildren().add(friendVertex);
+    // graphCanvas.getChildren().add(friendVertex);
+    // graphPane.getChildren().add(friendVertex);
+    // }
+    //
+    // return graphCanvas;
+  }
+
   private void drawGraph(GraphicsContext canvas) {
+
 
   }
 
