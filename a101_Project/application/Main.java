@@ -98,7 +98,7 @@ public class Main extends Application {
     root.requestFocus(); // takes focus away from text fields so hints display
 
     primaryStage.setOnCloseRequest(event -> { // Define Action for when program is exited
-      if(!this.exit(primaryStage)) {
+      if (!this.exit(primaryStage)) {
         event.consume();
       }
     }); // End Closing action definition
@@ -201,6 +201,7 @@ public class Main extends Application {
           && !userList.getSelectionModel().getSelectedItem().isEmpty()) {
 
         activeUser = socialNetwork.getUserByName(userList.getSelectionModel().getSelectedItem());
+        updateCounts();
 
         if (centerBox.getChildren().size() > 0) {
           graphPane = new Pane();
@@ -327,11 +328,18 @@ public class Main extends Application {
     Label labelNumFriends = new Label(String.valueOf(socialNetwork.getTotalFriends()));
     labelNumFriends.setStyle("-fx-font-weight:bold"); // makes label bold
     friendNumbers.getChildren().addAll(labelFriends, labelNumFriends);
-    friendNumbers.setStyle("-fx-padding: 0 0 10 0"); // sets bottom padding to 10px
+
+    HBox activeUserFriends = new HBox(5);
+    Label activeFriends = new Label("User's Total Friends: ");
+    Label activeFriendsNum = new Label("");
+    activeFriendsNum.setStyle("-fx-font-weight:bold"); // makes label bold
+    activeUserFriends.getChildren().addAll(activeFriends, activeFriendsNum);
+    activeUserFriends.setStyle("-fx-padding: 0 0 10 0"); // sets bottom padding to 10px
 
 
 
-    this.statsBox.getChildren().addAll(hboxStatus, hboxGroups, hboxUserNumbers, friendNumbers);
+    this.statsBox.getChildren().addAll(hboxStatus, hboxGroups, hboxUserNumbers, friendNumbers,
+        activeUserFriends);
 
   }
 
@@ -397,12 +405,12 @@ public class Main extends Application {
             ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
                 .setText("Friendship between " + userOneField.getText() + " & "
                     + userTwoField.getText() + " added!");
-            updateCounts();
 
             // If one of the users were the active user, redraw graph
             if (activeUser == null) {
               activeUser = socialNetwork.getUserByName(userOneField.getText());
             }
+            updateCounts();
             if (userOneField.getText().contentEquals(activeUser.getName())
                 || userTwoField.getText().contentEquals(activeUser.getName())) {
               if (centerBox.getChildren().size() > 0) {
@@ -720,6 +728,7 @@ public class Main extends Application {
       // (Make clicked node the active user and redraw the graph)
       friend.setOnMouseClicked((MouseEvent e) -> {
         this.activeUser = socialNetwork.getUserByName(friend.getId());
+        updateCounts();
         if (centerBox.getChildren().size() > 0) {
           this.graphPane = new Pane();
           this.graphPane.setPrefSize(500, 500);
@@ -733,6 +742,7 @@ public class Main extends Application {
 
       friendName.setOnMouseClicked((MouseEvent e) -> {
         this.activeUser = socialNetwork.getUserByName(friendName.getId());
+        updateCounts();
         if (centerBox.getChildren().size() > 0) {
           this.graphPane = new Pane();
           this.graphPane.setPrefSize(500, 500);
@@ -784,6 +794,11 @@ public class Main extends Application {
     // Update total friends count
     ((Labeled) ((HBox) statsBox.getChildren().get(3)).getChildren().get(1))
         .setText(String.valueOf(socialNetwork.getTotalFriends()));
+    // Update active user's name and friend count
+    ((Labeled) ((HBox) statsBox.getChildren().get(4)).getChildren().get(0))
+        .setText(activeUser.getName() + "'s Total Friends: ");
+    ((Labeled) ((HBox) statsBox.getChildren().get(4)).getChildren().get(1))
+        .setText(String.valueOf(activeUser.getFriends().size()));
   }
 
   /**
