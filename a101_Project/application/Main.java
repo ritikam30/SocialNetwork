@@ -254,7 +254,7 @@ public class Main extends Application {
         }
       } else {
         ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
-            .setText("Must define a user to serach for.");
+            .setText("Must define a user to search for.");
       }
       searchField.clear();
     });
@@ -279,7 +279,7 @@ public class Main extends Application {
         }
       } else {
         ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
-            .setText("Must define a user to reomve.");
+            .setText("Must define a user to remove.");
       }
       searchField.clear();
     });
