@@ -1,38 +1,28 @@
 ////////////////////////////////////////////////////////////////
-// Title: a3 Social Network //
-// Authors: Ritika Mittal, Jared Horwitz, Keerthy Sudharsan, //
+// Title: a3 Social Network 
+// Authors: Ritika Mittal, Jared Horwitz, Keerthy Sudharsan, 
 // Sakuni Egodawatte, Erik Tiedt //
-// Emails: rmittal6@wisc.edu, sudharsan@wisc.edu, //
-// jhorwitz3@wisc.edu, egodawatte@wisc.edu //
-// etiedt@wisc.edu //
-// Lectures: 001, 002 //
-// Description: creates social network visualizer with GUI //
-// interface //
-// Files: Main.java, Graph.java, GraphADT.java, Person.java //
-// SocialNetwork.java, SocialNetworkADT.java //
+// Emails: rmittal6@wisc.edu, sudharsan@wisc.edu, 
+// jhorwitz3@wisc.edu, egodawatte@wisc.edu 
+// etiedt@wisc.edu 
+// Lectures: 001, 002 
+// Description: creates social network visualizer with GUI 
+// interface 
+// Files: Main.java, Graph.java, GraphADT.java, Person.java 
+// SocialNetwork.java, SocialNetworkADT.java 
 ////////////////////////////////////////////////////////////////
 package application;
 
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.control.Cell;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.ListView;
@@ -40,20 +30,18 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -88,8 +76,6 @@ public class Main extends Application {
   /**
    * sets up elements to be displayed in GUI
    * 
-   * TODO: We need to refactor this according to the provided design, & set it up for generic use
-   * 
    * @param primaryStage - stage that GUI elements are set on
    * @throws Exception
    */
@@ -118,7 +104,7 @@ public class Main extends Application {
     leftPane.getChildren().add(this.twoInputBox);
     leftPane.setPadding(new Insets(5, 5, 5, 5));
 
-    root.setTop(this.setUpMenuBox());
+    root.setTop(this.setUpMenuBox(primaryStage));
     root.setLeft(leftPane);
     root.setCenter(centerBox);
 
@@ -158,11 +144,11 @@ public class Main extends Application {
               if (centerBox.getChildren().size() > 0) {
                 graphPane = new Pane();
                 graphPane.setPrefSize(500, 500);
-                centerBox.getChildren().set(0, this.makeGraph());
+                centerBox.getChildren().set(0, this.drawGraph());
               } else {
                 graphPane = new Pane();
                 graphPane.setPrefSize(500, 500);
-                centerBox.getChildren().add(this.makeGraph());
+                centerBox.getChildren().add(this.drawGraph());
               }
             }
           } else {
@@ -196,11 +182,11 @@ public class Main extends Application {
         if (centerBox.getChildren().size() > 0) {
           graphPane = new Pane();
           graphPane.setPrefSize(500, 500);
-          centerBox.getChildren().set(0, this.makeGraph());
+          centerBox.getChildren().set(0, this.drawGraph());
         } else {
           graphPane = new Pane();
           graphPane.setPrefSize(500, 500);
-          centerBox.getChildren().add(this.makeGraph());
+          centerBox.getChildren().add(this.drawGraph());
         }
       }
     });
@@ -243,11 +229,11 @@ public class Main extends Application {
             if (centerBox.getChildren().size() > 0) {
               graphPane = new Pane();
               graphPane.setPrefSize(500, 500);
-              centerBox.getChildren().set(0, this.makeGraph());
+              centerBox.getChildren().set(0, this.drawGraph());
             } else {
               graphPane = new Pane();
               graphPane.setPrefSize(500, 500);
-              centerBox.getChildren().add(this.makeGraph());
+              centerBox.getChildren().add(this.drawGraph());
             }
           }
         }
@@ -376,11 +362,11 @@ public class Main extends Application {
               if (centerBox.getChildren().size() > 0) {
                 graphPane = new Pane();
                 graphPane.setPrefSize(500, 500);
-                centerBox.getChildren().set(0, this.makeGraph());
+                centerBox.getChildren().set(0, this.drawGraph());
               } else {
                 graphPane = new Pane();
                 graphPane.setPrefSize(500, 500);
-                centerBox.getChildren().add(this.makeGraph());
+                centerBox.getChildren().add(this.drawGraph());
               }
             }
           } else {
@@ -416,16 +402,16 @@ public class Main extends Application {
             if (centerBox.getChildren().size() > 0) {
               graphPane = new Pane();
               graphPane.setPrefSize(500, 500);
-              centerBox.getChildren().set(0, this.makeGraph());
+              centerBox.getChildren().set(0, this.drawGraph());
             } else {
               graphPane = new Pane();
               graphPane.setPrefSize(500, 500);
-              centerBox.getChildren().add(this.makeGraph());
+              centerBox.getChildren().add(this.drawGraph());
             }
           }
         } else {
           ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
-          .setText("Was unable to remove friendship.");
+              .setText("Was unable to remove friendship.");
         }
       } else { // One or more user boxes were blank
         ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
@@ -538,15 +524,7 @@ public class Main extends Application {
 
   }
 
-  private void setUpCenterBox() {
-
-  }
-
-  private void setUpBottomBox() {
-
-  }
-
-  private MenuBar setUpMenuBox() {
+  private MenuBar setUpMenuBox(Stage primaryStage) {
 
     MenuBar menuBar = new MenuBar();
 
@@ -555,6 +533,51 @@ public class Main extends Application {
     MenuItem load = new MenuItem("Load");
     file.getItems().add(save);
     file.getItems().add(load);
+
+    save.setOnAction((ActionEvent e) -> {
+      Stage saveStage = new Stage();
+      FileChooser chooser = new FileChooser();
+      chooser.getExtensionFilters().add(new ExtensionFilter("Text File", "*.txt"));
+      File saveFile = chooser.showSaveDialog(saveStage);
+      if (saveFile != null) {
+        socialNetwork.saveToFile(saveFile);
+        ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+            .setText("Save file written succesfully");
+      }
+    });
+
+    load.setOnAction((ActionEvent e) -> {
+      Stage loadStage = new Stage();
+      FileChooser chooser = new FileChooser();
+      chooser.getExtensionFilters().add(new ExtensionFilter("Text File", "*.txt"));
+      File loadFile = chooser.showOpenDialog(loadStage);
+      if (loadFile != null) {
+        this.clear();
+        socialNetwork.loadFromFile(loadFile);
+        ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+            .setText("File loaded succesfully");
+
+        if (!socialNetwork.getAllUsersInNetwork().isEmpty()) { // Set an active user
+          for (Person user : socialNetwork.getAllUsersInNetwork()) {
+            userList.getItems().add(user.getName());
+          }
+          ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
+          .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
+          Person[] a = new Person[1];
+          activeUser = socialNetwork.getAllUsersInNetwork().toArray(a)[0];
+          if (centerBox.getChildren().size() > 0) {
+            graphPane = new Pane();
+            graphPane.setPrefSize(500, 500);
+            centerBox.getChildren().set(0, this.drawGraph());
+          } else {
+            graphPane = new Pane();
+            graphPane.setPrefSize(500, 500);
+            centerBox.getChildren().add(this.drawGraph());
+          }
+        }
+      }
+
+    });
 
     Menu edit = new Menu("Edit");
     MenuItem undo = new MenuItem("Undo");
@@ -570,7 +593,7 @@ public class Main extends Application {
 
   }
 
-  private Pane makeGraph() {
+  private Pane drawGraph() {
 
 
     ArrayList<Person> friends = new ArrayList<>();
@@ -603,11 +626,11 @@ public class Main extends Application {
         if (centerBox.getChildren().size() > 0) {
           this.graphPane = new Pane();
           this.graphPane.setPrefSize(500, 500);
-          centerBox.getChildren().set(0, this.makeGraph());
+          centerBox.getChildren().set(0, this.drawGraph());
         } else {
           this.graphPane = new Pane();
           this.graphPane.setPrefSize(500, 500);
-          centerBox.getChildren().add(this.makeGraph());
+          centerBox.getChildren().add(this.drawGraph());
         }
       });
     }
@@ -616,26 +639,14 @@ public class Main extends Application {
     return graphPane;
   }
 
-  private void drawGraph(GraphicsContext canvas) {
-
-
+  private void clear() {
+    socialNetwork = new SocialNetwork();
+    userList.getItems().clear();
   }
+  
 
-  private void drawNode(GraphicsContext canvas, String name, double x, double y) {
 
-  }
-
-  private void drawEdge(GraphicsContext canvas, double x1, double y1, double x2, double y2) {
-
-  }
-
-  private String getNameFromCoordinates(double x, double y) {
-    return null;
-  }
-
-  private void setSelectedUser(String name) {
-
-  }
+ 
 
 
   /**

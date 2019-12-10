@@ -82,6 +82,8 @@ public class SocialNetwork implements SocialNetworkADT {
     }
 
     graph.addEdge(person1, person2);
+    
+    log.add("a " + friend1 + " " + friend2);
 
     return true;
   }
@@ -112,6 +114,8 @@ public class SocialNetwork implements SocialNetworkADT {
 
 
     graph.removeEdge(person1, person2);
+    
+    log.add("r " + friend1 + " " + friend2);
 
     return true;
   }
@@ -134,6 +138,8 @@ public class SocialNetwork implements SocialNetworkADT {
     }
 
     graph.addNode(new Person(user));
+    
+    log.add("a " + user);
 
     return true;
   }
@@ -156,6 +162,8 @@ public class SocialNetwork implements SocialNetworkADT {
     }
 
     graph.removeNode(graph.getNode(user));
+    
+    log.add("r " + user);
     return true;
   }
 
