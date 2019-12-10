@@ -308,6 +308,11 @@ public class SocialNetwork implements SocialNetworkADT {
 
 
   @Override
+  /**
+   * This method creates a Graph object for each Person in the network which contains all connected components to that person,
+   * including friends and friendships, and then adds that Graph to a final Set of Graphs
+   * @returns a Set of Graphs of all connected components in the network
+   */
   public Set<Graph> getConnectedComponents() {
 
     ArrayList<Person> network = new ArrayList<>();
@@ -447,28 +452,52 @@ public class SocialNetwork implements SocialNetworkADT {
     }
 
   }
-
+  
+  /**
+   * Method to obtain one Person object by searching by name
+   * @param name
+   * @returns the Person object associated with String name
+   */
   public Person getUserByName(String name) {
     return graph.getNode(name);
   }
-
+  
+  /**
+   * Method to obtain a set of all Person objects in the network
+   * @returns a Set of all users in the network
+   */
   public Set<Person> getAllUsersInNetwork() {
     return graph.getAllNodes();
   }
-
+  
+  /**
+   * sets the active user field to the specified user's Person object
+   * @param user
+   */
   public void setActiveUser(String user) {
-    activeUser = graph.getNode("user");
+    activeUser = graph.getNode(user);
   }
-
+  
+  /**
+   * getter method for the active user field
+   * @return
+   */
   public Person getActiveUser() {
     return activeUser;
   }
 
-  
+  /**
+   * 
+   * @returns the number of Users in the network
+   */
   public int getTotalUsers() {
     return graph.getTotalUsers();
   }
   
+  /**
+   * 
+   * @returns the number of friendships in the network
+   */
   public int getTotalFriends() {
     return graph.getTotalEdges();
   }
