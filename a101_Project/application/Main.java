@@ -597,7 +597,7 @@ public class Main extends Application {
 //    edit.getItems().add(redo);
 //
 //
-//    menuBar.getMenus().add(file);
+    menuBar.getMenus().add(file);
 //    menuBar.getMenus().add(edit);
 
     return menuBar;
