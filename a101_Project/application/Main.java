@@ -346,26 +346,48 @@ public class Main extends Application {
 
     addFriendsButton.setOnAction((ActionEvent e) -> { // Define Action for add friends
       if (!userOneField.getText().isBlank() && !userTwoField.getText().isBlank()) {
-        boolean success = socialNetwork.addFriends(userOneField.getText(), userTwoField.getText());
-        if (success) {
-          // Add users to current user list if not present
-          if (!userList.getItems().contains(userOneField.getText())) {
-            userList.getItems().add(userOneField.getText());
-          }
-          if (!userList.getItems().contains(userTwoField.getText())) {
-            userList.getItems().add(userTwoField.getText());
-          }
-          // Set Status Message
+        if (userOneField.getText().contains(" ") || userTwoField.getText().contains(" ")) {
           ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
-              .setText("Friendship between " + userOneField.getText() + " & "
-                  + userTwoField.getText() + " added!");
-          // Update Distinct Groups
-          ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
-              .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
+              .setText("Users must be a single name with no spaces");
         } else {
-          ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
-              .setText("Unable to add friendship between " + userOneField.getText() + " & "
-                  + userTwoField.getText());
+          boolean success =
+              socialNetwork.addFriends(userOneField.getText(), userTwoField.getText());
+          if (success) {
+            // Add users to current user list if not present
+            if (!userList.getItems().contains(userOneField.getText())) {
+              userList.getItems().add(userOneField.getText());
+            }
+            if (!userList.getItems().contains(userTwoField.getText())) {
+              userList.getItems().add(userTwoField.getText());
+            }
+            // Set Status Message
+            ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+                .setText("Friendship between " + userOneField.getText() + " & "
+                    + userTwoField.getText() + " added!");
+            // Update Distinct Groups
+            ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
+                .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
+            // If one of the users were the active user, redraw graph
+            if (activeUser == null) {
+              activeUser = socialNetwork.getUserByName(userOneField.getText());
+            }
+            if (userOneField.getText().contentEquals(activeUser.getName())
+                || userTwoField.getText().contentEquals(activeUser.getName())) {
+              if (centerBox.getChildren().size() > 0) {
+                graphPane = new Pane();
+                graphPane.setPrefSize(500, 500);
+                centerBox.getChildren().set(0, this.makeGraph());
+              } else {
+                graphPane = new Pane();
+                graphPane.setPrefSize(500, 500);
+                centerBox.getChildren().add(this.makeGraph());
+              }
+            }
+          } else {
+            ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+                .setText("Unable to add friendship between " + userOneField.getText() + " & "
+                    + userTwoField.getText());
+          }
         }
       } else { // One or more user boxes were blank
         ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
@@ -388,6 +410,22 @@ public class Main extends Application {
           // Update Distinct Groups
           ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
               .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
+          // If one of the users were the active user, redraw graph
+          if (userOneField.getText().contentEquals(activeUser.getName())
+              || userTwoField.getText().contentEquals(activeUser.getName())) {
+            if (centerBox.getChildren().size() > 0) {
+              graphPane = new Pane();
+              graphPane.setPrefSize(500, 500);
+              centerBox.getChildren().set(0, this.makeGraph());
+            } else {
+              graphPane = new Pane();
+              graphPane.setPrefSize(500, 500);
+              centerBox.getChildren().add(this.makeGraph());
+            }
+          }
+        } else {
+          ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+          .setText("Was unable to remove friendship.");
         }
       } else { // One or more user boxes were blank
         ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
