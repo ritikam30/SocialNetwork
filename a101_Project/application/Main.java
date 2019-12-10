@@ -103,7 +103,7 @@ public class Main extends Application {
     args = this.getParameters().getRaw();
     BorderPane root = new BorderPane();
     Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-    
+
     // links stylesheet to scene
     mainScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
     root.requestFocus(); // takes focus away from text fields so hints display
@@ -147,7 +147,7 @@ public class Main extends Application {
       if (!text.getText().isEmpty()) {
         if (text.getText().contains(" ")) {
           ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
-          .setText("Users must be a single name with no spaces");
+              .setText("Users must be a single name with no spaces");
         } else {
           boolean added;
           added = socialNetwork.addUser(text.getText());
@@ -188,17 +188,20 @@ public class Main extends Application {
     VBox currentUsers = new VBox(5);
     Label currentUsersLabel = new Label("Current Users:");
     currentUsersLabel.setTextAlignment(TextAlignment.CENTER);
-    
+
     userList.setOnMouseClicked((MouseEvent e) -> {
-      activeUser = socialNetwork.getUserByName(userList.getSelectionModel().getSelectedItem());
-      if (centerBox.getChildren().size() > 0) {
-        graphPane = new Pane();
-        graphPane.setPrefSize(500, 500);
-        centerBox.getChildren().set(0, this.makeGraph());
-      } else {
-        graphPane = new Pane();
-        graphPane.setPrefSize(500, 500);
-        centerBox.getChildren().add(this.makeGraph());
+      if (userList.getSelectionModel().getSelectedItem() != null
+          && !userList.getSelectionModel().getSelectedItem().isEmpty()) {
+        activeUser = socialNetwork.getUserByName(userList.getSelectionModel().getSelectedItem());
+        if (centerBox.getChildren().size() > 0) {
+          graphPane = new Pane();
+          graphPane.setPrefSize(500, 500);
+          centerBox.getChildren().set(0, this.makeGraph());
+        } else {
+          graphPane = new Pane();
+          graphPane.setPrefSize(500, 500);
+          centerBox.getChildren().add(this.makeGraph());
+        }
       }
     });
 
@@ -224,8 +227,8 @@ public class Main extends Application {
     currentUsers.getChildren().add(searchComponent);
     currentUsers.getChildren().add(userList);
 
-    
-    
+
+
     search.setOnAction((ActionEvent e) -> { // Define Search action
       if (!searchField.getText().isEmpty()) {
         if (searchField.getText().contains(" ")) {
@@ -543,7 +546,7 @@ public class Main extends Application {
     Text centerName = new Text(centerX - (radius / 2), centerY, activeUser.getName());
     graphPane.getChildren().add(centerUser);
     graphPane.getChildren().add(centerName);
-    distance += (50 * ((int)(friends.size()/7) + 1));
+    distance += (50 * ((int) (friends.size() / 7) + 1));
 
     for (int i = 0; i < friends.size(); ++i) {
       double angle = 2 * i * Math.PI / friends.size();
