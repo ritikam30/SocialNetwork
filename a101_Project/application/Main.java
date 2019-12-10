@@ -227,12 +227,17 @@ public class Main extends Application {
           ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
               .setText("Users must be a single name, and not contain spaces.");
         } else { // Carry Out the search
-          userList.getSelectionModel().select(searchField.getText());
-          userList.getFocusModel().focus(userList.getSelectionModel().getSelectedIndex());
-          userList.scrollTo(searchField.getText());
-          if (userList.getItems().contains(searchField.getText())) {
-            activeUser = socialNetwork.getUserByName(searchField.getText());
-            updateGraph();
+          if (!userList.getItems().contains(searchField.getText())) {
+            ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
+            .setText(searchField.getText() + " is not in the network.");
+          } else {
+            userList.getSelectionModel().select(searchField.getText());
+            userList.getFocusModel().focus(userList.getSelectionModel().getSelectedIndex());
+            userList.scrollTo(searchField.getText());
+            if (userList.getItems().contains(searchField.getText())) {
+              activeUser = socialNetwork.getUserByName(searchField.getText());
+              updateGraph();
+            }
           }
         }
       } else { // Search field was empty
@@ -248,6 +253,7 @@ public class Main extends Application {
         if (removed) {
           // Remove graph if active user removed
           if (searchField.getText().equals(activeUser.getName())) {
+            activeUser = null;
             if (centerBox.getChildren().size() > 0) {
               centerBox.getChildren().remove(0);
             }
@@ -729,10 +735,16 @@ public class Main extends Application {
     ((Labeled) ((HBox) statsBox.getChildren().get(3)).getChildren().get(1))
         .setText(String.valueOf(socialNetwork.getTotalFriends()));
     // Update active user's name and friend count
-    ((Labeled) ((HBox) statsBox.getChildren().get(4)).getChildren().get(0))
-        .setText(activeUser.getName() + "'s Total Friends: ");
-    ((Labeled) ((HBox) statsBox.getChildren().get(4)).getChildren().get(1))
-        .setText(String.valueOf(activeUser.getFriends().size()));
+    if (activeUser == null) {
+      ((Labeled) ((HBox) statsBox.getChildren().get(4)).getChildren().get(0))
+          .setText("User's Total Friends: ");
+      ((Labeled) ((HBox) statsBox.getChildren().get(4)).getChildren().get(1)).setText("");
+    } else {
+      ((Labeled) ((HBox) statsBox.getChildren().get(4)).getChildren().get(0))
+          .setText(activeUser.getName() + "'s Total Friends: ");
+      ((Labeled) ((HBox) statsBox.getChildren().get(4)).getChildren().get(1))
+          .setText(String.valueOf(activeUser.getFriends().size()));
+    }
   }
 
   /**
