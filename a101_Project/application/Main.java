@@ -721,6 +721,10 @@ public class Main extends Application {
     ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1)).setText("");
     ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
         .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
+    ((Labeled) ((HBox) statsBox.getChildren().get(2)).getChildren().get(1))
+        .setText(String.valueOf(socialNetwork.getTotalUsers())); // Update total users count
+    ((Labeled) ((HBox) statsBox.getChildren().get(3)).getChildren().get(1))
+        .setText(String.valueOf(socialNetwork.getTotalFriends())); // Update total users count
   }
 
 
