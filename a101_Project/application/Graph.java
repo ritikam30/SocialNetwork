@@ -63,6 +63,7 @@ public class Graph implements GraphADT {
       return false;
     }
 
+    ++numPeople;
     people.add(name);
     return true;
   }
@@ -92,6 +93,7 @@ public class Graph implements GraphADT {
       friend.removeFriend(name);
     }
 
+    --numPeople;
     people.remove(name);
     return true;
   }
@@ -134,6 +136,7 @@ public class Graph implements GraphADT {
       return false;
     }
 
+    ++numEdges;
     name1.addFriend(name2);
     name2.addFriend(name1);
     return true;
@@ -166,6 +169,7 @@ public class Graph implements GraphADT {
       return true;
     }
 
+    --numEdges;
     name1.removeFriend(name2);
     name2.removeFriend(name1);
 
@@ -223,6 +227,14 @@ public class Graph implements GraphADT {
   public Set<Person> getNeighbors(Person name) {
     return name.getFriends();
 
+  }
+  
+  public int getTotalUsers() {
+    return this.numPeople;
+  }
+  
+  public int getTotalEdges() {
+    return this.numEdges;
   }
 
 }

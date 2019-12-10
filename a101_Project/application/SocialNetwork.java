@@ -467,5 +467,13 @@ public class SocialNetwork implements SocialNetworkADT {
   public void undo() {
 
   }
+  
+  public int getTotalUsers() {
+    return graph.getTotalUsers();
+  }
+  
+  public int getTotalFriends() {
+    return graph.getTotalEdges();
+  }
 
 }

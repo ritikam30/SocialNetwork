@@ -21,6 +21,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -151,6 +152,11 @@ public class Main extends Application {
                 centerBox.getChildren().add(this.drawGraph());
               }
             }
+            ((Labeled) ((HBox) statsBox.getChildren().get(2)).getChildren().get(1))
+                .setText(String.valueOf(socialNetwork.getTotalUsers())); // Update total users count
+            ((Labeled) ((HBox) statsBox.getChildren().get(3)).getChildren().get(1))
+                .setText(String.valueOf(socialNetwork.getTotalFriends())); // Update total users
+                                                                           // count
           } else {
             ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
                 .setText("Unable to add " + text.getText() + " to the network");
@@ -258,6 +264,10 @@ public class Main extends Application {
               .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
           ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
               .setText(searchField.getText() + " was removed from the network");
+          ((Labeled) ((HBox) statsBox.getChildren().get(2)).getChildren().get(1))
+              .setText(String.valueOf(socialNetwork.getTotalUsers())); // Update total users count
+          ((Labeled) ((HBox) statsBox.getChildren().get(3)).getChildren().get(1))
+              .setText(String.valueOf(socialNetwork.getTotalFriends())); // Update total users count
         } else {
           ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
               .setText("Unable to remove " + searchField.getText() + " from the network");
@@ -285,13 +295,24 @@ public class Main extends Application {
 
     HBox hboxGroups = new HBox(5); // creates HBox w/ spacing of 5px
     Label labelGroups = new Label("Distinct Friend Groups:");
-    // in working implementation, this label will change
     Label labelGroupNum = new Label(String.valueOf(socialNetwork.getConnectedComponents().size()));
     labelGroupNum.setStyle("-fx-font-weight:bold"); // makes label bold
     hboxGroups.getChildren().addAll(labelGroups, labelGroupNum);
     hboxGroups.setStyle("-fx-padding: 0 0 10 0"); // sets bottom padding to 10px
 
-    this.statsBox.getChildren().addAll(hboxStatus, hboxGroups);
+    HBox hboxUserNumbers = new HBox(5);
+    Label labelUsers = new Label("Total Users: ");
+    Label labelNumUsers = new Label(String.valueOf(socialNetwork.getTotalUsers()));
+    hboxUserNumbers.getChildren().addAll(labelUsers, labelNumUsers);
+
+    HBox friendNumbers = new HBox(5);
+    Label labelFriends = new Label("Total Freinships: ");
+    Label labelNumFriends = new Label(String.valueOf(socialNetwork.getTotalUsers()));
+    friendNumbers.getChildren().addAll(labelFriends, labelNumFriends);
+
+
+
+    this.statsBox.getChildren().addAll(hboxStatus, hboxGroups, hboxUserNumbers, friendNumbers);
 
   }
 
@@ -353,6 +374,11 @@ public class Main extends Application {
             // Update Distinct Groups
             ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
                 .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
+            ((Labeled) ((HBox) statsBox.getChildren().get(2)).getChildren().get(1))
+                .setText(String.valueOf(socialNetwork.getTotalUsers())); // Update total users count
+            ((Labeled) ((HBox) statsBox.getChildren().get(3)).getChildren().get(1))
+                .setText(String.valueOf(socialNetwork.getTotalFriends())); // Update total users
+                                                                           // count
             // If one of the users were the active user, redraw graph
             if (activeUser == null) {
               activeUser = socialNetwork.getUserByName(userOneField.getText());
@@ -396,6 +422,10 @@ public class Main extends Application {
           // Update Distinct Groups
           ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
               .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
+          ((Labeled) ((HBox) statsBox.getChildren().get(2)).getChildren().get(1))
+              .setText(String.valueOf(socialNetwork.getTotalUsers())); // Update total users count
+          ((Labeled) ((HBox) statsBox.getChildren().get(3)).getChildren().get(1))
+              .setText(String.valueOf(socialNetwork.getTotalFriends())); // Update total users count
           // If one of the users were the active user, redraw graph
           if (userOneField.getText().contentEquals(activeUser.getName())
               || userTwoField.getText().contentEquals(activeUser.getName())) {
@@ -569,6 +599,10 @@ public class Main extends Application {
           }
           ((Labeled) ((HBox) statsBox.getChildren().get(1)).getChildren().get(1))
               .setText(String.valueOf(socialNetwork.getConnectedComponents().size()));
+          ((Labeled) ((HBox) statsBox.getChildren().get(2)).getChildren().get(1))
+              .setText(String.valueOf(socialNetwork.getTotalUsers())); // Update total users count
+          ((Labeled) ((HBox) statsBox.getChildren().get(3)).getChildren().get(1))
+              .setText(String.valueOf(socialNetwork.getTotalFriends())); // Update total users count
           if (activeUser == null) { // I can't figure out how to get getActiveUser to work
             Person[] a = new Person[1];
             activeUser = socialNetwork.getAllUsersInNetwork().toArray(a)[0];
@@ -589,16 +623,16 @@ public class Main extends Application {
     });
 
     // TODO: I'm not going to implement redo, too much work right now
-    
-//    Menu edit = new Menu("Edit");
-//    MenuItem undo = new MenuItem("Undo");
-//    MenuItem redo = new MenuItem("Redo");
-//    edit.getItems().add(undo);
-//    edit.getItems().add(redo);
-//
-//
+
+    // Menu edit = new Menu("Edit");
+    // MenuItem undo = new MenuItem("Undo");
+    // MenuItem redo = new MenuItem("Redo");
+    // edit.getItems().add(undo);
+    // edit.getItems().add(redo);
+    //
+    //
     menuBar.getMenus().add(file);
-//    menuBar.getMenus().add(edit);
+    // menuBar.getMenus().add(edit);
 
     return menuBar;
 
