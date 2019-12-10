@@ -82,14 +82,8 @@ public class Main extends Application {
   private Pane graphPane = new Pane();
 
   private static final int WINDOW_WIDTH = 950; // width of pop up
-  private static final int WINDOW_HEIGHT = 500; // height of pop up
+  private static final int WINDOW_HEIGHT = 550; // height of pop up
   private static final String APP_TITLE = "Social Network"; // title to be displayed on window bar
-
-  private static GraphicsDevice gd =
-      GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-  // private int centerX = (gd.getDisplayMode().getWidth() / 2);
-  // private int centerY = (gd.getDisplayMode().getHeight() / 2);
-
 
   /**
    * sets up elements to be displayed in GUI
@@ -107,17 +101,11 @@ public class Main extends Application {
 
     // save args example
     args = this.getParameters().getRaw();
-
-    // Main layout is Border Pane example (top,left,center,right,bottom)
     BorderPane root = new BorderPane();
-//    primaryStage.setMaximized(true);
-
-
-    // creates new scene
     Scene mainScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+    
     // links stylesheet to scene
     mainScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-
     root.requestFocus(); // takes focus away from text fields so hints display
 
 
@@ -132,13 +120,6 @@ public class Main extends Application {
 
     root.setTop(this.setUpMenuBox());
     root.setLeft(leftPane);
-    //// centerX = (int) ((gd.getDisplayMode().getWidth() / 2)
-    // centerX = (int) ((int) (root.getWidth() / 2) - leftPane.getWidth());
-    // centerY = (int) (root.getHeight() / 2);
-    // centerX = (int) ((gd.getDisplayMode().getWidth() / 2) - centerBox.getWidth() -
-    //// leftPane.getMaxWidth());
-    // centerY = (int) ((gd.getDisplayMode().getHeight() / 2) - centerBox.getHeight());
-
     root.setCenter(centerBox);
 
 
@@ -207,6 +188,19 @@ public class Main extends Application {
     VBox currentUsers = new VBox(5);
     Label currentUsersLabel = new Label("Current Users:");
     currentUsersLabel.setTextAlignment(TextAlignment.CENTER);
+    
+    userList.setOnMouseClicked((MouseEvent e) -> {
+      activeUser = socialNetwork.getUserByName(userList.getSelectionModel().getSelectedItem());
+      if (centerBox.getChildren().size() > 0) {
+        graphPane = new Pane();
+        graphPane.setPrefSize(500, 500);
+        centerBox.getChildren().set(0, this.makeGraph());
+      } else {
+        graphPane = new Pane();
+        graphPane.setPrefSize(500, 500);
+        centerBox.getChildren().add(this.makeGraph());
+      }
+    });
 
 
     TextField searchField = new TextField();
@@ -230,6 +224,8 @@ public class Main extends Application {
     currentUsers.getChildren().add(searchComponent);
     currentUsers.getChildren().add(userList);
 
+    
+    
     search.setOnAction((ActionEvent e) -> { // Define Search action
       if (!searchField.getText().isEmpty()) {
         if (searchField.getText().contains(" ")) {
@@ -538,17 +534,16 @@ public class Main extends Application {
 
     ArrayList<Person> friends = new ArrayList<>();
     friends.addAll(activeUser.getFriends());
-    double distance = 100;
+    double distance = 5;
     double centerX = 350;
     double centerY = 250;
-    // double centerX = graphPane.getWidth() / 2;
-    // double centerY = graphPane.getHeight() /2;
     double radius = 25;
     Circle centerUser = new Circle(centerX, centerY, radius, Color.BLUE);
     centerUser.setId(activeUser.getName());
     Text centerName = new Text(centerX - (radius / 2), centerY, activeUser.getName());
     graphPane.getChildren().add(centerUser);
     graphPane.getChildren().add(centerName);
+    distance += (50 * ((int)(friends.size()/7) + 1));
 
     for (int i = 0; i < friends.size(); ++i) {
       double angle = 2 * i * Math.PI / friends.size();
