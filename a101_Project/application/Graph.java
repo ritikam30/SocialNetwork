@@ -226,11 +226,21 @@ public class Graph implements GraphADT {
 		return name.getFriends();
 
 	}
-
+        
+	/**
+	 * returns total number of users in the graph
+	 *
+	 * @return int - number of users
+	 */
 	public int getTotalUsers() {
 		return this.numPeople;
 	}
 
+	/**
+	 * returns total number of edges in the graph
+	 *
+	 * @return int - number of edges
+	 */
 	public int getTotalEdges() {
 		return this.numEdges;
 	}
