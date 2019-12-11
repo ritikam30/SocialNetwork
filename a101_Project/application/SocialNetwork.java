@@ -9,7 +9,9 @@
 // Description: creates social network visualizer with GUI
 // interface
 // Files: Main.java, Graph.java, GraphADT.java, Person.java
-// SocialNetwork.java, SocialNetworkADT.java
+// SocialNetwork.java, SocialNetworkADT.java, 
+// JUnit_Tests_For_a101.java, UserNotFoundException.java,
+// application.css
 ////////////////////////////////////////////////////////////////
 package application;
 
