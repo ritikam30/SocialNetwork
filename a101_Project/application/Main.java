@@ -642,8 +642,6 @@ public class Main extends Application {
     double centerX = 350;
     double centerY = 260;
     double radius = 25;
-    int ringMod = 0;
-    int ringLevel = 0;
     int ringCapacity = 6;
     
     int ringCount = 0;
