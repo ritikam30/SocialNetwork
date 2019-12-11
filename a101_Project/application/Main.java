@@ -638,29 +638,38 @@ public class Main extends Application {
     friends.addAll(activeUser.getFriends());
 
     // Positioning and size variables
-    double distance = 5;
+    double distance = 55;
     double centerX = 350;
-    double centerY = 250;
+    double centerY = 260;
     double radius = 25;
+    int ringMod = 0;
+    int ringLevel = 0;
+    int ringCapacity = 6;
+    
+    int ringCount = 0;
 
     Circle centerUser = new Circle(centerX, centerY, radius, Paint.valueOf("#74a7f7")); // blue
     centerUser.setId(activeUser.getName());
     Text centerName = new Text(centerX - (radius / 2), centerY, activeUser.getName());
     graphPane.getChildren().add(centerUser);
     graphPane.getChildren().add(centerName);
-    distance += (50 * ((int) (friends.size() / 7) + 1)); // increase draw distance as nodes
-                                                         // increase
 
     // Make Nodes for each friend the active user has
     for (int i = 0; i < friends.size(); ++i) {
 
-      // Positioning variables for each friend node
-      double angle = 2 * i * Math.PI / friends.size(); // Set radians for positioning around
-                                                       // center
+      if(ringCount > ringCapacity) {
+        ringCapacity += 6;
+        distance += 55;
+        ringCount = 0;
+      }
+
+      double angle = 2 * ringCount * Math.PI / ringCapacity; // Set radians for positioning
       double xOffset = distance * Math.cos(angle);
       double yOffset = distance * Math.sin(angle);
       double x = centerX + xOffset;
       double y = centerY + yOffset;
+      
+      ++ringCount;
 
       Circle friend = new Circle(x, y, radius, Paint.valueOf("#8fdb48")); // green
       friend.setId(friends.get(i).getName());
@@ -801,7 +810,7 @@ public class Main extends Application {
           boolean removed =
               socialNetwork.removeUser(userList.getSelectionModel().getSelectedItem());
           if (removed) {
-            if(activeUser.getName().equals(userList.getSelectionModel().getSelectedItem())) {
+            if (activeUser.getName().equals(userList.getSelectionModel().getSelectedItem())) {
               activeUser = null;
             }
             userList.getItems().remove(
@@ -817,7 +826,7 @@ public class Main extends Application {
         }
         return;
       }
-      
+
       if (userList.getSelectionModel().getSelectedItem() != null
           && !userList.getSelectionModel().getSelectedItem().isEmpty()) {
 
