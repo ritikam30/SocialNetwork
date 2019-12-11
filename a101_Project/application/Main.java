@@ -594,8 +594,7 @@ public class Main extends Application {
             userList.getItems().add(user.getName());
           }
 
-          // I couldn't get getActiveUser to work for the 's' commands, so I chose one at
-          // random
+          this.activeUser = socialNetwork.getActiveUser();
           if (activeUser == null) {
             Person[] a = new Person[1];
             activeUser = socialNetwork.getAllUsersInNetwork().toArray(a)[0];
