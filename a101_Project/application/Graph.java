@@ -90,6 +90,7 @@ public class Graph implements GraphADT {
 		// Remove all associated edges
 		for (Person friend : name.getFriends()) {
 			friend.removeFriend(name);
+			--numEdges;
 		}
 
 		--numPeople;
