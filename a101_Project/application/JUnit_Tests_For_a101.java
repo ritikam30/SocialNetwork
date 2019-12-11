@@ -52,7 +52,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 	}
 
 	// Begin tests for Graph.java
-
+        /**
+	 * checks if false is correctly returned on the addition of a null node
+	 */
 	@Test
 	public void test000_add_null_node() {
 		Person node = null;
@@ -60,7 +62,10 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: Graph did not return false on the addition of a null node");
 
 	}
-
+	
+        /**
+	 * checks if false is correctly returned on the addition of a duplicate node
+	 */
 	@Test
 	public void test001_add_node_already_in_graph() {
 		Person node = new Person("usr1");
@@ -68,7 +73,10 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		if (graph.addNode(node))
 			fail("Error: Graph did not return false on the addition of a duplicate node");
 	}
-
+	
+        /**
+	 * checks if node is correctly added in the graph
+	 */
 	@Test
 	public void test002_just_add_a_node() {
 		Person node = new Person("usr1");
@@ -78,6 +86,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if many nodes are added correctly in the graph
+	 */
 	@Test
 	public void test003_add_many_nodes() {
 		Person node1 = new Person("usr1");
@@ -91,6 +102,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: Graph did not add multiple nodes correctly");
 	}
 
+	/**
+	 * checks if false is correctly returned on the removal of a null node
+	 */
 	@Test
 	public void test004_remove_null_node() {
 		Person node = null;
@@ -99,6 +113,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if false is correctly returned on the removal of a nonexistent node
+	 */
 	@Test
 	public void test005_remove_node_not_in_graph() {
 		Person node = new Person("usr1");
@@ -107,9 +124,20 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if after removal of a node all the edges containing that node are also removed
+	 */
 	@Test
 	public void test006_remove_node_check_edges() {
-		// TODO: complete
+		Person node1 = new Person("usr1");
+		Person node2 = new Person("usr2");
+		Person node3 = new Person("usr3");
+		graph.addEdge(node1,node2);
+		graph.addEdge(node1,node3);
+		graph.removeNode(node3);
+		if (!(graph.getNode("usr3") == null) || graph.getNeighbors(node1).contains(node3))
+			fail("Error: Graph did not remove node correctly");
+		
 	}
 
 	@Test
