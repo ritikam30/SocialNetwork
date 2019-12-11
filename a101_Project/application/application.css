@@ -1,3 +1,22 @@
+/*
+////////////////////////////////////////////////////////////////
+// Title: a3 Social Network
+// Authors: Ritika Mittal, Jared Horwitz, Keerthy Sudharsan,
+// Sakuni Egodawatte, Erik Tiedt
+// Emails: rmittal6@wisc.edu, sudharsan@wisc.edu,
+// jhorwitz3@wisc.edu, egodawatte@wisc.edu
+// etiedt@wisc.edu
+// Lectures: 001, 002
+// Description: creates social network visualizer with GUI
+// interface
+// Files: Main.java, Graph.java, GraphADT.java, Person.java
+// SocialNetwork.java, SocialNetworkADT.java, 
+// JUnit_Tests_For_a101.java, UserNotFoundException.java,
+// application.css
+////////////////////////////////////////////////////////////////
+*/
+ 
+/*color and effects for button when not being interacted with*/
 .button {
     
     -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
@@ -7,6 +26,7 @@
     -fx-font-size: 1.1em;
 }
 
+/*color and effects for button when mouse hovering over */
 .button:hover {
     -fx-background-color: 
         linear-gradient(from 0% 93% to 0% 100%, #4066a3 0%, #2a4d85 100%),
@@ -14,20 +34,24 @@
         #5e91e0;
 }
 
+/*color and effects for button when pressed */
 .button:pressed {
     -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
 }
 
+/*styling for ListView object when list item selected */
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
     -fx-background-color: #74a7f7;
     -fx-font-weight: bold;
 
 }
 
+/*styling for cells in ListView object */
 .list-cell:even {
     -fx-background-color: #e3ecfa;
 }
 
+/*styling for ListView object when mouse over list item */
 .list-cell:filled:hover {
     -fx-background-color: #faf191;
 
