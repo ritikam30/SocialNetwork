@@ -140,6 +140,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		
 	}
 
+	/**
+	 * checks if Graph implicitly adds a node not in the graph when user tried to add an edge
+	 */
 	@Test
 	public void test007_add_edge_user1_not_in_graph() {
 		Person node1 = new Person("usr1");
@@ -150,6 +153,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if Graph implicitly adds a node not in the graph when user tried to add an edge
+	 */
 	@Test
 	public void test008_add_edge_user2_not_in_graph() {
 		Person node1 = new Person("usr1");
@@ -160,6 +166,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if Graph implicitly adds nodes not in the graph when user tried to add an edge
+	 */
 	@Test
 	public void test009_add_edge_neither_user_in_graph() {
 		Person node1 = new Person("usr1");
@@ -168,6 +177,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: Graph did not add the nodes implicitly when user tried to add an edge");
 	}
 
+	/**
+	 * checks if graph returns false when user tries to add an edge between null nodes
+	 */
 	@Test
 	public void test010_add_edge_null_user1() {
 		Person node1 = null;
@@ -176,6 +188,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: Graph did not return false when user tried to add an edge between null nodes");
 	}
 
+	/**
+	 * checks if graph returns false when user tries to add an edge between null nodes
+	 */
 	@Test
 	public void test011_add_edge_null_user2() {
 		Person node1 = new Person("usr1");
@@ -184,6 +199,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: Graph did not return false when user tried to add an edge between null nodes");
 	}
 
+	/**
+	 * checks if graph returns false when user tries to add an edge between null nodes
+	 */
 	@Test
 	public void test012_add_edge_both_null_users() {
 		Person node1 = null;
@@ -192,6 +210,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: Graph did not return false when user tried to add an edge between null nodes");
 	}
 
+	/**
+	 * checks if graph returns false when user tries to add duplicate edges
+	 */
 	@Test
 	public void test013_add_existing_edge() {
 		Person node1 = new Person("usr1");
@@ -201,6 +222,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: Graph did not return false when user tried to add a duplicate");
 	}
 
+	/**
+	 * checks if graph correctly adds edges between valid nodes
+	 */
 	@Test
 	public void test014_add_edge_between_existing_users() {
 		boolean pass = false;
@@ -227,6 +251,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if graph returns false when user tries to remove edge between null nodes
+	 */
 	@Test
 	public void test015_remove_edge_null_user1() {
 		Person node1 = null;
@@ -236,6 +263,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: Graph did not return false when user tried to remove edge between null nodes");
 	}
 
+	/**
+	 * checks if graph returns false when user tries to remove edge between null nodes
+	 */
 	@Test
 	public void test016_remove_edge_null_user2() {
 		Person node1 = new Person("usr1");
@@ -245,6 +275,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: Graph did not return false when user tried to remove edge between null nodes");
 	}
 
+	/**
+	 * checks if graph returns false when user tries to remove edge between null nodes
+	 */
 	@Test
 	public void test017_remove_edge_both_users_null() {
 		Person node1 = null;
@@ -254,6 +287,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: Graph did not return false when user tried to remove edge between null nodes");
 	}
 
+	/**
+	 * checks if graph returns false when user tries to remove edge between nonexistent nodes
+	 */
 	@Test
 	public void test018_remove_edge_user1_not_in_graph() {
 		Person node1 = new Person("usr1");
@@ -263,6 +299,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: Graph did not return false when user tried to remove edge between connecting a nonexistent node");
 	}
 
+	/**
+	 * checks if graph returns false when user tries to remove edge between nonexistent nodes
+	 */
 	@Test
 	public void test019_remove_edge_user2_not_in_graph() {
 		Person node1 = new Person("usr1");
@@ -272,6 +311,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: Graph did not return false when user tried to remove edge between connecting a nonexistent node");
 	}
 
+	/**
+	 * checks if graph returns false when user tries to remove edge between nonexistent nodes
+	 */
 	@Test
 	public void test020_remove_edge_neither_user_in_graph() {
 		Person node1 = new Person("usr1");
@@ -281,6 +323,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: Graph did not return false when user tried to remove edge between connecting a nonexistent node");
 	}
 
+	/**
+	 * checks if correctly removes an edge
+	 */
 	@Test
 	public void test021_remove_edge_and_check() {
 		Person node1 = new Person("usr1");
@@ -298,6 +343,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if getAllNodes() returns correct output
+	 */
 	@Test
 	public void test022_check_get_all_nodes() {
 		Person node1 = new Person("usr1");
@@ -312,6 +360,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if getNode() returns correct output
+	 */
 	@Test
 	public void test023_get_single_node() {
 		Person node1 = new Person("usr1");
@@ -320,6 +371,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: getNode returned incorrect output");
 	}
 
+	/**
+	 * checks if getNeighbors() returns correct output
+	 */
 	@Test
 	public void test024_get_neighbors() {
 		Person node1 = new Person("usr1");
