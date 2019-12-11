@@ -230,7 +230,7 @@ public class Main extends Application {
           if (!userList.getItems().contains(searchField.getText())) {
             ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
             .setText(searchField.getText() + " is not in the network.");
-          } else {
+          } else { // User is in the network
             userList.getSelectionModel().select(searchField.getText());
             userList.getFocusModel().focus(userList.getSelectionModel().getSelectedIndex());
             userList.scrollTo(searchField.getText());
