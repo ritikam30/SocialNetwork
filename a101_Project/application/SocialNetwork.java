@@ -48,7 +48,6 @@ public class SocialNetwork implements SocialNetworkADT {
 	public SocialNetwork() {
 		graph = new Graph();
 		log = new ArrayList<>();
-//    theUndone = new ArrayList<>(); TODO: I'm not going to get to redo
 	}
 
 	/**
@@ -381,7 +380,6 @@ public class SocialNetwork implements SocialNetworkADT {
 	 */
 	@Override
 	public void loadFromFile(File fileName) {
-		// TODO: This method is still unfinished, and needs to be wrapped up later.
 
 		try {
 			Scanner fileIn = new Scanner(fileName);
@@ -412,9 +410,6 @@ public class SocialNetwork implements SocialNetworkADT {
 					}
 					break;
 				case "s":
-					// TODO: I can't figure out how to get this to work without refactoring far too
-					// much
-					// code
 					this.setActiveUser(commandArray[1]);
 					break;
 				default:
@@ -427,7 +422,6 @@ public class SocialNetwork implements SocialNetworkADT {
 			fileIn.close();
 
 		} catch (FileNotFoundException e) {
-			// TODO: Figure out how we're getting this to be displayed to the user
 		}
 
 	}

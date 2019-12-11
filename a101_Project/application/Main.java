@@ -607,15 +607,6 @@ public class Main extends Application {
 
     }); // End defining load action
 
-    // TODO: I'm not going to implement redo, too much work right now
-
-    // Menu edit = new Menu("Edit");
-    // MenuItem undo = new MenuItem("Undo");
-    // MenuItem redo = new MenuItem("Redo");
-    // edit.getItems().add(undo);
-    // edit.getItems().add(redo);
-    // menuBar.getMenus().add(edit);
-
     menuBar.getMenus().add(file);
     return menuBar;
 
