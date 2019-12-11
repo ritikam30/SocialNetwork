@@ -393,6 +393,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	// Begin tests for SocialNetwork.java
 
+	/**
+	 * checks if false is correctly returned on the addition of a null friend
+	 */
 	@Test
 	public void test025_add_friend_null_user1() {
 		if (network.addFriends(null, "usr2")) {
@@ -400,7 +403,10 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 
 	}
-
+	
+        /**
+	 * checks if false is correctly returned on the addition of a null friend
+	 */
 	@Test
 	public void test026_add_friend_null_user2() {
 		if (network.addFriends("usr1", null)) {
@@ -408,6 +414,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 	}
 
+	/**
+	 * checks if false is correctly returned on the addition of a null friend
+	 */
 	@Test
 	public void test027_add_friend_both_null() {
 		if (network.addFriends(null, null)) {
@@ -415,6 +424,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 	}
 
+	/**
+	 * checks if node gets implicitly added as a user on the addition of a nonexistent friend
+	 */
 	@Test
 	public void test028_add_friend_user1_not_in_network() {
 		network.addUser("usr2");
@@ -423,6 +435,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 	}
 
+	/**
+	 * checks if node gets implicitly added as a user on the addition of a nonexistent friend
+	 */
 	@Test
 	public void test029_add_friend_user2_not_in_network() {
 		network.addUser("usr1");
@@ -431,12 +446,18 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 	}
 
+	/**
+	 * checks if nodes get implicitly added as users on the addition of nonexistent friends
+	 */
 	@Test
 	public void test030_add_friend_both_users_not_in_network() {
 		if (!network.addFriends("usr1", "usr2"))
 			fail("Error: Network did not implicity add the nonexistent user and add an edge between the two nodes");
 	}
 
+	/**
+	 * checks if friendship is created successfully
+	 */
 	@Test
 	public void test031_add_friends() {
 		network.addFriends("usr1", "usr2");
@@ -456,6 +477,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 	}
 
+	/**
+	 * checks if false is correctly returned on the removal of a null friend
+	 */
 	@Test
 	public void test032_remove_friend_null_user1() {
 
@@ -463,18 +487,27 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: Network did not return false when a friendship between null nodes was removed");
 	}
 
+	/**
+	 * checks if false is correctly returned on the removal of a null friend
+	 */
 	@Test
 	public void test033_remove_friend_null_user2() {
 		if (network.removeFriends("usr1", null))
 			fail("Error: Network did not return false when a friendship between null nodes was removed");
 	}
 
+	/**
+	 * checks if false is correctly returned on the removal of a null friend
+	 */
 	@Test
 	public void test034_remove_friend_both_null() {
 		if (network.removeFriends(null, null))
 			fail("Error: Network did not return false when a friendship between null nodes was removed");
 	}
 
+	/**
+	 * checks if false is correctly returned on the removal of a nonexistent friend
+	 */
 	@Test
 	public void test035_remove_friend_user1_not_in_network() {
 		network.addUser("usr2");
@@ -483,6 +516,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if false is correctly returned on the removal of a nonexistent friend
+	 */
 	@Test
 	public void test036_remove_friend_user2_not_in_network() {
 		network.addUser("usr1");
@@ -490,12 +526,18 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: Network did not return false when a friendship between nonexistent nodes was removed");
 	}
 
+	/**
+	 * checks if false is correctly returned on the removal of a nonexistent friend
+	 */
 	@Test
 	public void test037_remove_friend_neither_in_network() {
 		if (network.removeFriends("usr1", "usr2"))
 			fail("Error: Network did not return false when a friendship between nonexistent nodes was removed");
 	}
 
+	/**
+	 * checks if friendship is removed correctly
+	 */
 	@Test
 	public void test038_remove_friends() {
 		network.addFriends("usr1", "usr2");
@@ -513,12 +555,18 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if false is correctly returned on the addition of a null user
+	 */
 	@Test
 	public void test039_add_null_user() {
 		if (network.addUser(null))
 			fail("Error: Network incorrectly returned true for the addition of a null user");
 	}
 
+	/**
+	 * checks if false is correctly returned on the addition of a duplicate user
+	 */
 	@Test
 	public void test040_add_user_already_in_network() {
 		network.addUser("usr1");
@@ -526,6 +574,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: Network incorrectly returned true for the addition of a duplicate user");
 	}
 
+	/**
+	 * checks if a user is added correctly in the network
+	 */
 	@Test
 	public void test041_add_user() {
 		network.addUser("usr1");
@@ -536,6 +587,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: Network did not add user correctly");
 	}
 
+	/**
+	 * checks if false is correctly returned on the removal of a null user
+	 */
 	@Test
 	public void test042_remove_null_user() {
 		if (network.removeUser(null))
@@ -543,12 +597,18 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if false is correctly returned on the removal of a nonexistent user
+	 */
 	@Test
 	public void test043_remove_user_not_in_network() {
 		if (network.removeUser("usr1"))
 			fail("Error: Network incorrectly returned true for removal of a nonexistent user");
 	}
 
+	/**
+	 * checks if a user is removed correctly from the network
+	 */
 	@Test
 	public void test044_remove_user() {
 		Person node = new Person("usr1");
@@ -560,6 +620,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 			fail("Error: Network did not remove user correctly");
 	}
 
+	/**
+	 * checks if excpetion is correctly thrown on getFriends() call with null user
+	 */
 	@Test
 	public void test045_get_friends_of_null_user() {
 		try {
@@ -571,6 +634,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 	}
 
+	/**
+	 * checks if excpetion is correctly thrown on getFriends() call with nonexistent user
+	 */
 	@Test
 	public void test046_get_friends_user_not_in_network() {
 		try {
@@ -580,6 +646,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 	}
 
+	/**
+	 * checks if getFriends() returns correct output
+	 */
 	@Test
 	public void test047_get_friends() {
 		network.addFriends("usr1", "usr2");
@@ -597,6 +666,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 	}
 
+	/**
+	 * checks if excpetion is correctly thrown on getMutualFriends() call with null user
+	 */
 	@Test
 	public void test048_get_mutual_null_user1() {
 
@@ -611,6 +683,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if excpetion is correctly thrown on getMutualFriends() call with null user
+	 */
 	@Test
 	public void test049_get_mutual_null_user2() {
 		try {
@@ -623,6 +698,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 	}
 
+	/**
+	 * checks if excpetion is correctly thrown on getMutualFriends() call with null users
+	 */
 	@Test
 	public void test050_get_mutual_both_null() {
 		try {
@@ -635,6 +713,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 	}
 
+	/**
+	 * checks if excpetion is correctly thrown on getMutualFriends() call with nonexistent user
+	 */
 	@Test
 	public void test051_get_mutual_user1_not_in_network() {
 		network.addUser("usr2");
@@ -645,6 +726,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 	}
 
+	/**
+	 * checks if excpetion is correctly thrown on getMutualFriends() call with nonexistent user
+	 */
 	@Test
 	public void test052_get_mutual_user2_not_in_network() {
 		network.addUser("usr1");
@@ -655,6 +739,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 	}
 
+	/**
+	 * checks if excpetion is correctly thrown on getMutualFriends() call with nonexistent users
+	 */
 	@Test
 	public void test053_get_mutual_neither_in_network() {
 		try {
@@ -664,6 +751,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 	}
 
+	/**
+	 * checks if getMutualFriends() call returns correct output
+	 */
 	@Test
 	public void test054_get_mutual() {
 		network.addFriends("usr1", "usr3");
@@ -687,8 +777,11 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if excpetion is correctly thrown on getShortestPath() call with null user
+	 */
 	@Test
-	public void test055_get_shortes_user1_null() {
+	public void test055_get_shortest_user1_null() {
 		try {
 			network.getShortestPath(null, "1");
 			fail("Error: did not throw expected exception.");
@@ -699,7 +792,10 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 
 	}
-
+	
+        /**
+	 * checks if excpetion is correctly thrown on getShortestPath() call with null user
+	 */
 	@Test
 	public void test056_get_shortest_user2_null() {
 		try {
@@ -712,6 +808,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 	}
 
+	/**
+	 * checks if excpetion is correctly thrown on getShortestPath() call with null user
+	 */
 	@Test
 	public void test057_get_shortest_both_users_null() {
 		try {
@@ -724,6 +823,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 	}
 
+	/**
+	 * checks if excpetion is correctly thrown on getShortestPath() call with nonexistent user
+	 */
 	@Test
 	public void test058_get_shortest_user1_not_in_network() {
 		network.addUser("1");
@@ -739,6 +841,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if excpetion is correctly thrown on getShortestPath() call with nonexistent user
+	 */
 	@Test
 	public void test059_get_shortest_user2_not_in_network() {
 		network.addUser("1");
@@ -753,6 +858,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 	}
 
+	/**
+	 * checks if excpetion is correctly thrown on getShortestPath() call with nonexistent users
+	 */
 	@Test
 	public void test060_get_shortest_neither_user_in_network() {
 		try {
@@ -765,6 +873,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 		}
 	}
 
+	/**
+	 * checks if getShortestPath() call has correct implementation
+	 */
 	@Test
 	public void test061_get_shortest_one_hop() {
 		network.addFriends("1", "2");
@@ -783,6 +894,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if getShortestPath() call has correct implementation
+	 */
 	@Test
 	public void test062_get_shortest_multiple_hops() {
 		String expected = "12345";
@@ -808,6 +922,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if getShortestPath() call correctly handles a cycle
+	 */
 	@Test
 	public void test063_get_shortest_cycle_exists() {
 
@@ -840,6 +957,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if getShortestPath() call correctly handles a case when no path exists
+	 */
 	@Test
 	public void test064_get_shortest_no_path_exists() {
 		network.addFriends("1", "2");
@@ -860,6 +980,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if getConnectedComponents() correctly handles the case with a single connected component
+	 */
 	@Test
 	public void test065_get_connected_single_component() {
 		network.addUser("1");
@@ -881,6 +1004,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if getConnectedComponents() correctly handles the case with a many users having no friends
+	 */
 	@Test
 	public void test066_get_connected_many_users_no_firends() {
 		network.addUser("1");
@@ -905,6 +1031,9 @@ public class JUnit_Tests_For_a101 extends TestCase {
 
 	}
 
+	/**
+	 * checks if getConnectedComponents() correctly handles the case having multiple components with connections
+	 */
 	@Test
 	public void test067_get_connected_multiple_components_with_connections() {
 		// Add a few clusters of connected components
