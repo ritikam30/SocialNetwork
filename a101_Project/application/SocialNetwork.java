@@ -479,6 +479,10 @@ public class SocialNetwork implements SocialNetworkADT {
 	 * @param user
 	 */
 	public void setActiveUser(String user) {
+	    if(user == null) {
+	      activeUser = null;
+	      return;
+	    }
 		activeUser = graph.getNode(user);
 	}
 

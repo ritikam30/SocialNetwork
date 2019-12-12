@@ -584,17 +584,22 @@ public class Main extends Application {
       chooser.getExtensionFilters().add(new ExtensionFilter("Text File", "*.txt"));
       File loadFile = chooser.showOpenDialog(loadStage);
       if (loadFile != null) {
-        this.clear();
+        socialNetwork.setActiveUser(null);
         socialNetwork.loadFromFile(loadFile);
         ((Labeled) ((VBox) statsBox.getChildren().get(0)).getChildren().get(1))
             .setText("File loaded succesfully");
 
         if (!socialNetwork.getAllUsersInNetwork().isEmpty()) { // Set an active user
           for (Person user : socialNetwork.getAllUsersInNetwork()) { // Populate user list
-            userList.getItems().add(user.getName());
+            if (!userList.getItems().contains(user.getName())) {
+              userList.getItems().add(user.getName());
+            }
           }
 
-          this.activeUser = socialNetwork.getActiveUser();
+
+          if (socialNetwork.getActiveUser() != null) {
+            this.activeUser = socialNetwork.getActiveUser();
+          }
           if (activeUser == null) {
             Person[] a = new Person[1];
             activeUser = socialNetwork.getAllUsersInNetwork().toArray(a)[0];
@@ -633,7 +638,7 @@ public class Main extends Application {
     double centerY = 260;
     double radius = 25;
     int ringCapacity = 6;
-    
+
     int ringCount = 0;
 
     Circle centerUser = new Circle(centerX, centerY, radius, Paint.valueOf("#74a7f7")); // blue
@@ -645,7 +650,7 @@ public class Main extends Application {
     // Make Nodes for each friend the active user has
     for (int i = 0; i < friends.size(); ++i) {
 
-      if(ringCount > ringCapacity) {
+      if (ringCount > ringCapacity) {
         ringCapacity += 6;
         distance += 55;
         ringCount = 0;
@@ -656,7 +661,7 @@ public class Main extends Application {
       double yOffset = distance * Math.sin(angle);
       double x = centerX + xOffset;
       double y = centerY + yOffset;
-      
+
       ++ringCount;
 
       Circle friend = new Circle(x, y, radius, Paint.valueOf("#8fdb48")); // green
